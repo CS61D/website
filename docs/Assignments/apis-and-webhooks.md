@@ -32,11 +32,40 @@ In order to programmatically interact with GitHub, you will need to create a per
 
 ## Part 2: GitHub API Scripts
 
-Now that we can programmatically interact with GitHub, we can begin writing the scripts that we will use in our automation. We will be using GitHub's [node.js SDK](https://github.com/octokit/octokit.js), which maps to the functionality described in the REST API docs.
+Now that we can programmatically interact with GitHub, we can begin writing the scripts that we will use in our automation. We will be using GitHub's [node.js SDK](https://github.com/octokit/octokit.js), which maps to the functionality described in the [GitHub API documentation](https://docs.github.com/en/rest).
 
-Start out by looking through the [GitHub API documentation](https://docs.github.com/en/rest) to find the endpoints that you will need to use. You will need to use the following endpoints:
+For example, if I wanted to [create an issue](https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#create-an-issue), then I would use the following code from the sdk:
+
+```typescript
+// Define the octokit client
+const octokit = new Octokit({
+  auth: "your-personal-access-token",
+});
+const createdIssue = await octokit.rest.issues.create({
+  owner: "CS61D", // Note, all repositories created for this assignment will be under the CS61D organization
+  repo: "MyRepo",
+  title: "New issue",
+  body: "This is a new issue",
+});
+```
+
+The SDK is fully type safe, and therefore you will get autocompletion and type checking when you use it. This makes it much easier to write code that interacts with the GitHub API.
+
+### Get Issues for a Repository
+
+Fill in getPRs.ts to return all pull requests for a given repository.
+
+### Request Review and Leave a Comment
+
+Fill in reviewAndComment.ts. First check if the requested reviewer is already added, and make sure that the requested reviewer is not the author of the PR. If the reviewer is not already added, add the reviewer to the PR. Then, leave a comment on the PR thanking the author for their hard work.
+
+### Combining the Scripts
+
+Run reviewRequestAll.ts to first get all of the PRs for a repository, and then request a review and leave a comment on each PR. Try creating a few PRs in your repository and running the script to see if it works!
 
 ## Part 3: Setting up the Webhook
+
+Our script is useful enough, but we would have to run it over and over again to make sure that every PR is reviewed. Instead, we can set up a webhook that will automatically run our script every time a pull request is opened. This will save resources, and make sure that review is instantly requested every time a PR is opened.
 
 GitHub can not send information directly to our localhost. We need to give it a live URL that it can send information to, which we can then forward to our localhost. We will use a tool called [ngrok](https://ngrok.com/) to create a tunnel to our localhost.
 
