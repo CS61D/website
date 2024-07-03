@@ -6,7 +6,7 @@ metadata:
     or: arrays
 ---
 
-# Lecture 4: Basic React
+<!-- # Lecture 4: Basic React -->
 
 Duration: Aiming for 30 min to 1 hour
 

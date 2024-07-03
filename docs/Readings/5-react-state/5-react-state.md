@@ -1,4 +1,10 @@
-# Lecture 5: React State
+---
+title: Lecture 5 — React State
+metadata:
+  - Can be provided
+  - as: objects
+    or: arrays
+---
 
 ## Objective:
 Learn state management techniques in React, including the use of hooks such as `useState` and `useEffect`, conditional rendering, list rendering, and updating arrays and objects in state. By the end, you will build a simple interactive To-do list with all data stored in the local state.
