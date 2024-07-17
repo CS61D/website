@@ -9,7 +9,7 @@ metadata:
 ---
 
 ## Overview
-In this assignment, you will be creating a Todo list app (yes, I know, the default project for beginners). At the end of the project, it should look something like this: [insert example website].
+In this assignment, you will be creating a Todo list app. At the end of the project, it should look something like this: [insert example website].
 
 The basic functionality that you are expected to implement includes:
 - Adding a new Todo item
@@ -195,7 +195,7 @@ Don’t worry if the styling isn’t the same.
 ## Part 2: Implementing Handlers
 
 :::info
-Deliverable: Implement the `handleNewTask`, `addTask`, `deleteTask`, and `completeTask` in `TodoList.tsx`.
+Deliverable: Implement the `handleNewTask`, `handleAddTask`, `handleDeleteTask`, and `handleCompleteTask` in `TodoList.tsx`.
 :::
 
 ### `handleNewTask`
@@ -209,7 +209,7 @@ This function updates the state whenever the user types in the input fields. Mak
 </details>
 
 
-### `addTask`
+### `handleAddTask`
 This function handles form submission to add a new task. It creates a new task object with a unique ID, the task name, deadline, and a completed status. It then updates the state to include the new task and resets the input fields.
 
 :::note
@@ -233,7 +233,7 @@ setDeadline("");
 </details>
 
 
-### `deleteTask`
+### `handleDeleteTask`
 This function removes a task from the todo list based on its ID. It filters out the task with the matching ID from the state.
 
 <details>
@@ -243,7 +243,7 @@ This function removes a task from the todo list based on its ID. It filters out 
 
 </details>
 
-### `completeTask`
+### `handleCompleteTask`
 
 This function toggles the completed status of a task based on its ID. It maps over the tasks and updates the completed status of the matching task.
 
