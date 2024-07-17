@@ -318,7 +318,7 @@ You can change the first `<span>` to the following for additional styling.
 
 ---
 
-Part 4: Render the `TodoItem` components inside of `TodoList.tsx`
+## Part 4: Render the `TodoItem` components inside of `TodoList.tsx`
 
 
 Now that we have `TodoItem` components that will handle their own completion and deletion, let’s actually render them inside of `TodoList.tsx`, based on our todoList array of `Task` objects!
@@ -338,13 +338,65 @@ Make sure you’re passing in the correct props to the TodoItem component.
 Finally, render the `TodoList` component within `App.tsx`. You should be all done!
 
 ---
+## Part 5 (Optional): Scaling up with Reducers
+At this point, you can get some extra practice refactoring your existing code to use context and reducers. However, this is an optional part of the assignment. 
+
+### Create a `todoReducer`
+Create a file `TodoContext.tsx` to define your context and reducer.
+
+[Read more in these notes to learn how to refactor your code using Reducers and Context]
+
+1. Make sure to import the necessary modules at the top of the file:
+```tsx
+import React, { createContext, useReducer, ReactNode, ReactElement } from "react";
+import { ITask } from "./Interfaces";
+```
+2. Define a reducer function `todoReducer`. Although you can structure the reducer many different ways, the overall logic is to: 
+    1. Use a switch statement to handle the different action types:
+        1. For ADD_TASK, return a new state with the new task added and nextId incremented.
+        1. For DELETE_TASK, return a new state with the specified task removed.
+        1. For COMPLETE_TASK, toggle the completed status of the specified task.
+
+For example,
+```tsx
+const todoReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "ADD_TASK":
+      // logic for adding a task
+    case "DELETE_TASK":
+      // logic for deleting a task
+    case "COMPLETE_TASK":
+      // logic for completing a task
+    default:
+      return state;
+  }
+};
+```
+
+### Provide Context
+Create a context `TodoContext` with `createContext`.
+
+Wrap your main component or the part of your app that needs access to the todo state with a `provider`.
+
+
+### Refactor the TodoList Component
+
+Maintain local state for the task input fields using `useState`, but use `dispatch` to handle adding, deleting, and completing tasks. 
+
+Remember to add
+```tsx
+  const { state, dispatch } = useContext(TodoContext);
+```
+in your TodoList component!
+
+---
 
 ## Epilogue
 
-If you would like to increase the functionalities of your Todo list, here are some additional functionalities that the advanced view implements to take inspiration from.
+If you would like to increase the functionalities of your Todo list, here are some ideas for additional functionalities.
 - The deadline decrements as you advance days towards the due date
 - Sorts the todos in order of priority
-- completed todos show up under a “Done” section
+- Completed todos show up under a “Done” section
 - Styling (confetti for every time you mark a todo as done)
 - Ability to edit todos
 - Ability to create sub-tasks
@@ -352,7 +404,7 @@ If you would like to increase the functionalities of your Todo list, here are so
     - such as #personal, #work
 
 
-You can interact with these features on the staff website, under [Fancy]
+<!-- You can interact with these features on the staff website, under [Fancy] -->
 
 
 Or, you could even expand it into your own project. Here are a few project ideas:
