@@ -100,7 +100,7 @@ Given the following setup and relations, create your database schema:
 
 ## Part 2: CRUD Operations
 
-Using the schema defined in Part 1, write functions to perform the following CRUD operations and use Zod to validate the inputs for these functions to ensure data integrity.:
+Using the schema defined in Part 1, write functions to perform the following CRUD operations and use Zod to validate the inputs for these functions to ensure data integrity.
 
 - **Create:** Add new records to the customers, menu_items, orders, and order_items tables.
 - **Read:** Retrieve data from these tables. Implement functions to get all records and to get a record by its ID.
