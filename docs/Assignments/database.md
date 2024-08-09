@@ -64,6 +64,8 @@ bun vitest
 
 Given the following setup and relations, create your database schema:
 
+# Tables
+
 **Customer**
 
 - id: This is the primary key for this table. It can be a default integer that is automatically incremented by the sqlite database whenever a new record is created.
@@ -90,11 +92,11 @@ Given the following setup and relations, create your database schema:
 - menuItemId: This is a foreign key that corresponds with the "id" column of the MenuItem table.
 - quantity: This should be a non-Null real number.
 
-**Relationships:**
+# Relationships
 
 - Each Order can have multiple OrderItems, but each OrderItem is linked to one Order.
 - Each MenuItem can correspond to multiple OrderItems, but each OrderItem can only be matched to one MenuItem.
-- Each Customer can have multiple Orders, and each Order can include multiple Customers. Hint: This relationship can be represented by a third junction table customersToOrders.
+- Each Customer can have multiple Orders, and each Order can include multiple Customers. Hint: This relationship can be represented by a third junction table **customersToOrders**.
 
 ## Part 2: CRUD Operations
 
