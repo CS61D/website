@@ -4,11 +4,11 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "61D",
-  tagline: "Dinosaurs are cool",
+  tagline: "Typescript is cooler",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://education.codifyberkeley.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -56,12 +56,12 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    image: "img/Codify-C-Logo-Transparent.png",
     navbar: {
       title: "61D",
       logo: {
-        alt: "My Site Logo",
-        src: "img/logo.svg",
+        alt: "Codify Logo",
+        src: "img/Codify-C-Logo-Transparent.png",
       },
       items: [
         {
@@ -70,9 +70,8 @@ const config: Config = {
           position: "left",
           label: "Content",
         },
-        { to: "/blog", label: "Blog", position: "left" },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: "https://github.com/CS61D",
           label: "GitHub",
           position: "right",
         },
@@ -94,16 +93,8 @@ const config: Config = {
           title: "Community",
           items: [
             {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
-            },
-            {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/docusaurus",
+              label: "Codify Instagram",
+              href: "https://www.instagram.com/codifyberkeley",
             },
           ],
         },
@@ -111,17 +102,17 @@ const config: Config = {
           title: "More",
           items: [
             {
-              label: "Blog",
-              to: "/blog",
+              label: "Main Codify Website",
+              href: "https://codifyberkeley.org/",
             },
             {
-              label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              label: "Codify GitHub",
+              href: "https://github.com/Codify-Club-Berkeley",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Maintained by Codify Berkeley, Build with Docusaurus`,
     },
     prism: {
       theme: prismThemes.github,

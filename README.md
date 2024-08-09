@@ -2,6 +2,8 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
+It is live at [https://education.codifyberkeley.org/](https://education.codifyberkeley.org/)
+
 ### Installation
 
 ```
@@ -24,15 +26,6 @@ $ bun
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true bun deploy
-```
-
-Not using SSH:
 
 ```
 $ GIT_USER=<Your GitHub username> bun deploy
