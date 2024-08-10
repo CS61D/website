@@ -114,6 +114,11 @@ bun vitest
 
 Using the schema defined in Part 1, write functions to perform the following CRUD operations and use Zod to validate the inputs for these functions to ensure data integrity.
 
+:::note
+Normally, we wouldn't need to pass in a separate `db` parameter into our functions since we will be interacting with a single database instance. However, we have to test your code with a separate clean database so we are passing in this parameter to distinguish between your own database to experiment with and the testing database. You should see that in your `db` folder you have `database.sqlite` and `testdb.sqlite`. You will be writing code to interact with the former.
+
+:::
+
 ### Customers
 
 1. **Create a Customer**
