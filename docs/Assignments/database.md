@@ -67,11 +67,38 @@ When you are ready, run tests:
 bun vitest
 ```
 
+There are 3 folders you need to focus on:
+
+1. **Schemas**:
+
+   - **File**: `schemas/schema.ts`
+   - **Task**: Define the schema in this file.
+
+2. **Functions**:
+
+   - **Files**: `functions/crud.ts` and `functions/advanced.ts`
+   - **Tasks**:
+     - Create your CRUD operations in `functions/crud.ts`.
+     - Implement advanced operations in `functions/advanced.ts`.
+
+3. **Tests**:
+   - **Folder**: `tests/`
+   - **Task**: We have defined some tests to ensure your code works properly.
+
 ## Part 1: Schema Definitions
+
+After you write your schemas or whenever you make an update to the schema, you should run a database migration:
+
+```bash
+bun drizzle-kit push
+```
+
+You will then see a new migration file appear in the migrations folder that documents any changes to the schema that you just pushed.
 
 ### Customers
 
 - **Schema**: `customerSchema`
+  - `id`: (number) The primary key of the table that automatically increments.
   - `name`: (string) The name of the customer. Must be a non-empty string.
   - `email`: (string) The email address of the customer. Must be a valid email address.
   - `phone`: (string) The phone number of the customer. Must be a non-empty string.
@@ -79,18 +106,21 @@ bun vitest
 ### Menu Items
 
 - **Schema**: `menuItemSchema`
+  - `id`: (number) The primary key of the table that automatically increments.
   - `name`: (string) The name of the menu item. Must be a non-empty string.
   - `price`: (number) The price of the menu item. Must be a positive number.
 
 ### Orders
 
 - **Schema**: `orderSchema`
+  - `id`: (number) The primary key of the table that automatically increments.
   - `totalAmount`: (number) The total amount of the order. Must be a positive number.
   - `orderDate`: (string) The date of the order. Must be in the format `YYYY-MM-DD`.
 
 ### Order Items
 
 - **Schema**: `orderItemSchema`
+  - `id`: (number) The primary key of the table that automatically increments.
   - `orderId`: (number) The ID of the order. Must be a positive number.
   - `menuItemId`: (number) The ID of the menu item. Must be a positive number.
   - `quantity`: (number) The quantity of the menu item ordered. Must be a positive number.
