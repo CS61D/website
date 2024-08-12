@@ -4,7 +4,7 @@
 You will learn advanced state management techniques in React, including the use of reducers, context, and providers, as well as building custom hooks. By the end, you will refactor your Todo list application to use context to minimize the need for prop passing.
 
 ## Duration:
-idk
+Aiming for 1 hour
 
 ---
 
