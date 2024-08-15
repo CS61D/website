@@ -19,11 +19,29 @@ As this is a backend "business logic" focused assignment, the entire frontend an
 1. Authentication setup using Next Auth: In any voting system, it is important that people can only vote once. Therefore, we will require users to sign in with their google account so that we can verify their identity. Most of the heavy lifting is done for you, but you will need to set up the google OAuth client ID and secret.
 
 2. tRPC API: You will use tRPC to build out the API for the voting system. 
-    1. Rooms: Creating a voting room and listing the emails of the users allowed to access the room.
+    1. Rooms: Creating a voting room and adding emails of the users allowed to access the room.
     2. Voting items: Create "candidates" or other items which can be voted on
     3. Votes and scoring: Keep track of each user's ranking of each candidate. Once all votes are cast, calculate the winner using ranked choice voting.
 
 3. React Query: Once the API is built, you will use React Query to fetch the data from the API and display it on the frontend, and to submit data from the frontend.
+
+### Invariants
+
+We are not going to perfectly design a system that can handle all edge cases (we will offer some of these as optional extensions). With that in mind, we will make the following assumptions:
+
+Each room will be in one of three stages, "open", "voting", or "complete". You will only have to handle certain operations in each stage, and other operations will be disabled.
+1. The list of allowed emails will be set when the room is created, and cannot be changed.
+2. Voting items can only be added when the room is in the "open" stage. They can not be deleted after being created, and they can only be created in the "open" stage.
+3. Votes will be cast in the "voting" stage. A user will either have a ranking for all of the candidates, or no ranking at all. Users can change their votes until the room is in the "complete" stage.
+4. The winner will be calculated in the "complete" stage. Nothing can change about the room after this stage.
+
+### Setup
+Copy environment variables and install dependencies. Also make sure that the sqlite database has the schema applied.:
+```bash
+cp .env.example .env
+bun install
+bun db:push
+```
 
 # Part 1: Authentication
 
