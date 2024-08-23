@@ -11,15 +11,21 @@ metadata:
 
 ## Overview
 
-In this assignment, you will be creating a user creation form with React Hook Forms and Zod validation. At the end of the project, it should look something like this: [User Sign-Up](https://forms.education.codifyberkeley.org).
+In this assignment, you will be creating a user creation form with React Hook Forms and Zod validation. At the end of the project, it should look something like this: [User Sign-Up](https://forms.education.codifyberkeley.org). 
+
+:::tip
+On the example form (and in your form eventually), the submitted form data is logged to console upon clicking the submission button (but only when the data is valid. To see the submitted form data, open the Inspect Element tool in your web browser by right-clicking on the form page and selecting Inspect. You can also use keyboard shortcuts:
+* Mac: Press Command+Option+i
+* Windows or Linux: Press Ctrl+Shift+i
+
+Then, click the Console tab. When you click the submission button, if your data passes validation, it will show up here.
+:::
 
 Your form will contain various different types of input fields that a user can fill out with their information. Some should be required fields which are fields that the user must fill out. Some fields should have special rules for what counts as a valid input. Your form should also display error messages. See more information below.
 
 ---
 
 ### Setup
-
-Follow the [assignment setup workflow] to pull the assignment from the skeleton. 
 
 To get started, clone the repository using the following command:
 
@@ -174,11 +180,21 @@ For each field, include:
 
 Remember to `register` each field.
 
-The skeleton code already provides submission logic for you. **Please do not change the provided `onSubmit` function.**
+The skeleton code already provides submission logic for you, including an `onSubmit` function. When the form is submitted, if the data is found valid by `handleSubmit`, `onSubmit` calls `console.log()` and logs the submitted form data to console. **Please do not change the provided `onSubmit` function.**
 
 #### Submission Button
 
 Finally, add a submission button at the bottom of your form.
+
+:::tip
+Again, to see the submitted form data, open the Inspect Element tool in your web browser by right-clicking on the form page and selecting Inspect. You can also use keyboard shortcuts:
+* Mac: Press Command+Option+i
+* Windows or Linux: Press Ctrl+Shift+i
+
+Then, click the Console tab. When you click the submission button, if your data passes validation, it will show up here.
+
+**This is a good way to check the correctness of your form.**
+:::
 
 ---
 
@@ -246,7 +262,7 @@ Each of these MUI components replaces the following elements you had been using:
 * **`Select` and `MenuItem`**: Replaces `<select>` and `<option>` respectively for dropdown selection.
 * **`InputLabel`**: Replaces `<label>`.
 :::tip
-When using `TextField`, you don't need to explicitly include `InputLabel` because `TextField` automatically handles the label internally. You only need to manually add an `InputLabel` for the `<select>`/`Select` field (and other componenets which we are not using, like `Input`). 
+When using `TextField`, you don't need to explicitly include `InputLabel` because `TextField` automatically handles the label internally. You only need to manually add an `InputLabel` for the `<select>`/`Select` field (and other components which we are not using, like `Input`). 
 :::
 * **`FormControl`**: Wraps around the `Select`/`MenuItem` components.
 :::info
