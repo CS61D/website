@@ -282,10 +282,12 @@ const RoomPage = ({ params }: { params: { roomId: string } }) => {
 
 ### 3.6: Advance Stage Mutation
 
-### 3.7: Update Voting Items Mutation
+### 3.7: Get Votes Query
 
-### 3.8: Get Votes Query
+### 3.8: Update Voting Items Mutation
 
-### 3.9: Join Room
+### 3.10: Get Results Query
 
-### 3.10: Invalidate Room On Failed Requests
+### 3.11: Join Room
+
+### 3.12: Invalidate Room On Failed Requests
