@@ -70,7 +70,6 @@ const config: Config = {
 					position: "left",
 					label: "Content",
 				},
-
 				{
 					href: "https://github.com/CS61D",
 					label: "GitHub",
@@ -113,7 +112,7 @@ const config: Config = {
 					],
 				},
 			],
-			copyright: `Maintained by Codify Berkeley, Build with Docusaurus`,
+			copyright: "Maintained by Codify Berkeley, Build with Docusaurus",
 		},
 		prism: {
 			theme: prismThemes.github,
