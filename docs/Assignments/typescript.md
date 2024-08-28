@@ -2,7 +2,10 @@
 sidebar_position: 3
 ---
 
-# Typescript
+# 2. Typescript
+
+## Assignment Links
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-Typescript)
 
 ## Assignment Overview
 

@@ -5,7 +5,7 @@ sidebar_position: 1
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# Setup Assignment
+# 0. Setup Assignment
 
 ## Purpose and Goals
 
@@ -204,21 +204,7 @@ bun -v #output: 1.1.8
 
 ## Useful VS Code Extensions
 
-VS Code extensions can be installed by clicking on the extensions icon on the left sidebar. Extensions add functionality to your IDE and improve the developer experience. We will periodically recommend installing certain extensions for working with certain languages/frameworks once we encounter them in the course, but these extensions are useful from day one.
-
-1. [Prettier](https://prettier.io/): An absolute necessity. It automagically formats your code to look beautiful every time you save.
-   (eslint)
-2. Code Spell Checker: Is useful if you can't spel like me.
-3. GitLens: Gives detailed inline information about commit histories.
-4. Microsoft Live Share: Allows you to turn your VS Code instance into a google doc, and invite anyone to edit using just a link.
-5. Console ninja
-6. Better Comments
-7. Bun extension
-   intellicode and intellicode API Usage examples
-
-material icons
-
-pretty typescript errors
+[Install the recommended vscode extensions for the course](https://marketplace.visualstudio.com/items?itemName=CodifyBerkeley.codify-extensions). You can disable them later if you like, but give them a try! For more information, check out our [reasoning for including each one](../Bonus/extensions).
 
 ## That's it!
 

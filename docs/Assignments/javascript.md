@@ -2,7 +2,11 @@
 sidebar_position: 2
 ---
 
-# JavaScript
+# 1. JavaScript
+
+## Assignment Links
+
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-Javascript)
 
 ## Assignment Overview
 
