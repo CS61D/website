@@ -14,11 +14,13 @@ metadata:
 In this assignment, you will be creating a user creation form with React Hook Forms and Zod validation. At the end of the project, it should look something like this: [User Sign-Up](https://forms.education.codifyberkeley.org). 
 
 :::tip
-On the example form (and in your form eventually), the submitted form data is logged to console upon clicking the submission button (but only when the data is valid. To see the submitted form data, open the Inspect Element tool in your web browser by right-clicking on the form page and selecting Inspect. You can also use keyboard shortcuts:
+On the example form above (and eventually in your own form), the submitted form data is logged to console upon clicking the submission button (but only when the data is valid).
+
+To see the submitted form data, open the "Inspect Element" tool in your web browser by right-clicking on the form webpage and selecting "Inspect". You can also use keyboard shortcuts:
 * Mac: Press Command+Option+i
 * Windows or Linux: Press Ctrl+Shift+i
 
-Then, click the Console tab. When you click the submission button, if your data passes validation, it will show up here.
+Then, click the Console tab. When you click the submit button in your form, your data will show up here (if it passes validation).
 :::
 
 Your form will contain various different types of input fields that a user can fill out with their information. Some should be required fields which are fields that the user must fill out. Some fields should have special rules for what counts as a valid input. Your form should also display error messages. See more information below.
@@ -73,7 +75,7 @@ Your form must include the following 8 fields into which a user can input their 
 Some fields will be "required" fields, which are fields that the user *cannot* leave blank when they submit the form. "Optional" fields are fields that the user *can* leave blank.
 
 :::warning
-You must include all 8 fields in your form, even those that are "optional".
+You must include all 8 fields in your form, even those that are marked "(optional)" below.
 :::
 
 #### 1. Email (required)
@@ -84,7 +86,7 @@ You must include all 8 fields in your form, even those that are "optional".
     * A domain name (alphanumeric characters, dots, hyphens) after the "@" symbol.
     * A top-level domain (like .com, .org, etc.) with at least two letters (alphabetic characters).
 :::tip
-We suggest using Zod's `.email()` validation method, rather than manually enforcing email formatting (e.g. with regex).
+We suggest using Zod's `.email()` validation method. You should not have to worry about manually enforcing email formatting (e.g. with regex).
 :::
 
 #### 2. First Name (required)
@@ -210,9 +212,11 @@ const schema = z.object({
 
 ### Error Messages
 
-Write custom error messages for each validation rule. Display error messages below the field they correspond to. 
+Write custom error messages for each validation rule. Display error messages below the field they correspond to.
 
 **Each field only needs to have one error message displayed below it at a time.** For example, if the user inputs a password that doesn't have both an uppercase letter and a digit, you only need to display the error message of one of the criteria.
+
+We provide a CSS className called `error-message`, if you want to use it for whatever element/component you end up using to hold your error message text. All it does is make the text red.
 
 ### Required/Optional Marking
 
@@ -228,7 +232,7 @@ At this point, you can optionally give your form a much more polished look and f
 
 In this part, you will replace the basic form elements (`<input>`, `select`, `label`, and `button`) with better-looking components from the MUI library.
 
-While you do not have to do this section, we recommend playing around a little bit with it, since most forms (and apps in general) will use some external UI library.
+While you do not have to do this section, we recommend playing around a little bit with it!
 
 ### Install and Import MUI
 
