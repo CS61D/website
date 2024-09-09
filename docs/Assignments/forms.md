@@ -11,15 +11,23 @@ metadata:
 
 ## Overview
 
-In this assignment, you will be creating a user creation form with React Hook Forms and Zod validation. At the end of the project, it should look something like this: [User Sign-Up](https://forms.education.codifyberkeley.org).
+In this assignment, you will be creating a user creation form with React Hook Forms and Zod validation. At the end of the project, it should look something like this: [User Sign-Up](https://forms.education.codifyberkeley.org). 
+
+:::tip
+On the example form above (and eventually in your own form), the submitted form data is logged to console upon clicking the submission button (but only when the data is valid).
+
+To see the submitted form data, open the "Inspect Element" tool in your web browser by right-clicking on the form webpage and selecting "Inspect". You can also use keyboard shortcuts:
+* Mac: Press Command+Option+i
+* Windows or Linux: Press Ctrl+Shift+i
+
+Then, click the Console tab. When you click the submit button in your form, your data will show up here (if it passes validation).
+:::
 
 Your form will contain various different types of input fields that a user can fill out with their information. Some should be required fields which are fields that the user must fill out. Some fields should have special rules for what counts as a valid input. Your form should also display error messages. See more information below.
 
 ---
 
 ### Setup
-
-Follow the [assignment setup workflow] to pull the assignment from the skeleton. 
 
 To get started, clone the repository using the following command:
 
@@ -67,7 +75,7 @@ Your form must include the following 8 fields into which a user can input their 
 Some fields will be "required" fields, which are fields that the user *cannot* leave blank when they submit the form. "Optional" fields are fields that the user *can* leave blank.
 
 :::warning
-You must include all 8 fields in your form, even those that are "optional".
+You must include all 8 fields in your form, even those that are marked "(optional)" below.
 :::
 
 #### 1. Email (required)
@@ -78,7 +86,7 @@ You must include all 8 fields in your form, even those that are "optional".
     * A domain name (alphanumeric characters, dots, hyphens) after the "@" symbol.
     * A top-level domain (like .com, .org, etc.) with at least two letters (alphabetic characters).
 :::tip
-We suggest using Zod's `.email()` validation method, rather than manually enforcing email formatting (e.g. with regex).
+We suggest using Zod's `.email()` validation method. You should not have to worry about manually enforcing email formatting (e.g. with regex).
 :::
 
 #### 2. First Name (required)
@@ -174,11 +182,23 @@ For each field, include:
 
 Remember to `register` each field.
 
-The skeleton code already provides submission logic for you. **Please do not change the provided `onSubmit` function.**
+The skeleton code already provides submission logic for you, including an `onSubmit` function. When the form is submitted, if the data is found valid by `handleSubmit`, `onSubmit` calls `console.log()` and logs the submitted form data to console. **Please do not change the provided `onSubmit` function.**
 
 #### Submission Button
 
 Finally, add a submission button at the bottom of your form.
+
+:::tip
+Again, to see the submitted form data, open the Inspect Element tool in your web browser by right-clicking on the form page and selecting Inspect. You can also use keyboard shortcuts:
+* Mac: Press Command+Option+i
+* Windows or Linux: Press Ctrl+Shift+i
+
+Then, click the Console tab. When you click the submission button, if your data passes validation, it will show up here.
+
+**This is a good way to check the correctness of your form.**
+:::
+
+---
 
 ## Part 2: Validation
 
@@ -192,10 +212,139 @@ const schema = z.object({
 
 ### Error Messages
 
-Write custom error messages for each validation rule. Display error messages below the field they correspond to. 
+Write custom error messages for each validation rule. Display error messages below the field they correspond to.
 
 **Each field only needs to have one error message displayed below it at a time.** For example, if the user inputs a password that doesn't have both an uppercase letter and a digit, you only need to display the error message of one of the criteria.
+
+We provide a CSS className called `error-message`, if you want to use it for whatever element/component you end up using to hold your error message text. All it does is make the text red.
 
 ### Required/Optional Marking
 
 Finally, add some sort of visual marker or note that lets users be able to tell if a field is required or not. You can do this in `App.tsx` as well as `Form.tsx`.
+
+With that, congrats on completing your React Hook Form + Zod form!
+
+---
+
+## Part 3 (Optional): Using External UI Libraries
+
+At this point, you can optionally give your form a much more polished look and feel by incorporating UI components from powerful external UI libraries. One external UI library that we recommend (and will be using as an example for the rest of this assignment) is [Material UI (MUI)](https://mui.com/material-ui/).
+
+In this part, you will replace the basic form elements (`<input>`, `select`, `label`, and `button`) with better-looking components from the MUI library.
+
+While you do not have to do this section, we recommend playing around a little bit with it!
+
+### Install and Import MUI
+
+Install MUI with this command:
+```bash
+bun install @mui/material @emotion/react @emotion/styled
+```
+`@emotion/react` and `@emotion/styled` are basically utility libraries that MUI uses itself.
+
+The next thing to do is to import components from the MUI library. Add the following imports to your `Forms.tsx` file:
+
+```tsx
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
+```
+
+### Components Breakdown
+
+Each of these MUI components replaces the following elements you had been using:
+
+* **`TextField`**: Replaces `<input>` fields for text input, password input, and date input.
+* **`Select` and `MenuItem`**: Replaces `<select>` and `<option>` respectively for dropdown selection.
+* **`InputLabel`**: Replaces `<label>`.
+:::tip
+When using `TextField`, you don't need to explicitly include `InputLabel` because `TextField` automatically handles the label internally. You only need to manually add an `InputLabel` for the `<select>`/`Select` field (and other components which we are not using, like `Input`). 
+:::
+* **`FormControl`**: Wraps around the `Select`/`MenuItem` components.
+:::info
+The `FormControl` component in MUI manages layout, labels, and error messages for form components. We use it with components like `Select` because things like label handling and helper text (e.g., your "Required" error messages) are not integrated into the component itself. 
+
+In contrast, `TextField` already takes care of these features internally, so it doesn't require `FormControl` for managing its label and helper text.
+:::
+* **`FormControlLabel` and `Checkbox`**: Holds the subscription message/label and replaces the checkbox `<input>` field, respectively. 
+* **`Button`**: Replaces `<button>` for your submit button.
+
+
+#### TextField/Email Field example
+Here is an example, where the email field is refactored to use the `TextField` MUI component:
+
+```tsx
+<TextField
+{...register("email")}
+    id="email"
+    label="Email Address"
+    variant="outlined"
+    error={!!errors.email}
+    helperText={errors.email ? errors.email.message : ""}
+    fullWidth
+/>
+```
+**Props Breakdown**
+* Register the field like before.
+* As previously mentioned, `TextField` takes in a `label`, rather than there being another label element/component.
+* `variant="outlined"`: The textbox has a rectangular outline. The label fills the box when empty, and it floats above on the line when the user types in the box.
+* `error={!!errors.email}`: This prop is used to indicate whether there's an error.
+    * `errors.email` is an object containing validation errors related to the `email` field.
+    * `!!errors.email` converts this object to a boolean: true if there's an error, and false if there isn't. (The 2nd ! cancels out the first one, which is just there to convert to a boolean).
+    * When `error={true}`, MUI styles the input field with an error state (e.g., changing the border color to red).
+* `helperText={errors.email ? errors.email.message : ""}`: This conditionally renders the helper message (i.e., email error message).
+* `fullWidth`: This prop makes the input field take up the full width of its container, rather than just the length of its content.
+
+#### Select/Role Field example
+Here is an example with the role field, using `FormControl`, `InputLabel`, `Select`, and `MenuItem`.
+
+**Props Breakdown**
+* `FormControl`: `fullWidth` and `error` are passed in to this component, functioning like before. 
+* `InputLabel`'s `id` prop should be the same as `Select`'s `labelId` prop.
+
+```tsx
+<FormControl fullWidth error={!!errors.role}>
+    <InputLabel id="role-label">Role</InputLabel>
+        <Select
+        {...register("role")}
+        id="role"
+        labelId="role-label"
+        label="Role"
+        defaultValue=""
+        >
+            {/* MenuItems here */}
+        <Select>
+</FormControl>
+```
+
+#### Date of Birth Field example
+Finally, here is a fairly useful prop for the date of birth field: `InputLabelProps`.
+
+**Prop Breakdown**
+`InputLabelProps={{ shrink: true }}`:
+* `InputLabelProps`: This prop lets you to pass additional properties to the above `InputLabel` component.
+* `shrink: true`: This forces the label to stay in its "shrunken" position (i.e., above the input field) always. This is to get the label out of the way of the `mm/dd/yyyy` hint.
+
+```tsx
+<TextField
+    {...register("birthDate")}
+    id="birthDate"
+    ...
+    InputLabelProps={{ shrink: true }}
+    ...
+/>
+```
+
+We leave the task of refactoring the subscription checkbox field and the submission button up to you. 
+
+Again, check out the [MUI docs](https://mui.com/material-ui/)!
+
+With that, congrats on completing your React Hook Form + Zod + MUI form!
