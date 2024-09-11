@@ -41,6 +41,9 @@ Pretty TypeScript Errors makes typescript errors more readable.
 ### Code Spell Checker
 Code spell checker helps avoid bugs due to accidental typos.
 
+### Auto Rename Tag
+When editing a html tag, automatically edit the corresponding closing tag.
+
 ### IntelliCode and IntelliCode API Usage
 IntelliCode provides enhanced auto completion, including for commonly used APIs. 
 
