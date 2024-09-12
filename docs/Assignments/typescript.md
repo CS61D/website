@@ -4,8 +4,6 @@ sidebar_position: 3
 
 # 2. Typescript
 
-## Assignment Links
-
 ## Assignment Overview
 
 This assignment uses a series of problems to teach the basics of TypeScript. All solutions must be written in TypeScript not JavaScript.

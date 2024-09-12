@@ -4,8 +4,6 @@ sidebar_position: 2
 
 # 1. JavaScript
 
-## Assignment Links
-
 ## Assignment Overview
 
 The goal of this assignment is to get you familiar with JavaScript syntax, focussing on arrays, objects, and functions. None of the problems are designed to be overly difficult to complete conceptually. We also have several problems that can be completed using the map an filter methods, which will be extremely useful throughout the course. If you are struggling with map and filter, try solving the problem first using a for loop, and then convert your solution to using map and/or filter after.
