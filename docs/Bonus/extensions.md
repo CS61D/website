@@ -14,7 +14,54 @@ You can view it in the [vscode marketplace](https://marketplace.visualstudio.com
 <!-- <img width="40" src="https://biomejs.gallerycdn.vsassets.io/extensions/biomejs/biome/2024.5.251958/1716667097836/Microsoft.VisualStudio.Services.Icons.Default">
 </img> -->
 
-[Biome](https://biomejs.dev/) is a code formatter an linter that is an alternative to prettier and eslint. It has supports format on save, and 
+[Biome](https://biomejs.dev/) is a code formatter an linter that is an alternative to prettier and eslint. Built using Rust, it runs faster than prettier and eslint while maintaining 97% feature compatibility.
+
+To add biome, first install the dependency and initialize a project.
+```bash
+bun add --dev --exact @biomejs/biome
+bunx biome init
+```
+
+This will create a `biome.json` config file in your project. The default configuration works well, but to add specific support for sorting tailwind classNames, we recommend copy and pasting the following configuration into your `biome.json` file.
+
+```json title="biome.json"
+{
+    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "organizeImports": {
+        "enabled": true
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "nursery": {
+                "useSortedClasses": {
+                    "level": "error",
+                    "options": {
+                        "functions": ["clsx", "cva", "cn"]
+                    }
+                }
+            },
+            "recommended": true
+        }
+    },
+    "formatter": {
+        "enabled": true,
+        "indentWidth": 4,
+        "indentStyle": "space"
+    }
+}
+```
+Finally, to both lint and format your files in a single line, add the following to your `package.json` scripts. This will check all files in the `src` directory and write the changes to the files.
+
+```json title="package.json"
+{
+    "scripts": {
+        "biome": "bunx biome check --write --unsafe src/*",
+    }
+}
+```
+
+Then, install the vscode extension.
 
 ### Console Ninja
 
