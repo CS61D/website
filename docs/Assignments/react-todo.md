@@ -1,455 +1,298 @@
 ---
-title: "React State: TodoList"
 sidebar_position: 4
-metadata:
-  - Can be provided
-  - as: objects
-    or: arrays
 ---
 
----
+# 3. React
 
-## Overview
+## Assignment Overview
 
-In this assignment, you will be creating a Todo list app. At the end of the project, it should look something like this: [insert example website].
+Almost as classic as writing a "Hello World!" program for a new programming language, building a Todo list is a rite of passage for all budding developers. Still, it provides a fantastic opportunity to learn the basics of state management and composing components in React.
 
-The basic functionality that you are expected to implement includes:
-
-- Adding a new Todo item
-- Marking it as complete
-- Deleting the Todo item
-  The sky is the limit!
-  After this assignment is over, you can continue building on top of it to expand its functionality. More on this at the end of the spec.
-
----
-
-### Learning Objectives
-
-By the end of this assignment, you should be able to:
-
-- Create and compose React components.
-- Pass and use props within components.
-- Manage component state using `useState`.
-- Implement conditional rendering based on state.
-- Render lists dynamically from state.
-- Use `useEffect` for managing side effects.
-- Implement state management using Context and Reducers.
-
----
+First, take a look at the [deployed solution](https://react.education.codifyberkeley.org/) to get a sense of what we will build. First, we will build a todo list that allows users to add, complete, and delete tasks. Then, we will refactor the code to use Context to simplify our state management. And finally, we will persist the state using local storage (try adding todos to the second todo list and refreshing the page).
 
 ### Setup
 
-Follow the [assignment setup workflow] to pull the assignment from the skeleton. After you open the file in VSCode, you should see the following file structure:
-
-```txt
-todolist/
-├── node_modules/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── TodoList.tsx
-│   │   └── TodoItem.tsx
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   ├── index.tsx
-│   └── Interfaces.ts
-├── .gitignore
-├── package.json
-├── tsconfig.json
-└── README.md
-```
-
-#### Installing Dependencies
-
-To compile your code, you need to install a few dependencies that this project will rely on. This installs TypeScript and type definitions for Node.js, React, and ReactDOM:
-
+Clone the starter code repository, and install the dependencies:
+  
 ```bash
-npm install typescript @types/node @types/react @types/react-dom
+bun install
 ```
 
-In the project directory, you can run:
-
+Start the development server:
 ```bash
-npm start
+bun dev
 ```
 
-This will run the app in development mode. Open [http://localhost:3000](http://localhost:3000/) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console, which you can open by right-clicking on the browser window and selecting “Inspect” from the menu.
+The project is mostly is empty. First, create a `components/` directory within the `src/` directory to store the components we will create. Then, create a `TodoList.tsx` file within the `components/` directory to start building the app. Later, we will use a separate `TodoItem.tsx` component to render each individual todo item after it has been created.
 
----
+## Part 1: Creating Todo Items
 
-### Structure
+### Part 1.1: Defining the Task Type
+It always make sense to start a project by thinking about the data you will work with, and what shape it should take. In this case, there is only one data type we need to define, and that is our `Task` type. In `taskTypes.ts`, create an export an object type `Task` to represent a todo item. Think about the following when defining the properties of a `Task`:
 
-#### Component Structure
+1. What data about a task is visually displayed to a user?
+2. Is all of this data required, or should any of it be optional?
+3. How will we uniquely identify each task? 
 
-How do we want to structure our TodoList app? If we think in terms of components, it might make sense to make a `TodoList` component, in case we want to have multiple `TodoLists` in different parts of the UI.
-
-Can we break down a todo-list even further though? What about each todo item on a todo list? Let’s make that a component as well, called `TodoItem`.
-
-Notice that we have put these components into a folder under src called `components`. This is generally good practice to keep your files organized.
-
-Now that we have a `TodoItem` component and a `TodoList` component, we want to start designing the state. Which component should keep track of what?
-
----
-
-#### State Management
-
-It is generally better to store state in a higher-level component and pass it down as props to child components. This approach makes the state management more centralized and easier to maintain. For instance, the `TodoList` component should keep track of the list of Todo items and their states. It can then pass down individual Todo item data and functions to update the state to the `TodoItem` component as props.
-
----
-
-#### Interfaces and Components
-
-Now, let’s take a look in the `Interfaces.ts` file, in `src`. We have defined an `ITask` interface that allows us to type the attributes of a task object, which include `id`, `taskName`, `deadline`, and `completed`.
+After defining your `Task` type, check your definition with the staff solution below.
 
 <details>
-    <summary>Why do we need both an interface for the task and a TodoItem component?</summary>
+  <summary>Solution</summary>
 
-    The interface ITask is used to define the shape of the data for a Todo item. It ensures that the data objects we work with have the correct structure. The TodoItem component, on the other hand, is responsible for rendering the Todo item and handling interactions (like marking it as complete or deleting it).
-
-</details>
-
-At a high level, the `TodoList` component maintains the state of the list of Todo items. It passes down individual `Todo` item data and callback functions (for updating the state) as props to the `TodoItem` component. The `TodoItem` component uses these props to render the Todo item and handle interactions like marking the item as complete or deleting it.
-
----
-
-## Part 1: Getting User Input
-
-Let’s add the functionality to get user input so we can later process it to make our Todo item!
-
-:::info
-Deliverable: Implement the `return` statement of the `TodoList` component.
-:::
-
-### Make a form
-
-Navigate to the `TodoList.tsx` file, under `src/components` directory.
-Let's start by creating a form element. The form will contain input fields for the task name and deadline, and a submit button.
-Here's some fields that you can use that are part of the form jsx tag.
-
-```jsx
-<form onSubmit={doSomething}> // set the onSubmit attribute of form.
-    // What do we want to do once we submit the form?
-  {insert other elements here, such as input boxes}
-  ...
-</form>
-```
-
-Inside the form, add two `input` elements.
-We need **two** fields to input our task name and its corresponding deadline.
-In TodoList.tsx, modify the file so that there are two fields: the first should accept text, and the second should accept positive integers.
-
-The `input` html tag has a few attributes that you might find useful:
-\*Note: these are dummy values and you can and should change them.
-
-```jsx
-<input
-  name="taskName"
-  type="..."
-  placeholder="..."
-  value={task}
-  onChange={yourFunctionHere}
-  required // indicates that input is required
-/>
-
-<input
-  name="deadline"
-  type="..."
-  placeholder="..."
-  value={...}
-  onChange={yourFunctionHere}
-/>
-
-```
-
-<details>
-  <summary>Hint 1</summary>
-
-The `onChange` attribute should handle state updates when the input changes.
-
-</details>
-
-<details>
-  <summary>Hint 2</summary>
-
-You might want to handle one of `handleNewTask`, `addTask`, or `deleteTask` when filling in the input.
-
-</details>
-
-### Add a `Todo` button
-
-Add a button element inside the form. What should the button do `onClick`?
-
-<details>
-  <summary>Hint 1</summary>
-
-You might want to handle one of `handleNewTask`, `addTask`, or `deleteTask` `onClick`.
-
-</details>
-
-### Adding state variables
-
-At the top of the `TodoList` functional component, use the `useState` hooks to track all the appropriate variables we need to keep track of. Two are already given.
-
-```jsx
-const TodoList: React.FC = () => {
-  const [task, setTask] = useState<string>("");
-  const [todoList, setTodoList] = useState<ITask[]>([]);
-  // Add more as needed
-
-  ...
+```tsx
+export type Task = {
+	id: string;
+	taskName: string;
+	deadline?: number;
+	completed: boolean;
 };
-export default TodoList;
-
 ```
 
-You might need to track the state of more than just the task. For reference, the staff solution is tracking four variables in state. You may use more or fewer.
-
-In order to actually view this in the development server, you need to add an instance of the `TodoList` component to your `App.tsx` function.
-By the end of implementing the form, your output should look something like this:
-
-[INSERT PIC]
-Don’t worry if the styling isn’t the same.
-
----
-
-## Part 2: Implementing Handlers
-
-:::info
-Deliverable: Implement the `handleNewTask`, `handleAddTask`, `handleDeleteTask`, and `handleCompleteTask` in `TodoList.tsx`.
-:::
-
-### `handleNewTask`
-
-This function updates the state whenever the user types in the input fields. Make sure to check the `name` of the input to update the correct state variable.
-
-<details>
-  <summary>Hint 1</summary>
-
-Check the name of the input field using `e.target.name`. If the `name` is "task", update the task state.
-If the `name` is "deadline", update the deadline state.
-
+Considerations:
+1. We can't use the task name to uniquely identify a task. Also, the index of the task within a list is not a reliable identifier, as it can change when tasks are added or removed. Therefore, we need a unique `id` property for each task.
+2. The `deadline` is optional because not all tasks have a deadline. If a task has a deadline, it should be a positive integer representing the number of days until the deadline.
+3. Both the deadline and the id could either be strings or numbers, but we will use a string id and a number deadline for consistency.
 </details>
 
-### `handleAddTask`
+### Part 1.2: Getting User Input
+In `TodoList.tsx`, create a form with two inputs, and a submit button. The inputs should either have labels that describe what they are for, or placeholders that indicate what should be entered. 
 
-This function handles form submission to add a new task. It creates a new task object with a unique ID, the task name, deadline, and a completed status. It then updates the state to include the new task and resets the input fields.
+Each input should have its value stored in state, and an onChange handler that updates the state when the input changes. 
+
+<details>
+  <summary>Hint: onChange handlers</summary>
+
+  A simple mapping of an input to a state value can be accomplished by setting the new value of the state to `e.target.value` in the onChange handler.
+
+  ```tsx
+
+  const [newTaskName, setNewTaskName] = useState<string>("");
+  ```
+
+  ```tsx
+  <input
+		type="text"
+		placeholder="Enter a task"
+		name="task"
+		value={newTaskName}
+		onChange={(e) => setNewTaskName(e.target.value)}
+		required
+		/>
+  ```
+</details>
+
+Check that your form is correctly storing updates to state by rendering the value of the input fields below the form and testing that it updates as you type. 
+
+```tsx
+<p>Task Name: {newTaskName}</p>
+```
+
+Export the component and render it in `App.tsx` to see the form in action.
+
+### Part 1.3: Adding a Task
+Create another state object `todoList` to store an array of tasks. Make sure you type it correctly using the `Task` type you defined earlier.
+
+Create a function `addTask` that takes the task name and deadline as arguments, and adds a new task to the todo list by updating the `todoList` state. Add an `onClick` handler to the submit button that to call `addTask`.
+
+To get a unique id for each task, you can use the uuid npm package. These uuids will be unique.
+```typescript
+import { v4 as uuidv4 } from 'uuid';
+uuidv4(); // => '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+```
+
+:::important
+After you have updated the `todoList` state, what else should you do to ensure the form is ready for the next task to be added?
+
+How can you ensure that the form is not submitted if the task name is empty?
+:::
+
+Make sure to test that the `addTask` function is working correctly by adding a few tasks and checking that they are displayed below the form by JSON stringifying the `todoList` state.
+
+```tsx
+<p>{JSON.stringify(todoList)}</p>
+```
+
+## Part 2: Rendering Todo Items
+
+Our `TodoList.tsx` component is already getting cluttered, and creating the todos and rendering them represents a logical separation of concerns that makes sense to be handled in different components. Create a new `TodoItem.tsx` component within the `components/` which will be responsible for an individual todo item.
+
+Since we are rendering the `TodoItem` component as a child of the `TodoList` component, we want to keep all of our state hoisted in the `TodoList` component. The `TodoItem` component will not store any of its own state, and instead will receive state and event handlers from its parent component as props.
+
+### Part 2.1: Defining the TaskItem Props
+Take a look at the todo items in the [deployed solution](https://react.education.codifyberkeley.org/). What information about a task is displayed in each todo item? What actions can be taken on a task? With this in mind, define a the props for the `TodoItem` component in `TodoItem.tsx`. 
+
+<details>
+  <summary>Hint 1: Breaking Down the Data</summary>
+
+  If you are unsure about what props are needed, consider breaking it down into the data that is needed for display, and the actions that can be taken on the task.
+
+  The data is just going to be a `Task` object, but the actions are going to be functions that can be called when a user interacts with the task. What two actions can be taken on a task? What data do these actions need to take in as arguments to identify the task they are acting on?
+</details>
+
+<details>
+  <summary>Solution</summary>
+
+```tsx
+type TodoItemProps = {
+	task: Task;
+	handleToggleCompleteTask(id: string): void;
+	handleDeleteTask(id: string): void;
+};
+```
+
+Our two event handlers should take in the task id. They are updating state, so they should not return anything.
+</details>
+
+### Part 2.2: Rendering the Task
+Based on the data passed in to the `TodoItem` component, render the task name, deadline, and a checkbox to indicate whether the task is completed. Make sure it is clear what each piece of data you are rendering represents.
+
+To add the strike-through effect to the task name when it is completed, you can use the `textDecoration` CSS property. This property can be set to `line-through` to add a line through the text, and `none` to remove it.
+
+```tsx
+<span style={{ textDecoration: condition ? "line-through" : "none" }}>
+    {/* Text */}
+</span>
+```
 
 :::note
-The unique ID is important because we can use that to map over each task when we render them later. It can also be used to identify which task to modify or delete.
+The task deadline is an optional property. Use conditional rendering to make sure that any text labeling the deadline is only displayed if the deadline is defined.
 :::
 
-This function handles form submission to add a new task. First, check if the task state is empty or only contains whitespace → If so, alert the user and return with `alert(“message”)`
 
-Finally, make sure to reset the input fields after successfully adding the task. To reset the input fields, you can simply change them back to empty strings:
+<details>
+  <summary>Rendering a Checkbox</summary>
 
+A checkbox can be rendered by passing `type="checkbox"` to an input element. The `checked` attribute controls whether the checkbox is checked or not. 
 ```tsx
-setTask("");
-setDeadline("");
+
+<input
+	type="checkbox"
+	checked={true}
+/>
 ```
-
-<details>
-  <summary>Hint 1</summary>
-
-What should the completed status be when we first add a todo?
-To implement a unique ID, we can use the index of the todo items. How can we get the index?
-
 </details>
 
-### `handleDeleteTask`
+Make sure that the `TodoItem` component is working correctly by rendering it in the `TodoList` component with some dummy data.
 
-This function removes a task from the todo list based on its ID. It filters out the task with the matching ID from the state.
+### Part 2.3: Event Handlers and Rendering the List
+Bind the passed in event handlers to the checkbox and delete button. The checkbox should call the `handleToggleCompleteTask` function when it is clicked, and the delete button should call the `handleDeleteTask` function. Both of these functions should pass in the task id as an argument.
 
-<details>
-  <summary>Hint 1</summary>
-
-Use the `filter` method on the `todoList` state to remove the task with the matching ID. Update the `todoList` state with the filtered list.
-
-</details>
-
-### `handleCompleteTask`
-
-This function toggles the completed status of a task based on its ID. It maps over the tasks and updates the completed status of the matching task.
+In `TodoList.tsx`, create the `handleToggleCompleteTask` and `handleDeleteTask` functions. These functions should update the `todoList` state by toggling the `completed` property of the task with the given id, and removing the task with the given id, respectively.
 
 <details>
-  <summary>Hint 1</summary>
+  <summary>Hint: Deleting an item</summary>
 
-Use the `map` method on the `todoList` state to find the task with the matching ID. Update the `todoList` state with the modified list.
-
-</details>
-
----
-
-## Part 3: Implementing TodoItem
-
-Our TodoItem component should be keeping track of its own state and implementing some functionality.
-
-**Question**: Why do we need both an `Interface` for `Todo` objects and also a `TodoItem` component? Aren't we already structuring our `TodoList` as an array of `Todo` objects? Isn’t this redundant?
-
-**Answer**: Separation of concerns: the `ITask` interface ensures type safety and consistency for `Todo` objects, while the `TodoItem` component encapsulates the UI and related logic for displaying and interacting with individual `Todo` items.
-
-Navigate to the `TodoItem.tsx` file, under `src/components` directory.
-
-:::info
-Deliverable: implement the `TodoItem` component.
-:::
-
-### Fill out the interface `TodoItemProps`.
-
-These are the props that TodoList will pass down to each TodoItem instance. Make sure to correctly pass in the props to our functional component.
-
-Things to consider: what actions apply to one `TodoItem` at a time? For example, recall that we want to mark the `TodoItem` as completed if we toggle the checkbox, and we want to delete the `TodoItem` if we click the delete button
-
-[insert gif]
-
-### Add elements to the return statement
-
-Notice that we have four elements that make up a TodoItem:
-
-1. An input of type `checkbox` that toggles the completion of the task
-2. The name of the task
-3. The deadline of the task, with the suffix “day(s) away
-   1. Note that if the deadline is 0, do not render “0 day(s) away”. Simply keep it blank like the “eat dinner” entry.
-4. a Delete button that will delete the task
-
-[insert reference image]
-
-First, try adding the task name in the `<span> {content here} </span>` to see it rendered on your [localhost:3000](http://localhost:3000/).
-
-Fill in the rest of the elements so your output looks like the picture above. Recall that inputs have a few variables including `type`, `checked`, and `onChange.`
-
-<details>
-  <summary>Hint 1</summary>
-
-Consider looking at the examples in [5.2 Conditional Rendering] to implement the logic for conditionally rendering the deadline. If it is 0 days away, do not render the "day(s) away" suffix.
-
+  This can be done by filtering the `todoList` state to remove the task with the given id.
 </details>
 
 <details>
-  <summary>Hint 2</summary>
+  <summary>Hint: Toggling a checked item</summary>
 
-What functions might we want to pass in for the checkbox input and the delete button?
-
+  This can be done by mapping over the `todoList` state and only changing the task with the given id. To set the completed property to the opposite of its current value, you can use the `!` operator. Ensure that no other properties of the task are changed.
 </details>
 
-You can change the first `<span>` to the following for additional styling.
-
-```tsx
-// toggles the strikethrough through the task name for when a task is completed.
-  <span
-        style={{ textDecoration: task.completed ? "line-through" : "none" }}
-      >
-```
-
----
-
-## Part 4: Render the `TodoItem` components inside of `TodoList.tsx`
-
-Now that we have `TodoItem` components that will handle their own completion and deletion, let’s actually render them inside of `TodoList.tsx`, based on our todoList array of `Task` objects!
-
-Fill out the TODO in `TodoList.tsx` in the return statement.
-Make sure you’re passing in the correct props to the TodoItem component.
+Finally, render a list of `TodoItem` components in the `TodoList` component. Make sure that the `TodoList` component is passing the correct props to each `TodoItem` component. Congrats! You now have a working todo list.
 
 <details>
-  <summary>Hint 1</summary>
+  <summary>Hint: Rendering the list</summary>
 
-Use the `map` function. What do you want to map over?
-
+  You can map over the `todoList` state to render a `TodoItem` component for each task. Make sure to pass in the correct props to each `TodoItem` component. 
 </details>
 
-Finally, render the `TodoList` component within `App.tsx`. You should be all done!
+## Part 3: Refactor to Use Context
+Our todo list is rather simple, and we only have to pass state and event handlers down one level. However, any app even slightly more complex than ours will quickly become unwieldy if we have to pass state and event handlers down multiple levels. Context is a way to share state and event handlers across multiple child components without having to pass them down through props.
 
----
+### Part 3.1: Creating the Context Type
+Open `TodoContext.tsx` in the `src/providers/` directory. Notice that we have two defined exports:
+1. `TodoProvider` will wrap our application and hold the state and event handlers that we want to access in any child component. Any child component wrapped by the `TodoProvider` will have access to the state and event handlers.
+2. `useTodo` is a custom hook that will allow us to access the state and event handlers stored in the `TodoProvider` from any child component. In addition to removing the need to pass props down through multiple levels of components, this hook allows us to only modify our state in predefined ways, making our code easier to read and maintain.
 
-## Part 5 (Optional): Scaling up with Reducers
+Fill in the `TodoContextType` to define what state and event handlers will be available through the `useTodo` hook. Think about what state in our application is needed in both the `TodoList` and `TodoItem` components. What are the three different places / ways we mutate this state? 
 
-At this point, you can get some extra practice refactoring your existing code to use context and reducers. However, this is an optional part of the assignment.
+Hint: What are the three event handlers we written so far?
 
-### Create a `todoReducer`
+Check your solution before moving on to the next step.
 
-Create a file `TodoContext.tsx` to define your context and reducer.
+<details>
+  <summary>Solution</summary>
 
-[Read more in these notes to learn how to refactor your code using Reducers and Context]
-
-1. Make sure to import the necessary modules at the top of the file:
-
-```tsx
-import React, {
-  createContext,
-  useReducer,
-  ReactNode,
-  ReactElement,
-} from "react";
-import { ITask } from "./Interfaces";
-```
-
-2. Define a reducer function `todoReducer`. Although you can structure the reducer many different ways, the overall logic is to:
-   1. Use a switch statement to handle the different action types:
-      1. For ADD_TASK, return a new state with the new task added and nextId incremented.
-      1. For DELETE_TASK, return a new state with the specified task removed.
-      1. For COMPLETE_TASK, toggle the completed status of the specified task.
-
-For example,
-
-```tsx
-const todoReducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "ADD_TASK":
-    // logic for adding a task
-    case "DELETE_TASK":
-    // logic for deleting a task
-    case "COMPLETE_TASK":
-    // logic for completing a task
-    default:
-      return state;
-  }
+  ```tsx
+type TodoContextType = {
+	tasks: Task[]; // The list of tasks
+    // Add task to the list needs the task name and deadline
+	addTask: (task: Omit<Task, "id" | "completed">) => void;
+	deleteTask: (id: string) => void;
+	toggleCompleteTask: (id: string) => void;
 };
 ```
 
-### Provide Context
+It doesn't make sense to store the state of the task name or deadline inputs in context, since they are only needed locally in the `TodoList` component. 
+</details>
 
-Create a context `TodoContext` with `createContext`.
+### Part 3.2: Implementing the Context and Deleting Props
+Fortunately, we have already written all of the state logic for our todo list. All we need to do is move this logic into the `TodoProvider` component. 
 
-Wrap your main component or the part of your app that needs access to the todo state with a `provider`.
+1. Move the `todoList` state and the `addTask`, `deleteTask`, and `toggleCompleteTask` functions into the `TodoProvider` component.
+2. Import the `TodoProvider` component into `App.tsx` and wrap the `TodoList` component with it.
+3. Import the `useTodo` hook into `TodoList.tsx` and use it to access the `tasks` state and the `addTask` function.
 
-### Refactor the TodoList Component
-
-Maintain local state for the task input fields using `useState`, but use `dispatch` to handle adding, deleting, and completing tasks.
-
-Remember to add
-
+Now, instead of declaring the `todoList` state and the event handlers in the `TodoList` component, we can use the `useTodo` hook to access them.
 ```tsx
-const { state, dispatch } = useContext(TodoContext);
+const { tasks, addTask } = useTodo(); // addTask will be a function
 ```
 
-in your TodoList component!
+Finally, remove the passed in `handleToggleCompleteTask` and `handleDeleteTask` props from the `TodoItem` component, and replace them with the `toggleCompleteTask` and `deleteTask` functions from the `useTodo` hook. The `TodoItem` will still need to take in the `task` prop to determine which task to render.
 
----
+Our refactored code now has the same functionality, but a much cleaner structure.
+1. Our complex state management is handled in its own file, reducing the complexity of our `TodoList` component.
+2. We now have two fewer props to pass to our `TodoItem` component, making it easier to read and maintain.
+3. Future components that need access to the same global state can easily access it by importing the `useTodo` hook.
 
-## Epilogue
+## Part 4: Persisting State in Local Storage
 
-If you would like to increase the functionalities of your Todo list, here are some ideas for additional functionalities.
+As a final quality of life improvement, our todo list would be much more useful if it persisted our information even when refreshing the page. For an app as simple as ours, the browser provides a perfect solution, [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage#examples).
 
-- The deadline decrements as you advance days towards the due date
-- Sorts the todos in order of priority
-- Completed todos show up under a “Done” section
-- Styling (confetti for every time you mark a todo as done)
-- Ability to edit todos
-- Ability to create sub-tasks
-- Add tags to sort your todos
-  - such as #personal, #work
+The browser's local storage is a key-value store that persists data for a given domain. 
 
-<!-- You can interact with these features on the staff website, under [Fancy] -->
+```javascript
+localStorage.setItem("myKey", "myValue");
+localStorage.getItem("myKey"); // => "myValue"
+localStorage.removeItem("myKey"); // Removes the key-value pair
+```
 
-Or, you could even expand it into your own project. Here are a few project ideas:
+Local storage is limited to storing strings, but we can get around this by using `JSON.stringify` and `JSON.parse` to convert our objects to strings and back.
 
-1. **Project Management Tool**
+```javascript
+const tasks = [{ id: "1", taskName: "Do the dishes", deadline: 3, completed: false }];
 
-   1. Expand the TodoList into a full-fledged project management tool. (Similar to tools like [Asana](https://asana.com/product?&utm_campaign=Brand--NAMER--US--EN--Core&utm_source=google&utm_medium=pd_cpc_br&gad_source=1&gclid=CjwKCAjwtNi0BhA1EiwAWZaANGa0GGCLtI37pSxzGo_mT39XHQqro9AHNxPpYYs3KpHeL8MWPA-imxoCS3UQAvD_BwE&gclsrc=aw.ds)) Add features like task dependencies, milestones, team collaboration (with user roles and permissions), Gantt charts or Kanban boards, time tracking, and progress reporting.
+// Store data
+localStorage.setItem("tasks", JSON.stringify(tasks));
 
-2. **Fitness Tracker**
+// Retrieve data
+const storedTasks = JSON.parse(localStorage.getItem("tasks")) as Task[];
+```
 
-   1. Design the TodoList around fitness goals. Users can create todos for workouts, track progress with metrics like weight, reps, or distance, set reminders for training sessions, integrate with health tracking APIs (like Fitbit, Apple Health, Strava), and provide insights on fitness trends.
+We could manually update our local storage in every event handler, but this would be repetitive and cumbersome. Instead, we can use the `useEffect` hook to automatically listen for changes to `tasks` and update local storage whenever our `tasks` state changes.
 
-3. **Recipe Organizer**
-   1. Create a recipe management tool with the TodoList base. Users can create todos for recipes they want to try, manage ingredients and cooking steps, categorize recipes by cuisine or dietary preferences, integrate with meal planning calendars, and share recipes with friends.
+### Part 4.1: Saving State to Local Storage
+In the `TodoProvider` component, use the `useEffect` hook to save the `tasks` state to local storage whenever it changes. This will ensure that our tasks are saved even when the page is refreshed.
+
+Make sure to define the dependencies for when this effect should run. 
+
+To test that your tasks are being saved, add some tasks, and then pull up the browser's developer tools to inspect the local storage. You should see a key-value pair for `tasks` with the stringified version of your tasks.
+
+1. Right click on the page and select "Inspect" or press `Ctrl + Shift + I`.
+2. Go to the "Application" tab.
+3. On the left side, you should see a "Local Storage" section. Click on it to see the key-value pairs stored in local storage.
+
+It should look something like this:
+![local-storage](../../static/img/assignment-images/react/localstorage.png)
+
+### Part 4.2: Loading State from Local Storage
+If you refresh the page, you will notice that your tasks are still saved in local storage, but they are not being loaded back into the `tasks` state when the page is refreshed.
+
+To fix this, instead of initializing the `tasks` state to an empty array, initialize it to the tasks stored in local storage. If there are no tasks stored in local storage, the `tasks` state should be initialized to an empty array.
+
+Make sure that you parse the data fetched from local storage setting the state.
+
+Congratulations! You have now built a fully functional todo list that persists tasks even when the page is refreshed.
