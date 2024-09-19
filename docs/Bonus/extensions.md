@@ -26,7 +26,7 @@ This will create a `biome.json` config file in your project. The default configu
 
 ```json title="biome.json"
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
     "organizeImports": {
         "enabled": true
     },
@@ -48,9 +48,19 @@ This will create a `biome.json` config file in your project. The default configu
         "enabled": true,
         "indentWidth": 4,
         "indentStyle": "space"
+    },
+    "files": {
+        "ignore": ["src/components/ui/*.tsx"]
     }
 }
 ```
+<details>
+    <summary>What this configuration does differently from the default</summary>
+    1. Uses spaces instead of the default tabs for indentation.
+    2. Enforces the use of sorted tailwind classes, including in functions that take tailwind classes as arguments.
+    3. Ignores files in the `src/components/ui` directory, which is where shadCN components are stored by default.
+</details>
+
 Finally, to both lint and format your files in a single line, add the following to your `package.json` scripts. This will check all files in the `src` directory and write the changes to the files.
 
 ```json title="package.json"
