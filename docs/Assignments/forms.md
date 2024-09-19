@@ -1,350 +1,331 @@
 ---
-title: "User Creation Form"
 sidebar_position: 5
-metadata:
-  - Can be provided
-  - as: objects
-    or: arrays
 ---
 
----
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-## Overview
+# 5. Forms
 
-In this assignment, you will be creating a user creation form with React Hook Forms and Zod validation. At the end of the project, it should look something like this: [User Sign-Up](https://forms.education.codifyberkeley.org). 
+## Assignment Links
 
-:::tip
-On the example form above (and eventually in your own form), the submitted form data is logged to console upon clicking the submission button (but only when the data is valid).
+* [Starter Code](https://github.com/CS61D/Assignment-Starter-Forms)
+* [Finished Solution](https://forms.education.codifyberkeley.org/) (what you will build)
 
-To see the submitted form data, open the "Inspect Element" tool in your web browser by right-clicking on the form webpage and selecting "Inspect". You can also use keyboard shortcuts:
-* Mac: Press Command+Option+i
-* Windows or Linux: Press Ctrl+Shift+i
+## Assignment Overview
 
-Then, click the Console tab. When you click the submit button in your form, your data will show up here (if it passes validation).
-:::
+You are a front-end developer for a hot new ed-tech startup. You are tasked with creating a sign up form for new users to create accounts on the platform. You need to make sure that the form is user-friendly, responsive, and most importantly, validates user input before sending it to the backend.
 
-Your form will contain various different types of input fields that a user can fill out with their information. Some should be required fields which are fields that the user must fill out. Some fields should have special rules for what counts as a valid input. Your form should also display error messages. See more information below.
+First, take a look at the [finished solution](https://forms.education.codifyberkeley.org/) to see what you will be building. Try filling in the form with both valid an invalid data to see how the form behaves. Each individual field has its own rules, and error messages explain what went wrong when a user tries to submit invalid data.
 
----
+You will start by defining a [zod](https://zod.dev/) validation schema to define the shape of the form data and the validation rules for each field. Then we will integrate it with [React Hook Form](https://react-hook-form.com/) to handle the form state, and associate inputs with fields in our schema. Finally, we will show how to use pre build [shadcn](https://ui.shadcn.com/) components with React Hook Form to create a more polished and professional look.
+
+You will only have to edit `validator.ts`, `Form.tsx`, and `ControlledForm.tsx` in parts 1-3 respectively. 
 
 ### Setup
 
-To get started, clone the repository using the following command:
-
-```bash
-git clone git@github.com:CS61D/Assignment-Starter-Forms.git
-cd Assignment-Starter-Forms
-```
-
-#### Installing Dependencies
-
-To install dependencies:
-
+Install the dependencies:
+  
 ```bash
 bun install
 ```
 
-#### Run
+Start the development server:
+```bash
+bun dev
+```
 
-In the project directory, you can run:
+And then view the starter code at [http://localhost:5173/](http://localhost:5173/)
+
+## Part 1: Form Content and Validation
+
+We want our form to have the following fields and rules. Remember that zod fields are required by default.
+
+1. **firstName**: A required, nonempty string
+2. **lastName**: A required, nonempty string
+3. **email**: A required email address. Zod has a [built in](https://zod.dev/?id=strings) `.email()` method that you can use to validate email addresses.
+4. **role**: An optional field that must be one of "student", "educator", or "parent/guardian". Use a [zod enum](https://zod.dev/?id=zod-enums) to ensure that the role can't just be any arbitrary string.
+5. **subscribe**: An required boolean field
+6. **birthDate**: An optional field that must be a valid date in the past. You can use the `.date()` method from zod to validate this.
+7. **password**: A required field that must pass the following rules
+    * Between 8-20 characters
+    * At least one uppercase letter
+    * At least one lowercase letter
+    * At least one digit
+These properties can be enforced through [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions), also known as regex, which zod supports with the `.regex()` operator. The following regex patterns will be useful.
+    * At least one uppercase letter: `/[A-Z]/`
+    * At least one lowercase letter: `/[a-z]/`
+    * At least one digit: `/[\d]/`
+Minimum and maximum length can be enforced with the `.min()` and `.max()` methods respectively.
+
+8. **confirmPassword**: A required field that must match the password field. We don't know if this field passes validation without also looking at another field, we need to use the `.refine()` method to validate this field in context of the other fields in the form. When refining this field, make sure that you specify the error exists on the `confirmPassword` path and is not just a general form error. [This example](https://zod.dev/?id=customize-error-path) from the docs may be helpful.
+
+:::note
+Native HTML date inputs return a string, instead of a Date object, which will cause the zod validation to fail. To fix this, zod has functionality to [convert the string into a date](https://zod.dev/?id=coercion-for-primitives) before validating it. Instead of using `z.date()`, use `z.coerce.date()` to validate the date.
+:::
+
+:::important
+Make sure that required string fields do not pass validation if they are empty. You can use the `.min()` method to enforce a minimum length of 1 character.
+:::
+
+When you think your validation schema is correct, try testing it out in the [zod playground](https://zod-playground.vercel.app/) to see if it behaves as expected. Or you can wait until building your own form and test it there.
+
+
+### Error messages
+
+You may do this part now, or come back to it later. It is recommended that you finish part 2 first, as you will have a better idea of what error messages you need to display.
+
+A validation error is only useful if the user knows what is wrong. As you are testing your form, in the playground or in your own form, override the default error messages with custom messages for anything that is not immediately clear. Regex expressions especially need human readable messages to explain what the regex is testing for and why it failed.
+
+You can pass in a custom error message as a second argument to the zod method that you are using.
+
+```tsx
+const requiredMsg = "Required";
+
+export const formSchema = z
+  .object({
+    firstName: z.string().min(1, requiredMsg),
+  })
+```
+
+## Part 2: HTML Form
+
+Open `Form.tsx` located in `src/components/Form.tsx`. This file contains the form that you will be working with. All imports are already written for you.
+
+### Part 2.1: Form Setup
+
+A form is declared for you using the `useForm` hook from React Hook Form. This hook returns a bunch of useful functions and properties that you can use to manage your form. We have destructured the `register`, `handleSubmit`, and `errors` properties of the form.
+
+<Tabs>
+  <TabItem value="destructured" label="Destructured" default>
+    ```tsx title="Form.tsx"
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<Inputs>({
+      resolver: zodResolver(schema),
+    });
+    ```
+  </TabItem>
+  <TabItem value="not" label="Not Destructured">
+    ```tsx title="Form.tsx"
+    const form = useForm<Inputs>({
+      resolver: zodResolver(schema),
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+We have also used the `zodResolver` to ensure that our form uses our zod schema for validation. Depending on if the validation passes, a custom `onSubmit` function or `onError` is called.
+
+However, we also need to properly type the `Inputs` type to define what fields the form should expect. Fortunately, once you have a zod schema, you can use the `z.infer` method to automatically generate the type for you based on the schema. 
+
+```tsx
+const mySchema = z.object({
+    name: z.string("name"),
+    age: z.number("age").
+});
+
+type Inputs = z.infer<typeof mySchema>;
+```
+
+Define the `Inputs` type based on the zod schema you created in part 1 so that our form knows what fields to expect.
+
+### Part 2.2: Registering Form Fields
+
+We already have an input created for the first name field. In order to associate it with the `firstName` field in our schema, we need to use the `register` function provided by React Hook Form. 
+
+```tsx
+<input
+  {...register("firstName")}
+  id="firstName"
+  type="text"
+
+/>
+```
+
+Create form inputs for the rest of the fields in the schema and register them. 
+
+<details>
+  <summary>Hint: password and checkbox inputs</summary>
+
+Password and Checkbox inputs can be created by passing `type="password"` and `type="checkbox"` respectively to the input element. 
+</details>
+
+<details>
+  <summary>Hint: role select</summary>
+
+Dropdowns can't be created with an input element. Instead, use a `select` element with `option` elements inside. Make sure to register the `select` element instead of the `option` elements.
+
+```tsx
+<select {...register("role")} id="role">
+  <option value="student">Student</option>
+  <option value="educator">Educator</option>
+  <option value="parent/guardian">Parent/Guardian</option>
+</select>
+```
+</details>
+
+After you have created all the form fields, you can test your form by filling it out and submitting it. The button with `type="submit"` will trigger the form `onSubmit` handler. Then, the `handleSubmit` function will validate the form and call the `onSubmit` function if the form is valid.
+
+### Part 2.3: Error Messages
+
+Currently, we are not displaying any error messages when the form is invalid. If a field has a validation error, our `error` object will have an error object on the field's path. You can use this object to display an error message below the field.
+
+```tsx
+{errors.firstName && (
+  <p className="text-red-500">{errors.firstName.message}</p>
+)}
+```
+
+If there is no error, the `errors.firstName` object will be `undefined`, and the error message will not be displayed. 
+
+The error messages are automatically generated by zod, but they are not the most user friendly. If you have not already, return to [Error Messages](#error-messages) to create custom error messages for each field.
+
+Congrats! You now have a fully functional sign up form! If you want, you can also destructure the `reset` function from the `useForm` hook and add it to the `onSubmit` function to clear the form after it is submitted.
+
+## Part 3: Controlled Form with Shadcn Components
+
+After deploying the form, your boss tells you that sign ups are not converting because it looks too plain. They want you to spend the next two weeks redesigning it to look more professional, but you have a trip to Hawaii planned tomorrow. 
+
+In 99% of cases, creating beautiful frontend components from scratch is a waste of time. There are a million pre-built libraries of components that are more than adequate to get the job done. However, pre-built component libraries like [Material UI](https://mui.com/material-ui/) have limits to how much they can be customized. For that reason, 61D uses [shadcn](https://ui.shadcn.com/) components. They are not a dependency that is installed and has to be updated, but instead a set of components that are designed to be copied and pasted into your project. Since the source code of the components literally lives in your project, you can customize them to your heart's content. Further, seeing the actual source code of professional grade components is a great way to learn best practices in React.
+
+All of the components in the `src/components/ui` directory are shadcn components. We have almost everything we need, but we still need the shadcn input component. Run the following command at the root of your project:
 
 ```bash
-bun run dev
+bunx --bun shadcn@latest add input
 ```
 
-This will run the app in development mode. Open [http://localhost:5173](http://localhost:5173/) to view it in the browser. The page will reload if you make edits.
+As you can see, nothing was changed in your `package.json` file. Instead, and new file was created in `src/components/ui/input.tsx`. This is the shadcn input component.
 
----
+### Using the Components
 
-### Structure
+Open up `ControlledForm.tsx` located in `src/components/ControlledForm.tsx` and uncomment the Input component import.
 
-Unlike the previous TodoList assignment in which you built 3 components that were each fairly involved, for this assignment you will only be working in 2 files/components: `App.tsx` and `Form.tsx`. **A large majority of your work will be in `Form.tsx`.**
+Shadcn already has components that properly handle the behaviors of form errors and labels, you just need to wrap them with their corresponding components. The `register` method only works on native html inputs, but React Hook Form provides a `control` object on the form that can be passed into an input component to turn it into a controlled component.
 
-`App.tsx` will contain a bare bones `App` component. `Form.tsx` will contain your actual `Form` component, with all your form fields, validation logic, submission handling, etc.
+Use this example input to create the rest of the form fields (except the date of birth). The select and checkbox components are already implemented, you just have to add the correct `name` property for each of them.
 
----
-
-### Form Fields
-
-:::info
-For form data validation, we suggest using Zod validation methods, rather than React Hook Form validation through `register`. The rest of the spec and the skeleton code will reflect this.
-:::
-
-Your form must include the following 8 fields into which a user can input their information. Each field should have the following validation rules. 
-
-Some fields will be "required" fields, which are fields that the user *cannot* leave blank when they submit the form. "Optional" fields are fields that the user *can* leave blank.
-
-:::warning
-You must include all 8 fields in your form, even those that are marked "(optional)" below.
-:::
-
-#### 1. Email (required)
-* This should be an `<input>` field of `type="email"`.
-* **Email formatting** - Emails must contain the following in order:
-    * A series of characters (alphanumeric, dots, underscores, hyphens) before the "@" symbol.
-    * An "@" symbol.
-    * A domain name (alphanumeric characters, dots, hyphens) after the "@" symbol.
-    * A top-level domain (like .com, .org, etc.) with at least two letters (alphabetic characters).
-:::tip
-We suggest using Zod's `.email()` validation method. You should not have to worry about manually enforcing email formatting (e.g. with regex).
-:::
-
-#### 2. First Name (required)
-* This should be an `<input>` field of `type="text"`.
-
-#### 3. Last Name (required)
-* This should be an `<input>` field of `type="text"`.
-
-#### 4. Role (optional)
-* This should be a `<select>` field.
-* The user should be able to select a role out of **at least 3 options**.
-    * Ex. "Student", "Teacher", "Parent/Guardian"
-* **Additionally, you must have a placeholder/hint option.**
-    * Example hint: "---Select One---"
-    * The hint must be the default option that the `select` field starts off on.
-    * Its value must be the empty string (`""`).
-
-#### 5. Date of Birth (optional)
-* This should be an `<input>` field of `type="date"`.
-* The user must *not* be able to submit a birth date that is in the future.
-:::note
-It's ok if the user can physically click/type a date that is in the future. The data just has to be found invalid upon submission.
-:::
-
-#### 6. Create Password (required)
-* This should be an `<input>` field of `type="password"`.
-* **The user's password must:** 
-    * Be between 8-20 characters
-    * Contain at least one lowercase letter
-    * Contain at least one uppercase letter
-    * Contain at lease one digit
-
-#### 7. Confirm Password (required)
-* This should be an `<input>` field of `type="password"`.
-* The user must enter the same password in the confirmation field as in the creation field.
-
-#### 8. Subscription opt-in/out (optional)
-* This should be an `<input>` field of `type="checkbox"`.
-* This field is optional in the sense that the user can choose to leave this checkbox unchecked. You can choose whether or not to call Zod's `.optional()` method on this field.
-
----
-
-## Part 1: Form Content
-
-You will first implement the form without any validation yet. All work will be in the `Form.tsx` file.
-
-In this part, you'll add a few missing imports, define your Zod schema, and add typing. You'll do some setup with React Hook Form before finally filling out your form with form elements, including a submission button.
-
-### Schema Definition and Setup
-
-First, include the following import statements to the top of the `Form.tsx` file.
-
-```tsx
-import { useForm, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+```tsx title="ControlledForm.tsx"
+<FormField
+  control={form.control}
+  name="email"
+  render={({ field }) => (
+    <FormItem>
+        <FormLabel>Email Address *</FormLabel>
+        <FormControl>
+        <Input
+            placeholder="example@email.com"
+            {...field}
+        />
+        </FormControl>
+        <FormMessage />
+    </FormItem>
+  )}
+/>
 ```
 
-Next, fill out your form's Zod schema definition. The schema defines the shape of the form data. For now, it can just contain the form's fields and each field's type. [Part 2](#part-2-validation) will add validation.
+This example along with examples for controlling form inputs are on the [shadcn docs](https://ui.shadcn.com/docs/components/input). Copy and paste the [controlled date picker example](https://ui.shadcn.com/docs/components/date-picker#form) for the date of birth field. 
 
+As important as your form now looking better, it is also more accessible. Shadcn components are compliant with [Aria accessibility standards](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA) out of the box, meaning that users with disabilities can use your form with screen readers. Compliance with these standards is tricky, but shadcn has done the work for you.
+
+Congrats! You now have a fully functional and professional looking sign up form in no time at all! Have fun in Hawaii!
+
+## Optional Bonus: Forms with Arrays and Conditional Fields
+
+Often times, we need to deal with forms that take in arrays of data. Imagine you are submitting attachments to a job application, and you had to upload a new submission for every additional file? For a better use experience, we could expect that:
+
+1. An infinite number of items can be added to the form
+2. Individual items should be able to be added, deleted, or modified independently
+
+Fortunately, React Hook Form provides another hook we can use to handle this: [useFieldArray](https://react-hook-form.com/docs/usefieldarray). Let's add the ability for a parent/guardian to add multiple children to their account when they sign up.
+
+You can preview what we are going to do in this part by selecting "Parent/Guardian" in the role dropdown of the shadcn form on the [finished solution](https://forms.education.codifyberkeley.org/).
+
+### Updating the schema
+Add an array of children objects to the zod schema. You can add any properties you like, but we will use a `name` and `age` property for this example. 
+
+<details>
+    <summary>Solution</summary>
+    
 ```tsx
-const schema = z.object({
- // form fields here
+export const formSchema = z.object({
+  // Existing fields
+
+  children: z
+    .object({
+      name: z.string().min(1, "Required"),
+      grade: z.number().min(1).max(12),
+    })
+    .array()
+    .optional(),
 })
 ```
+</details>
 
-Next, infer off the schema to create your custom type.
-```tsx
-type Inputs = null; // replace the null
-```
+### useFieldArray()
 
-Finally, within the `Form` component, grab any needed return props/functions from `useForm`. Remember to pass your custom type into `useForm`. Pass `zodResolver` into `useForm` as well.
+Next, declare the `useFieldArray()` hook for our specific property. 
 
 ```tsx
-export default function Form() {
- // Call useForm here
-...
+const { fields, append, remove } = useFieldArray({
+  control: form.control, // Form control from useForm()
+  name: "children",
+});
 ```
 
-### Form Elements
+`fields` is an array of objects that represent each child in the array. `append` is a function that adds a new child to the array, and `remove` is a function that removes a child from the array. There are many other functions that can handle more complex operations.
 
-Now that you've taken care of your imports, defined your schema, and gotten everything you need from `useForm`, it's time to actually flesh out your form.
+Add a button to the form that calls the `append` function when clicked. This button will add a new child to the form.
 
-For each field, include:
-1. A label
-2. A form element for taking in user input
+Once you have some children added, you can render them by mapping over the fields array, and registering an input for each property or each child added. 
 
 ```tsx
-<form onSubmit={handleSubmit(onSubmit)}>
- {/* form fields here */}
-<form>
+{fields.map((child, index) => (
+  <div key={child.id} className="flex flex-col space-y-2">
+    <FormField
+      control={form.control}
+      name={`children.${index}.name`} // Take a close look at this line
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Child {index + 1} Name</FormLabel>
+          <FormControl>
+            <Input {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+
+    {/* Age field omitted */}
+    
+    <Button 
+     variant={"ghost"}
+     onClick={() => remove(index)} // Use the remove function to remove the child
+     className="self-end"
+   >
+     <TrashIcon />
+   </Button>
+
+  </div>
+))}
 ```
 
-Remember to `register` each field.
+There are a few important rules to follow when using `useFieldArray()`:
+1. Properties are accessed using their index in the array. To get the name of the fourth child, you would use `children.3.name`.
+2. The key of the mapped component should be the `id` property of the object in the fields array. This is how React knows which components to update when the array changes. Even though our child does not have an `id` property, the `useFieldArray()` hook will generate one for us.
 
-The skeleton code already provides submission logic for you, including an `onSubmit` function. When the form is submitted, if the data is found valid by `handleSubmit`, `onSubmit` calls `console.log()` and logs the submitted form data to console. **Please do not change the provided `onSubmit` function.**
+Now we should have a working form that allows parents to add multiple children to their account. However, it only makes sense to display the option to add children if the role is "parent/guardian". We need to conditionally render the children form fields based on the role selected.
 
-#### Submission Button
-
-Finally, add a submission button at the bottom of your form.
-
-:::tip
-Again, to see the submitted form data, open the Inspect Element tool in your web browser by right-clicking on the form page and selecting Inspect. You can also use keyboard shortcuts:
-* Mac: Press Command+Option+i
-* Windows or Linux: Press Ctrl+Shift+i
-
-Then, click the Console tab. When you click the submission button, if your data passes validation, it will show up here.
-
-**This is a good way to check the correctness of your form.**
-:::
-
----
-
-## Part 2: Validation
-
-In this part, you will add validation rules. It's recommended that you use Zod validation methods for this, rather than validation with React Hook Form through the `register` function. The validation rules are outlined in the [Form Fields](#form-fields) section further above.
+We can get the value of a field in the form by using the `watch` function from React Hook Form. This function takes in the name of the field you want to watch and returns the value of that field. It is also reactive, meaning that it can be used to update the UI when the value of the field changes.
 
 ```tsx
-const schema = z.object({
- // call validation methods here
-}); // and here
+{form.watch("role") === "parent/guardian" && (
+    // Children form fields
+)}
 ```
 
-### Error Messages
+Now the children form fields will only be displayed if the role is "parent/guardian". 
 
-Write custom error messages for each validation rule. Display error messages below the field they correspond to.
-
-**Each field only needs to have one error message displayed below it at a time.** For example, if the user inputs a password that doesn't have both an uppercase letter and a digit, you only need to display the error message of one of the criteria.
-
-We provide a CSS className called `error-message`, if you want to use it for whatever element/component you end up using to hold your error message text. All it does is make the text red.
-
-### Required/Optional Marking
-
-Finally, add some sort of visual marker or note that lets users be able to tell if a field is required or not. You can do this in `App.tsx` as well as `Form.tsx`.
-
-With that, congrats on completing your React Hook Form + Zod form!
-
----
-
-## Part 3 (Optional): Using External UI Libraries
-
-At this point, you can optionally give your form a much more polished look and feel by incorporating UI components from powerful external UI libraries. One external UI library that we recommend (and will be using as an example for the rest of this assignment) is [Material UI (MUI)](https://mui.com/material-ui/).
-
-In this part, you will replace the basic form elements (`<input>`, `select`, `label`, and `button`) with better-looking components from the MUI library.
-
-While you do not have to do this section, we recommend playing around a little bit with it!
-
-### Install and Import MUI
-
-Install MUI with this command:
-```bash
-bun install @mui/material @emotion/react @emotion/styled
-```
-`@emotion/react` and `@emotion/styled` are basically utility libraries that MUI uses itself.
-
-The next thing to do is to import components from the MUI library. Add the following imports to your `Forms.tsx` file:
-
-```tsx
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
-```
-
-### Components Breakdown
-
-Each of these MUI components replaces the following elements you had been using:
-
-* **`TextField`**: Replaces `<input>` fields for text input, password input, and date input.
-* **`Select` and `MenuItem`**: Replaces `<select>` and `<option>` respectively for dropdown selection.
-* **`InputLabel`**: Replaces `<label>`.
-:::tip
-When using `TextField`, you don't need to explicitly include `InputLabel` because `TextField` automatically handles the label internally. You only need to manually add an `InputLabel` for the `<select>`/`Select` field (and other components which we are not using, like `Input`). 
-:::
-* **`FormControl`**: Wraps around the `Select`/`MenuItem` components.
-:::info
-The `FormControl` component in MUI manages layout, labels, and error messages for form components. We use it with components like `Select` because things like label handling and helper text (e.g., your "Required" error messages) are not integrated into the component itself. 
-
-In contrast, `TextField` already takes care of these features internally, so it doesn't require `FormControl` for managing its label and helper text.
-:::
-* **`FormControlLabel` and `Checkbox`**: Holds the subscription message/label and replaces the checkbox `<input>` field, respectively. 
-* **`Button`**: Replaces `<button>` for your submit button.
-
-
-#### TextField/Email Field example
-Here is an example, where the email field is refactored to use the `TextField` MUI component:
-
-```tsx
-<TextField
-{...register("email")}
-    id="email"
-    label="Email Address"
-    variant="outlined"
-    error={!!errors.email}
-    helperText={errors.email ? errors.email.message : ""}
-    fullWidth
-/>
-```
-**Props Breakdown**
-* Register the field like before.
-* As previously mentioned, `TextField` takes in a `label`, rather than there being another label element/component.
-* `variant="outlined"`: The textbox has a rectangular outline. The label fills the box when empty, and it floats above on the line when the user types in the box.
-* `error={!!errors.email}`: This prop is used to indicate whether there's an error.
-    * `errors.email` is an object containing validation errors related to the `email` field.
-    * `!!errors.email` converts this object to a boolean: true if there's an error, and false if there isn't. (The 2nd ! cancels out the first one, which is just there to convert to a boolean).
-    * When `error={true}`, MUI styles the input field with an error state (e.g., changing the border color to red).
-* `helperText={errors.email ? errors.email.message : ""}`: This conditionally renders the helper message (i.e., email error message).
-* `fullWidth`: This prop makes the input field take up the full width of its container, rather than just the length of its content.
-
-#### Select/Role Field example
-Here is an example with the role field, using `FormControl`, `InputLabel`, `Select`, and `MenuItem`.
-
-**Props Breakdown**
-* `FormControl`: `fullWidth` and `error` are passed in to this component, functioning like before. 
-* `InputLabel`'s `id` prop should be the same as `Select`'s `labelId` prop.
-
-```tsx
-<FormControl fullWidth error={!!errors.role}>
-    <InputLabel id="role-label">Role</InputLabel>
-        <Select
-        {...register("role")}
-        id="role"
-        labelId="role-label"
-        label="Role"
-        defaultValue=""
-        >
-            {/* MenuItems here */}
-        <Select>
-</FormControl>
-```
-
-#### Date of Birth Field example
-Finally, here is a fairly useful prop for the date of birth field: `InputLabelProps`.
-
-**Prop Breakdown**
-`InputLabelProps={{ shrink: true }}`:
-* `InputLabelProps`: This prop lets you to pass additional properties to the above `InputLabel` component.
-* `shrink: true`: This forces the label to stay in its "shrunken" position (i.e., above the input field) always. This is to get the label out of the way of the `mm/dd/yyyy` hint.
-
-```tsx
-<TextField
-    {...register("birthDate")}
-    id="birthDate"
-    ...
-    InputLabelProps={{ shrink: true }}
-    ...
-/>
-```
-
-We leave the task of refactoring the subscription checkbox field and the submission button up to you. 
-
-Again, check out the [MUI docs](https://mui.com/material-ui/)!
-
-With that, congrats on completing your React Hook Form + Zod + MUI form!
+Congrats! You now have a fully functional sign up form that allows parents to add multiple children to their account! 
