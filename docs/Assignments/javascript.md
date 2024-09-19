@@ -4,9 +4,22 @@ sidebar_position: 2
 
 # 1. JavaScript
 
+## Assignment Links
+
+* [Starter Code](https://github.com/CS61D/Assignment-Starter-Javascript)
+* [Lecture 1: JavaScript](https://www.youtube.com/watch?v=TrAyq1hSUpI)
+
 ## Assignment Overview
 
 The goal of this assignment is to get you familiar with JavaScript syntax, focussing on arrays, objects, and functions. None of the problems are designed to be overly difficult to complete conceptually. We also have several problems that can be completed using the map an filter methods, which will be extremely useful throughout the course. If you are struggling with map and filter, try solving the problem first using a for loop, and then convert your solution to using map and/or filter after.
+
+### Setup
+
+Install the dependencies to be able to run tests:
+  
+```bash
+bun install
+```
 
 ## Running the tests
 
@@ -40,25 +53,38 @@ describe("printIndex Function", () => {
 
 Much like CS 61A or 61B, we run a series of tests on your solution code to verify it works properly. The tests that you have a local copy of are the exact same tests that we will use in the auto grader. If all of the tests pass locally, they should all pass on the auto grader and you will get full credit on the assignment. We also use the same testing framework for more or less the entire first half of the course, so take some time to play around with it and learn how it works now.
 
+Each problem has its own test suite, which is in its own file.
+
 ### Run all tests in all testing files
 
-```console
-bun install # Just run this once to install the vitest framework
-bun vitest # Run in watch mode
-bun vitest run # Run the tests a single time
+```bash
+bun vitest
 ```
-
-If you run a test in watch mode, the tests will rerun any time you make changes to a file. However, running all of the tests will bombard you with tons of failures for questions you have not even started working on yet.
+The tests will rerun any time you make changes to a file. However, running all of the tests will bombard you with tons of failures for questions you have not even started working on yet.
 
 ### Run all tests for a single file/problem
 
-```console
+```bash
 bun vitest run -t "TestName"
 ```
 
-You can pass the name of a specific test or test suite to run only those tests.
+You can pass the name of a specific test or test suite to run only those tests. You need to specify the exact name of the suite or test. If you are unsure of the name of a test for a given question, open the test file for the question. For instance, to run the test suites for the first question, run the snippet below.
+
+```bash
+bun vitest run -t "printIndex Function"
+```
 
 If you want to learn more about vitest cli commands check out the [vitest docs](https://vitest.dev/guide/cli.html)
+
+### Open up the Vitest UI
+
+Vitest provides an [interactive ui](https://vitest.dev/guide/ui) which can be used to run test suites, and view your test files. To run it:
+
+```bash
+bun test:ui # To trigger the test UI in the browser
+```
+
+And then the ui will open in the browser at [http://localhost:51204/__vitest__/](http://localhost:51204/__vitest__/).
 
 ## Problem 1: printIndex
 

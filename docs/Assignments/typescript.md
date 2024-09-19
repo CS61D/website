@@ -4,11 +4,24 @@ sidebar_position: 3
 
 # 2. Typescript
 
+## Assignment Links
+
+* [Starter Code](https://github.com/CS61D/Assignment-Starter-Typescript)
+* [Lecture 2: TypeScript](https://www.youtube.com/watch?v=C3CzIBC5YwI)
+
 ## Assignment Overview
 
 This assignment uses a series of problems to teach the basics of TypeScript. All solutions must be written in TypeScript not JavaScript.
 
 Most problems use predefined types in the types.ts file. While you do not need to edit any of these types, to look at the type definitions to understand the data you will be working with in you functions. For this assignment, none of the function signatures are written for you. Each problem will tell you its expected inputs and outputs, and it is up to you to create a function that uses said inputs and outputs.
+
+### Setup
+
+Install the dependencies to be able to run tests:
+  
+```bash
+bun install
+```
 
 ## Running the Tests
 

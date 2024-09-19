@@ -4,15 +4,24 @@ sidebar_position: 4
 
 # 3. React
 
+## Assignment Links
+
+* [Starter Code](https://github.com/CS61D/Assignment-Starter-React)
+* [Finished Solution](https://react.education.codifyberkeley.org/) (what you will build)
+* [Lecture 3: React Basics](https://www.youtube.com/watch?v=uGYfJfQg0sk)
+* [Lecture 4: React State and Context](https://www.youtube.com/watch?v=yHFlagmVbB0)
+
+Make sure to watch both lectures before attempting the assignment!
+
 ## Assignment Overview
 
 Almost as classic as writing a "Hello World!" program for a new programming language, building a Todo list is a rite of passage for all budding developers. Still, it provides a fantastic opportunity to learn the basics of state management and composing components in React.
 
-First, take a look at the [deployed solution](https://react.education.codifyberkeley.org/) to get a sense of what we will build. First, we will build a todo list that allows users to add, complete, and delete tasks. Then, we will refactor the code to use Context to simplify our state management. And finally, we will persist the state using local storage (try adding todos to the second todo list and refreshing the page).
+First, take a look at the [deployed solution](https://react.education.codifyberkeley.org/) to get a sense of what we will build. First, we will build a todo list that allows users to add, complete, and delete tasks. Then, we will refactor the code to use Context to simplify our state management. And finally, we will persist the state using local storage.
 
 ### Setup
 
-Clone the starter code repository, and install the dependencies:
+Install the dependencies:
   
 ```bash
 bun install
@@ -22,6 +31,8 @@ Start the development server:
 ```bash
 bun dev
 ```
+
+And then view the starter code at [http://localhost:5173/](http://localhost:5173/)
 
 The project is mostly is empty. First, create a `components/` directory within the `src/` directory to store the components we will create. Then, create a `TodoList.tsx` file within the `components/` directory to start building the app. Later, we will use a separate `TodoItem.tsx` component to render each individual todo item after it has been created.
 
@@ -41,10 +52,10 @@ After defining your `Task` type, check your definition with the staff solution b
 
 ```tsx
 export type Task = {
-	id: string;
-	taskName: string;
-	deadline?: number;
-	completed: boolean;
+  id: string;
+  taskName: string;
+  deadline?: number;
+  completed: boolean;
 };
 ```
 
@@ -68,17 +79,16 @@ Each input should have its value stored in state, and an onChange handler that u
 
   const [newTaskName, setNewTaskName] = useState<string>("");
   ```
-
-  ```tsx
-  <input
-		type="text"
-		placeholder="Enter a task"
-		name="task"
-		value={newTaskName}
-		onChange={(e) => setNewTaskName(e.target.value)}
-		required
-		/>
-  ```
+```tsx
+<input
+  type="text"
+  placeholder="Enter a task"
+  name="task"
+  value={newTaskName}
+  onChange={(e) => setNewTaskName(e.target.value)}
+  required
+/>
+```
 </details>
 
 Check that your form is correctly storing updates to state by rendering the value of the input fields below the form and testing that it updates as you type. 
@@ -130,13 +140,13 @@ Take a look at the todo items in the [deployed solution](https://react.education
 </details>
 
 <details>
-  <summary>Solution</summary>
+  <summary>Solution (check before moving on)</summary>
 
 ```tsx
 type TodoItemProps = {
-	task: Task;
-	handleToggleCompleteTask(id: string): void;
-	handleDeleteTask(id: string): void;
+  task: Task;
+  handleCompleteTask: (taskNameToComplete: string) => void;
+  handleDeleteTask: (taskNameToDelete: string) => void;
 };
 ```
 
@@ -165,9 +175,9 @@ The task deadline is an optional property. Use conditional rendering to make sur
 A checkbox can be rendered by passing `type="checkbox"` to an input element. The `checked` attribute controls whether the checkbox is checked or not. 
 ```tsx
 
-<input
-	type="checkbox"
-	checked={true}
+<input 
+  type="checkbox"
+  checked={true}
 />
 ```
 </details>
