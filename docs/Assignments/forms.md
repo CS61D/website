@@ -39,7 +39,7 @@ And then view the starter code at [http://localhost:5173/](http://localhost:5173
 
 ## Part 1: Form Content and Validation
 
-We want our form to have the following fields and rules. Remember that zod fields are required by default.
+We want our form to have the following fields and rules. Open up `validator.ts` in `src/lib/` and add each field to the zod validator. Remember that zod fields are required by default.
 
 1. **firstName**: A required, nonempty string
 2. **lastName**: A required, nonempty string

@@ -1,12 +1,13 @@
 ---
-title: Online Ordering System
-metadata:
-  - Can be provided
-  - as: objects
-    or: arrays
+sidebar_position: 6
 ---
 
----
+# 6. Databases
+
+:::danger
+This assignment is still under construction. Please check back later for updates.
+:::
+
 
 ## Tech Stack
 

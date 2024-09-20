@@ -1,8 +1,12 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 ---
 
-# tRPC, React Query, and Next Auth
+# 7. tRPC, React Query, and Next Auth
+
+:::danger
+This assignment is still under construction. Please check back later for updates.
+:::
 
 ## Assignment Overview
 
