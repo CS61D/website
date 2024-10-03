@@ -25,3 +25,8 @@
   --ifm-color-primary-lighter: #c493fe;
   --ifm-color-primary-lightest: #e0c6fe;
 }
+/* Dark mode specific styles */
+[data-theme="dark"] code {
+  border: 1px solid rgba(255, 255, 255, 0.25); /* Subtle white border in dark mode */
+  border-radius: 0.3em;
+}
