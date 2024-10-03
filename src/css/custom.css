@@ -27,6 +27,6 @@
 }
 /* Dark mode specific styles */
 [data-theme="dark"] code {
-  border: 1px solid rgba(255, 255, 255, 0.25); /* Subtle white border in dark mode */
+  border: 1px solid rgba(255, 255, 255, 0.45); /* Subtle white border in dark mode */
   border-radius: 0.3em;
 }
