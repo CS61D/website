@@ -4,14 +4,46 @@ sidebar_position: 1
 
 # Course Overview
 
+This page covers the overall philosophy and motivations behind the course. For detailed information about grading and policies see the [syllabus](syllabus)
+
 ## Why 61D?
 
-After mastering the fundamentals through introductory computer science course, such as [Berkeley's CS61A](https://cs61a.org/) or [Harvard CS50](https://pll.harvard.edu/course/cs50-introduction-computer-science), there is no immediately obvious next step a student should take to learn how to build a modern full stack application from design to deployment. Knowledge of functions, conditionals, loops, recursion, and even complex data structures is not enough to actually create and launch a web application. Even after a full computer science degree, there is no guarantee that a student will ever interact with a database, a web server, build any kind of user interface, or deploy to more than an autograder. 
+After taking an introductory computer science course, such as [Berkeley's CS61A](https://cs61a.org/) or [Harvard CS50](https://pll.harvard.edu/course/cs50-introduction-computer-science), there is no immediately obvious next step a student should take to learn how to build a modern full stack application from design to deployment. Knowledge of functions, conditionals, loops, recursion, and even complex data structures is not enough to actually create and launch a web application. Even after a full computer science degree, there is no guarantee that a student will ever interact with a database, a web server, build any kind of user interface, or deploy to more than an autograder. 
 
 This course bridges that gap. Designed to be taken after a first-semester university-level computer science course, 61D teaches an opinionated set of technologies which are widely used in industry to build full stack applications. The course is designed to be taken in a single semester, and is structured to be accessible to students with no prior experience in web development. All course materials will be open source and free forever. Our goal is to be the default next step all aspiring software engineers take when learning how to build full stack applications.
 
-## Technologies We Cover
+<!-- The motivations for creating the course are inspired by my own (far from unique) experiences trying to learn how to actually build and ship software. The rest of this page covers roadblocks that student and self taught developers face and how 61D addresses them.
+
+## The Struggles of Self Taught Developer
+
+Pretend you have no knowledge of web technologies, perhaps just a working knowledge of Python or Java, and you want to build a web app that can be used to track shared expenses for you and your roommates. It may seem simple on the surface, but there are several key requirements you need to meet to realize this vision:
+
+1. **User Interface**: You need a user interface to input and view expenses. This could either be a web app or a mobile app, but for simplicity, let's say you want a web app.
+2. **Data Storage**: You need a way to store the expenses. You can't store them locally on your machine, because you want your roommates to be able to see them too. You need a database.
+3. **Authentication**: You need to make sure that only your roommates can see the expenses. You also want to make sure that 
+4. **Application Logic**: You want to be able to keep a running 
+
+When self taught developer starts teaching themself how to build a web application, they are faced immediately faced with several problems all at once:
+
+1. **What Scope**: (What can I actually build)
+2. **What tools**: (What should I learn to build it)
+3. **What resources**: (Where can I learn these tools) (docs aren't always meant for learning)
+
+4. **What order**: (What order should I learn these tools)
+5. **Actually Learning**: (The important part)
+
+61d eliminates every single one of those challenges except for the last one.
+
+## Issues with Existing Online Courses 
+
+> There are dozens of possible ways, and it's impossible to ever crown a best way. Just pick a very good way and get started.
+
+-->
+
+
+## Technologies We Cover, and Why We Chose Them
 The technologies used in the course are inspired by the [t3 stack](https://create.t3.gg/). All technology choices have tradeoffs, but we believe our choices provide the best set of tradeoffs for a student looking to get developing quickly without taking shortcuts. Most importantly, the stack is a **complete solution** for building web applications. All of the individual parts mesh well together, and there are no black boxes or missing layers of connective tissue.
+
 
 1. **Move quickly, break nothing:** The t3 stack has a cli tool which can be used to scaffold a project in seconds. End to end typesafety is the built in. 
 2. **Use standard open source tools:** We teach only open source industry standard tools. You are never at risk of vendor lock in with the t3 stack. Further, there is a rich ecosystem of resources and guides online teaching the various components of the stack.
