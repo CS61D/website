@@ -5,11 +5,11 @@ sidebar_position: 1
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# 0. Setup Assignment
+# Course Setup
 
 ## Purpose and Goals
 
-This assignment walks you through everything you need to install and set up to be prepared for the course. After completing this assignment, you should have all the tools you need to start coding in the course.
+This guide walks you through everything you need to install and set up to be prepared for the course. After completing, you should have all the tools you need to start coding in the course.
 
 :::note
 It is entirely possible that you may already have some of these things installed. If so, just make sure to verify your installation.

@@ -71,6 +71,19 @@ const config: Config = {
 					label: "Content",
 				},
 				{
+					label: "Course Overview",
+					to: "/overview",
+				},
+				{
+					label: "Syllabus",
+					to: "/syllabus",
+				},
+				{
+					href: "https://www.youtube.com/channel/UCn-nlwUrJYsQs1fvAdLXNnA",
+					label: "YouTube",
+					position: "right",
+				},
+				{
 					href: "https://github.com/CS61D",
 					label: "GitHub",
 					position: "right",
