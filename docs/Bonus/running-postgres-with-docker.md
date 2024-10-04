@@ -28,7 +28,7 @@ The single quickest way to get started is to just use a hosted postgres provider
 
 ## TL;DR Quick Start
 
-After [installing docker](docs/Assignments/setup.md#docker-and-docker-desktop), first pull the latest Postgres image from Docker Hub:
+After [installing docker](docs/setup.md#docker-and-docker-desktop), first pull the latest Postgres image from Docker Hub:
 
 ```bash
 docker pull postgres:latest
