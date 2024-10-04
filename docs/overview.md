@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Course Overview
 
-## Why 61D? (test)
+## Why 61D? (test) (test)
 
 After mastering the fundamentals through introductory computer science course, such as [Berkeley's CS61A](https://cs61a.org/) or [Harvard CS50](https://pll.harvard.edu/course/cs50-introduction-computer-science), there is no immediately obvious next step a student should take to learn how to build a modern full stack application from design to deployment. Knowledge of functions, conditionals, loops, recursion, and even complex data structures is not enough to actually create and launch a web application. Even after a full computer science degree, there is no guarantee that a student will ever interact with a database, a web server, build any kind of user interface, or deploy to more than an autograder. 
 
