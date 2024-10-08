@@ -7,7 +7,7 @@ sidebar_position: 4
 ## Assignment Links
 
 * [Starter Code](https://github.com/CS61D/Assignment-Starter-React)
-* [Finished Solution](https://react.education.codifyberkeley.org/) (what you will build)
+* [Finished Solution](https://todo.61d.org/) (what you will build)
 * [Lecture 3: React Basics](https://www.youtube.com/watch?v=uGYfJfQg0sk)
 * [Lecture 4: React State and Context](https://www.youtube.com/watch?v=yHFlagmVbB0)
 
@@ -17,7 +17,7 @@ Make sure to watch both lectures before attempting the assignment!
 
 Almost as classic as writing a "Hello World!" program for a new programming language, building a Todo list is a rite of passage for all budding developers. Still, it provides a fantastic opportunity to learn the basics of state management and composing components in React.
 
-First, take a look at the [deployed solution](https://react.education.codifyberkeley.org/) to get a sense of what we will build. First, we will build a todo list that allows users to add, complete, and delete tasks. Then, we will refactor the code to use Context to simplify our state management. And finally, we will persist the state using local storage.
+First, take a look at the [deployed solution](https://todo.61d.org/) to get a sense of what we will build. First, we will build a todo list that allows users to add, complete, and delete tasks. Then, we will refactor the code to use Context to simplify our state management. And finally, we will persist the state using local storage.
 
 ### Setup
 
@@ -129,7 +129,7 @@ Our `TodoList.tsx` component is already getting cluttered, and creating the todo
 Since we are rendering the `TodoItem` component as a child of the `TodoList` component, we want to keep all of our state hoisted in the `TodoList` component. The `TodoItem` component will not store any of its own state, and instead will receive state and event handlers from its parent component as props.
 
 ### Part 2.1: Defining the TaskItem Props
-Take a look at the todo items in the [deployed solution](https://react.education.codifyberkeley.org/). What information about a task is displayed in each todo item? What actions can be taken on a task? With this in mind, define a the props for the `TodoItem` component in `TodoItem.tsx`. 
+Take a look at the todo items in the [deployed solution](https://todo.61d.org/). What information about a task is displayed in each todo item? What actions can be taken on a task? With this in mind, define a the props for the `TodoItem` component in `TodoItem.tsx`. 
 
 <details>
   <summary>Hint 1: Breaking Down the Data</summary>

@@ -84,9 +84,9 @@ The course will have 12 labs, which are meant to be guided demonstrations and pr
 ### Assignments
 All content will be practiced in coding assignments, which will be graded by the course staff or by auto graders. All assignments will come with starter code, and have detailed instructions which hold your hand at first and slowly let you take the reigns. Assignments will range in length and difficulty. The starter code for assignments will be public, and solutions will be available after submission. All assignments will also include a rubric for self grading if you are auditing the course. Assignments include but are not limited to:
 
-1. Building a [simple frontend todo list](https://react.education.codifyberkeley.org/) with **React**
-2. Creating a [registration form with input validation](https://forms.education.codifyberkeley.org/) using **React Hook Form**
-3. Styling a [landing page for a travel agency](https://tailwind.education.codifyberkeley.org/) with **Tailwind CSS**
+1. Building a simple frontend todo list with **React**
+2. Creating a registration form with input validation using **React Hook Form**
+3. Styling a landing page for a travel agency with **Tailwind CSS**
 4. Creating a ranked choice voting system with **tRPC and Drizzle**
 5. Building a simple blog website with **NextJs and shadcn-ui**
 6. Creating an [integration with GitHub](https://github.com/CS61D/Webhooks-Assignment-Sample-Repo) which automatically leaves comments on pull requests
@@ -94,7 +94,7 @@ All content will be practiced in coding assignments, which will be graded by the
 ### Projects
 The course will have two projects, one smaller front end project, and one final full stack project. The final project will still have guidelines and a specification, but will be much less structured than the rest of the assignments in the course. 
 
-1. Create an [image format converter](https://quickconvert.education.codifyberkeley.org/) which allows you to change the file format of images in the browser.
+1. Create an [image format converter](https://quickconvert.61d.org/) which allows you to change the file format of images in the browser.
 
 2. Create a [splitwise](https://www.splitwise.com/) clone to track and organize shared expenses and repayments.
 

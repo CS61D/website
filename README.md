@@ -2,7 +2,7 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-It is live at [https://education.codifyberkeley.org/](https://education.codifyberkeley.org/)
+It is live at [https://61d.org/](https://61d.org/)
 
 ### Installation
 

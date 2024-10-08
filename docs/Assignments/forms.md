@@ -10,13 +10,13 @@ import TabItem from "@theme/TabItem";
 ## Assignment Links
 
 * [Starter Code](https://github.com/CS61D/Assignment-Starter-Forms)
-* [Finished Solution](https://forms.education.codifyberkeley.org/) (what you will build)
+* [Finished Solution](https://forms.61d.org/) (what you will build)
 
 ## Assignment Overview
 
 You are a front-end developer for a hot new ed-tech startup. You are tasked with creating a sign up form for new users to create accounts on the platform. You need to make sure that the form is user-friendly, responsive, and most importantly, validates user input before sending it to the backend.
 
-First, take a look at the [finished solution](https://forms.education.codifyberkeley.org/) to see what you will be building. Try filling in the form with both valid an invalid data to see how the form behaves. Each individual field has its own rules, and error messages explain what went wrong when a user tries to submit invalid data.
+First, take a look at the [finished solution](https://forms.61d.org/) to see what you will be building. Try filling in the form with both valid an invalid data to see how the form behaves. Each individual field has its own rules, and error messages explain what went wrong when a user tries to submit invalid data.
 
 You will start by defining a [zod](https://zod.dev/) validation schema to define the shape of the form data and the validation rules for each field. Then we will integrate it with [React Hook Form](https://react-hook-form.com/) to handle the form state, and associate inputs with fields in our schema. Finally, we will show how to use pre build [shadcn](https://ui.shadcn.com/) components with React Hook Form to create a more polished and professional look.
 
@@ -241,7 +241,7 @@ Often times, we need to deal with forms that take in arrays of data. Imagine you
 
 Fortunately, React Hook Form provides another hook we can use to handle this: [useFieldArray](https://react-hook-form.com/docs/usefieldarray). Let's add the ability for a parent/guardian to add multiple children to their account when they sign up.
 
-You can preview what we are going to do in this part by selecting "Parent/Guardian" in the role dropdown of the shadcn form on the [finished solution](https://forms.education.codifyberkeley.org/).
+You can preview what we are going to do in this part by selecting "Parent/Guardian" in the role dropdown of the shadcn form on the [finished solution](https://forms.61d.org/).
 
 ### Updating the schema
 Add an array of children objects to the zod schema. You can add any properties you like, but we will use a `name` and `age` property for this example. 
