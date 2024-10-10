@@ -136,6 +136,24 @@ const config: Config = {
 				hideable: true,
 			},
 		},
+		algolia: {
+			// The application ID provided by Algolia
+			appId: "NRGKLBJ96F",
+
+			// Public API key: it is safe to commit it
+			apiKey: "0105b33584b905dcd753fce369917221",
+
+			indexName: "61d",
+
+			// Optional: see doc section below
+			contextualSearch: true,
+
+			// Optional: Algolia search parameters
+			searchParameters: {},
+
+			// Optional: path for search page that enabled by default (`false` to disable it)
+			searchPagePath: "search",
+		},
 	} satisfies Preset.ThemeConfig,
 	plugins: [
 		[
