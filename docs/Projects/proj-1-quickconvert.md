@@ -37,7 +37,7 @@ However, as you might expect for a performance critical tool that is processing 
 
 Fortunately, we can still use more performant code in the browser by using [WebAssembly](https://www.youtube.com/watch?v=cbB3QEwWMlA) (a.k.a WASM), which allows us to run executable code written in languages more performant than JavaScript, such as C, in the browser. We will be using a [WebAssembly build of FFmpeg](https://ffmpegwasm.netlify.app/) to handle the image conversion in QuickConvert.
 
-For convenience and performance reasons, we will load the compiled WASM code into our application after our initial page renders. After loading the WASM code, we will have access to a `FFmpeg` object, which gives us a JavaScript API to interact with the underlying FFmpeg WASM code. We will store this in a [React ref](https://react.dev/reference/react/useRef) so that we can access it.
+For convenience and performance reasons, we will load the compiled WASM code into QuickConvert after our initial page renders. After loading the WASM code, we will have access to a `FFmpeg` object, which gives us a JavaScript API to interact with the underlying FFmpeg WASM code. We will store this in a [React ref](https://react.dev/reference/react/useRef) so that we can access it.
 
 For your purposes, all you need to do is call this code snippet somewhere at the top of you application to load the FFmpeg code:
 
@@ -61,16 +61,58 @@ const load = async () => {
 
 And then pass the ffmpegRef into the convertFile function (provided in starter code), when you want to actually execute a conversion.
 
-<!-- TODO add diagram and explanation -->
-<!-- <details> 
-  <summary>
-    The File Conversion Data Pipeline
-  </summary>
 
-When a user "uploads" a file, you will notice that it appears in the browser instantly, no matter how large the file is. This is because nothing is actually done to the file at this point in time. You application is simply given permission to access the file, and can later read from it. 
 
-When the user clicks the "convert" button, FFmpeg will read the file from the user's computer into the browser's memory. It performs the file conversion, and stores the result 
-</details> -->
+### The File Conversion Data Pipeline
+
+:::note
+This section is mostly here to help explain the `convertFile` and `downloadFile` starter code functions, and give some context on where and when data is flowing to different places. Understanding this is not necessary to complete the project, and you are more than able to think of them as black boxes.
+:::
+
+Try clicking "Choose File" below and selecting an image file from your computer. Although this is just a basic HTML input element, our Dropzone component uses the same underlying primitives.
+
+<input type="file"/> 
+
+You will notice that the selected file appears in the browser almost instantly, no matter how large the file is. This is because nothing is actually done to the file at this point in time. You application is simply given permission to access the file, and can later read from it. 
+
+But when is the data actually read, and how does FFmpeg interact with it? Let's walk through the process, and explain what the data looks like at each step.
+
+![download-flow](../../static/img/project-images/project-1-quickconvert/download-flow.svg)
+
+[View Diagram In Excalidraw](https://excalidraw.com/#json=oEUfA-kZTG1P5DQoU35pe,r6h8IlNETQyRc0qxI-ioiw)
+
+QuickConvert is running **within** the browser and host operating system. The WASM FFmpeg code is also running **within** QuickConvert, and has its own memory and virtual filesystem that is isolated from the rest of the browser. 
+
+**File Select**: After opening the system file explorer, the user selects files from their computer. The files are represented as [File](https://developer.mozilla.org/en-US/docs/Web/API/File) objects, which contains the file's name, size, and other metadata. The file is not actually read at this point, but the browser has permission to read from it later.
+
+```typescript title="Dropzone.tsx"
+const { getRootProps, getInputProps } = useDropzone({
+    onDrop: (files: File[]) => {
+      console.log("Files dropped:", files);
+      // Add files to state
+    },
+  });
+```
+
+**Loading and Converting**: After specifying our requested output settings and clicking the "Convert" button, we read the actual data of the file from the host OS, and then pass it to [FFmpeg's virtual filesystem](https://ffmpegwasm.netlify.app/playground#load-files-to-in-memory-file-system). The output of the conversion is also written to the virtual filesystem.
+```typescript title="convertFile() in @lib/utils.ts"
+// Read the file and write it to FFmpeg's virtual file system
+await ffmpeg.writeFile(inputFullName, await fetchFile(file));
+```
+
+**Object URLs**: After the conversion is complete, we read the output file from the virtual filesystem into the browser memory, and create a [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) (essentially just a file) object from the data. We then create a [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL) which can be used to access the file. Creating this URL pointing to the file ensures that the file remains in browser memory for as long as we need it.
+
+```typescript
+const data = await ffmpeg.readFile(outputFullName);
+
+// Create a blob from the file data
+const blob = new Blob([data], { type: `image/${outputFormat}` });
+
+// Create an object URL
+const url = URL.createObjectURL(blob);
+```
+
+**Downloading**: Once we have a url pointing to the file, we can download it back to the host OS. After downloading the file, we revoke the object URL, which tells the browser that it no longer needs to keep the file in memory.
 
 ## Starter Code
 While the purpose of the project is to build something from scratch, we are providing you with some basic building blocks and abstractions, which let you focus on the core functionality of the application. You may change any of the starter code in any way you like, or choose to not use it at all.
@@ -102,7 +144,7 @@ bunx --bun shadcn@latest add toast # Adds toast component to your project
 
 Also, included is a [loading spinner](https://shadcnui-expansions.typeart.cc/docs/spinner) from a shadcn expansion.
 
-## Formal Requirements
+## Project Requirements
 
 ### File Input and Display
 1. User may drag and drop or select multiple files to convert at once.
