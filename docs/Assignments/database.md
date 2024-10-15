@@ -76,7 +76,7 @@ There are 3 folders you need to focus on:
 
 ### Defining Tables
 
-With the specific requirements for each table below, let's first define the schema for our database in the `schemas/schema.ts` file. You might find the Drizzle documentation on **[data types](https://orm.drizzle.team/docs/column-types/sqlite)** and **[constraints](https://orm.drizzle.team/docs/indexes-constraints)** in SQLite helpful for your reference. Make sure to look at the documentation for SQLite, not MySQL or PostgreSQl!
+With the specific requirements for each table below, let's first define the schema for our database in the `schemas/schema.ts` file. You might find the Drizzle documentation on **[data types](https://orm.drizzle.team/docs/column-types/sqlite)** and **[constraints](https://orm.drizzle.team/docs/indexes-constraints)** in SQLite helpful for your reference. Make sure to look at the documentation for SQLite, not MySQL or PostgreSQL!
 
 #### Customers `customerSchema`
 
