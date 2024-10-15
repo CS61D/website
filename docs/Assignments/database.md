@@ -111,7 +111,7 @@ Now, don't forget to define the relationships between the tables. You might find
 
 - One Customer can place multiple Orders but each Order can only be placed by one Customer.
 - One Order can have multiple OrderItems, but each OrderItem is linked to one Order.
-- One OrderItem can only be matched to one MenuItem and vice versa.
+- One OrderItem can only be matched to one MenuItem but each MenuItem can be referenced by multiple OrderItems.
 
 ![database-diagram](../../static/img/Database_Assignment_Schema.png)
 
