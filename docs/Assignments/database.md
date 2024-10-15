@@ -390,5 +390,5 @@ You can get all the menu items a customer has ordered in the past. By joining th
 - `db`: Database instance.
 - `phone`: The customer’s phone number (used to retrieve their order history).
 
-- **Returns**: An object containing:
+- **Returns**:
   An array of up to 3 menu item objects (menuItemSchema) representing the recommended items.
