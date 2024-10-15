@@ -8,47 +8,33 @@ sidebar_position: 6
 This assignment is still under construction. Please check back later for updates.
 :::
 
+## Project Description - The Online Ordering System
 
-## Tech Stack
+Imagine you are developing the backend for a simpler version of an online ordering system like Snackpass for one specific restaurant. The system needs to handle different entities such as customers, orders, menu items, and some order details. This system will allow customers to register customer information, browse the menu, and place orders. It will also allow the restaurant owner to track each day's total sales. How should we go about implementing the backend database system from scratch? We broke it down to 3 parts in this assignment. The first two parts can be completed after the first lecture. The last part can be completed after the second lecture.
+
+- You will start by creating the schema given our context with specific requirements.
+- You will then learn to perform CRUD operations on the database by writing functions, validating the data, and doing migrations.
+- You will also get to try writing more complicated/advanced functions that mimic real-life operations.
+
+We will walk through the setup for the schema and some example questions in the lab together and we will leave the rest as homework.
+In this assignment, we'd also like for you to practice reading through documentation and example code by yourself. We've provided links to the documentation of any relevant operations you will be working with in each section, and it should be pretty straightforward to find what you need. We will also give you some hints and guidance along the way. However, as you go on to work on your own projects in the future, you will often have to navigate through lengthy documentation by yourself. Now is the time to get some practice!
+
+### Tech Stack
 
 - Drizzle ORM + Drizzle Kit
 - SQLite
 - Zod
 
-## Resources
-
-- [Drizzle Kit Overview](https://orm.drizzle.team/kit-docs/overview)
-- [Drizzle Queries](https://orm.drizzle.team/docs/rqb#declaring-relations)
-
-## Objectives
+### Objectives
 
 - Learn to set up a database schema using an ORM like Drizzle
 - Learn to write functions to interact with a database
 - Learn to validate data with Zod to ensure data integrity
 - Learn to perform database migrations to keep our database schema updated
 
-## Description
-
-This is a 3-part assignment and will be completed one section at a time after each lecture (out of 3 lectures total).
-
-- You will start by setting up a database schema given our context with specific requirements.
-- You will then learn to perform CRUD operations on the database by writing functions, validating the data, and doing migrations.
-- You will also get to try writing more complicated/advanced functions that mimic real-life operations.
-
-We will walk through some example questions in class together as a demo and we will leave the rest as homework. We will go over solutions in the next class to make sure everyone is on the same page so you can move on to the next section with the correct setup.
-
-## Context
-
-Imagine you are developing a simpler version of an online ordering system like Snackpass for a restaurant. The system needs to handle different entities such as customers, orders, menu items, and some order details. This system will allow customers to browse the menu, modify customer information, place orders, and track each day's total sales.
-
 ### Setup
 
-To get started, clone the repository using the following command:
-
-```bash
-git clone git@github.com:CS61D/Assignment-Starter-Databases.git
-cd Assignment-Starter-Databases
-```
+To get started, accept the assignment on Github Classroom and clone the repository to your folder locally.
 
 To install dependencies:
 
@@ -56,16 +42,16 @@ To install dependencies:
 bun install
 ```
 
-Feel free to test your code by adding functions in the src/index.ts file. To run:
-
-```bash
-bun run src/index.ts
-```
-
 When you are ready, run tests:
 
 ```bash
 bun vitest
+```
+
+Feel free to test your code by adding functions in the src/index.ts file. To run:
+
+```bash
+bun run src/index.ts
 ```
 
 There are 3 folders you need to focus on:
@@ -84,11 +70,61 @@ There are 3 folders you need to focus on:
 
 3. **Tests**:
    - **Folder**: `tests/`
-   - **Task**: We have defined some tests to ensure your code works properly.
+   - **Task**: We have defined some tests to ensure your code works properly. Feel free to take a look at the tests to see what edge cases we test for.
 
 ## Part 1: Schema Definitions
 
-After you write your schemas or whenever you make an update to the schema, you should run a database migration:
+### Defining Tables
+
+With the specific requirements for each table below, let's first define the schema for our database in the `schemas/schema.ts` file. You might find the Drizzle documentation on **[data types](https://orm.drizzle.team/docs/column-types/sqlite)** and **[constraints](https://orm.drizzle.team/docs/indexes-constraints)** in SQLite helpful for your reference. Make sure to look at the documentation for SQLite, not MySQL or PostgreSQl!
+
+#### Customers `customerSchema`
+
+- `id`: (integer) The primary key of the table that automatically increments.
+- `name`: (string) The name of the customer. Must be a non-empty string.
+- `email`: (string) The email address of the customer. Must be a non-empty string. Must be in the form of a valid email address.
+- `phone`: (string) The phone number of the customer. Must be a non-empty string. Must be UNIQUE!
+
+#### Menu Items `menuItemSchema`
+
+- `id`: (integer) The primary key of the table that automatically increments.
+- `name`: (string) The name of the menu item. Must be a non-empty string. Must be UNIQUE!
+- `price`: (real number) The price of the menu item. Must be a positive number.
+
+#### Orders `orderSchema`
+
+- `id`: (integer) The primary key of the table that automatically increments.
+- `customerId`: (integer) The ID of the customer who placed this order. This is a foreign key.
+- `totalAmount`: (real number) The total amount of the order. Must be a positive number.
+- `orderDate`: (string) The date of the order. Must be in the format `YYYY-MM-DD`.
+
+#### Order Items `orderItemSchema`
+
+- `id`: (integer) The primary key of the table that automatically increments.
+- `orderId`: (integer) The ID of the order. Must be a positive number. This is a foreign key.
+- `menuItemId`: (integer) The ID of the menu item. Must be a positive number. This is a foreign key.
+- `quantity`: (integer) The quantity of the menu item ordered. Must be a positive number.
+
+### Defining Relationships
+
+Now, don't forget to define the relationships between the tables. You might find the Drizzle documentation on **[Drizzle Queries](https://orm.drizzle.team/docs/rqb#declaring-relations)** helpful. The diagram below might help you better understand the relationship we are working with. Specifically:
+
+- One Customer can place multiple Orders but each Order can only be placed by one Customer.
+- One Order can have multiple OrderItems, but each OrderItem is linked to one Order.
+- One OrderItem can only be matched to one MenuItem and vice versa.
+
+![database-diagram](../../static/img/Database_Assignment_Schema.png)
+
+:::tip
+
+Can you find a hidden **many-to-many relationship** in our schema?
+
+Yes, if you look carefully, each `Order` can contain multiple different `Menu Items` and each `Menu Item` can be in multiple different `Orders`! In Drizzle, how do we set up a many-to-many relationship as such? Typically, we set it up by creating a **junction table** (also known as a pivot table) to connect two other tables. In fact, you have already implemented it if you have not realized! In our schema, the `Order Items` table is technically a junction table that contains foreign IDs - `menuItemId` and `orderId` - that reference the `Orders` table and the `Menu Items` table.
+
+:::
+
+:::note
+After you write your schema or whenever you make an update to the schema, you should run a database migration with the following command. This will make sure your functions are working with the most update-to-date version of the schema.
 
 ```bash
 bun drizzle-kit push
@@ -96,54 +132,14 @@ bun drizzle-kit push
 
 You will then see a new migration file appear in the migrations folder that documents any changes to the schema that you just pushed.
 
-### Customers
-
-- **Schema**: `customerSchema`
-  - `id`: (number) The primary key of the table that automatically increments.
-  - `name`: (string) The name of the customer. Must be a non-empty string.
-  - `email`: (string) The email address of the customer. Must be a valid email address.
-  - `phone`: (string) The phone number of the customer. Must be a non-empty string.
-
-### Menu Items
-
-- **Schema**: `menuItemSchema`
-  - `id`: (number) The primary key of the table that automatically increments.
-  - `name`: (string) The name of the menu item. Must be a non-empty string.
-  - `price`: (number) The price of the menu item. Must be a positive number.
-
-### Orders
-
-- **Schema**: `orderSchema`
-  - `id`: (number) The primary key of the table that automatically increments.
-  - `totalAmount`: (number) The total amount of the order. Must be a positive number.
-  - `orderDate`: (string) The date of the order. Must be in the format `YYYY-MM-DD`.
-
-### Order Items
-
-- **Schema**: `orderItemSchema`
-  - `id`: (number) The primary key of the table that automatically increments.
-  - `orderId`: (number) The ID of the order. Must be a positive number.
-  - `menuItemId`: (number) The ID of the menu item. Must be a positive number.
-  - `quantity`: (number) The quantity of the menu item ordered. Must be a positive number.
-
-### Customers to Orders
-
-- **Schema**: `customersToOrdersSchema`
-  - `customerId`: (number) The ID of the customer. Must be a positive number.
-  - `orderId`: (number) The ID of the order. Must be a positive number.
-
-:::note
-
-### **Relationships**
-
-- Each Order can have multiple OrderItems, but each OrderItem is linked to one Order.
-- Each MenuItem can correspond to multiple OrderItems, but each OrderItem can only be matched to one MenuItem.
-- Each Customer can have multiple Orders, and each Order can include multiple Customers. Hint: This relationship can be represented by a third junction table customersToOrders.
-  :::
+You might wonder why we are not running the actual drizzle-kit migrate command. Push lets us omit SQL files generation unlike migrate and it's really good for rapid prototyping.
+:::
 
 ## Part 2: CRUD Functions
 
-Using the schema defined in Part 1, write functions to perform the following CRUD operations and use Zod to validate the inputs for these functions to ensure data integrity.
+Using the schema defined in Part 1, let's write some functions to perform simple CRUD (create, read, update, delete) operations and use Zod to validate the inputs for these functions to ensure data integrity. To save you some time, we have written zod validation for you, but please skim through it to make sure you understand the format for each field. A lot of these functions will look similar so once you've written the CRUD operations for one table, you will likely find it much faster to modify them for the rest of the tables.
+
+You might find the documentation on **[select](https://orm.drizzle.team/docs/select), [insert](https://orm.drizzle.team/docs/insert), [update](https://orm.drizzle.team/docs/update), [delete](https://orm.drizzle.team/docs/delete),** and **[filter](https://orm.drizzle.team/docs/operators)** helpful for your reference.
 
 :::note
 Normally, we wouldn't need to pass in a separate `db` parameter into our functions since we will be interacting with a single database instance. However, we have to test your code with a separate clean database so we are passing in this parameter to distinguish between your own database to experiment with and the testing database. You should see that in your `db` folder you have `database.sqlite` and `testdb.sqlite`. You will be writing code to interact with the former.
@@ -152,39 +148,43 @@ Normally, we wouldn't need to pass in a separate `db` parameter into our functio
 
 ### Customers
 
+The online ordering system should be able to register new customers and update existing customers. Assume all customers use their phones to register an account and place orders. We will use the customers' phone numbers as their unique identifier.
+
 1. **Create a Customer**
 
    - **Function**: `createCustomer`
    - **Parameters**:
      - `db`: Database instance.
-     - `data`: An object adhering to `customerSchema`.
+     - `data`: An object adhering to `customerSchema` (i.e. assume the input argument contains everything required for the customer schema).
    - **Description**: Inserts a new customer into the `customers` table.
 
-2. **Get a Customer by Name**
+2. **Get a Customer by Phone**
 
-   - **Function**: `getCustomerByName`
+   - **Function**: `getCustomerByPhone`
    - **Parameters**:
      - `db`: Database instance.
-     - `name`: Customer's name.
-   - **Description**: Retrieves a customer by their name from the `customers` table.
+     - `phone`: A phone number that is unique to each customer
+   - **Description**: Returns the customer who uses the given phone number (return the entire customer object).
 
-3. **Update a Customer**
+3. **Update a Customer by Phone**
 
-   - **Function**: `updateCustomer`
+   - **Function**: `updateCustomerByPhone`
    - **Parameters**:
      - `db`: Database instance.
-     - `name`: The current name of the customer.
+     - `phone`: Customer's phone number.
      - `data`: An object with fields to update, adhering to `customerSchema`.
-   - **Description**: Updates customer details based on their name.
+   - **Description**: Updates customer details based on their phone number.
 
-4. **Delete a Customer**
-   - **Function**: `deleteCustomer`
+4. **Delete a Customer by Phone**
+   - **Function**: `deleteCustomerByPhone`
    - **Parameters**:
      - `db`: Database instance.
-     - `name`: Customer's name.
-   - **Description**: Deletes a customer from the `customers` table.
+     - `phone`: Customer's phone number.
+   - **Description**: Deletes a customer from the `customers` table by their phone number.
 
 ### Menu Items
+
+Your online ordering system should be able to keep track of all items in a menu! You need to be able to add to and update the menu, and the customers need to be able to scan all of the items in the menu. To keep things simple, we will assume all names in the menu are unique so we can search by names (i.e. you cannot have two menu items called "fries", but if you really want "FRIES" and "fries"... sure).
 
 1. **Create a Menu Item**
 
@@ -219,6 +219,8 @@ Normally, we wouldn't need to pass in a separate `db` parameter into our functio
    - **Description**: Deletes a menu item from the `menuItems` table.
 
 ### Orders
+
+Your customers are placing order using this system! You need to keep track of who ordered it, how much the meal costs in total, and the time when the order is placed.
 
 1. **Create an Order**
 
@@ -261,6 +263,8 @@ Normally, we wouldn't need to pass in a separate `db` parameter into our functio
 
 ### Order Items
 
+When you place an order, you also need to note down which specific items are ordered and how many are ordered. A customer might also add to an existing order or decides to order more of the same item.
+
 1. **Create an Order Item**
 
    - **Function**: `createOrderItem`
@@ -274,7 +278,7 @@ Normally, we wouldn't need to pass in a separate `db` parameter into our functio
    - **Function**: `getOrderItemsByOrderId`
    - **Parameters**:
      - `db`: Database instance.
-     - `orderId`: ID of the order.
+     - `orderId`: ID of the order. **Note: this is not the orderItemID!**
    - **Description**: Retrieves all order items for a specific order.
 
 3. **Update an Order Item**
@@ -292,20 +296,35 @@ Normally, we wouldn't need to pass in a separate `db` parameter into our functio
    - **Parameters**:
      - `db`: Database instance.
      - `orderId`: ID of the order.
-   - **Description**: Deletes all order items for a specific order.
+   - **Description**: Deletes all order items for a specific order (in the case the customer waits eternally for their meal and decides to angrily walk out of the restaurant).
 
 ## Part 3: Advanced functions
 
-Write more complex functions to perform operations such as filtering, aggregating, data transactions, and pivoting:
+:::warning
+Only start this section when you've passed all the tests for the previous parts of the assignment.
+:::
+
+Now that you've familiarized yourself with the basic operations we can do on a single table, let's spice things up a little bit! In the following questions, you need to examine closely the relationship between two or more tables, and perform more complicated operations in one function. You might find the Drizzle Documentation helpful for your reference.
 
 ### Question 1: Place an Order
 
 - **Function**: `placeOrder`
-- **Description**: Places an order for a customer. This function calculates the total amount of the order, creates the order, inserts order items, and links the customer to the order. The operation is performed within a database transaction to ensure consistency.
+- **Description**: Places an order for a customer. This function needs to do the following operations in order.
+
+  - Check to see if the customer is already in the customers table. If not, create a new customer (call `createCustomer` from part 2).
+  - Calculate the total cost of the order.
+  - Create the order (call `createOrder` from part 2).
+  - Insert relevant order items (call `createOrderItem` from part 2).
+
+  We will pack all of the operations in a **[database transaction](https://orm.drizzle.team/docs/transactions)** to ensure consistency. By packing operations into a transaction, we make an attempt to work through a series of actions in an "all or nothing" manner. This means that the transaction will succeed only if all sub-operations succeed. If we fail at any point in a transaction, all actions will be revoked so we don't leave the database in an inconsistent state.
+
 - **Parameters**:
   - `db`: Database instance.
   - `data`: An object adhering to `placeOrderSchema`, which includes:
-    - `customerId`: The ID of the customer placing the order.
+    - `customer`: The customer's basic information
+      - `name`: The name of the customer placing the order.
+      - `email`: The customer's email.
+      - `phone`: The customer's phone number.
     - `items`: An array of items to be included in the order. Each item includes:
       - `menuItemId`: The ID of the menu item.
       - `quantity`: The quantity of the menu item ordered.
@@ -313,23 +332,53 @@ Write more complex functions to perform operations such as filtering, aggregatin
   - `success`: A boolean indicating whether the order was placed successfully.
   - `orderId`: The ID of the newly created order.
 
-### Question 2: Retrieve Orders for a Specific Customer
-
-- **Function**: `getOrdersForCustomer`
-- **Description**: Retrieves all orders for a specific customer, sorted by the order's creation date in descending order.
-- **Parameters**:
-  - `db`: Database instance.
-  - `customerId`: The ID of the customer whose orders are to be retrieved.
-- **Returns**: A list of orders for the specified customer, sorted by order date (newest first).
-
-### Question 3: Retrieve Orders for a Specific Day and Calculate Total Sales
+### Question 2: Retrieve Orders for a Specific Day and Calculate Total Sales
 
 - **Function**: `totalSale`
-- **Description**: Retrieves all orders for a specific day and calculates the total sales for that day.
+- **Description**: The restaurant needs to track its daily sales to monitor its financial performance. This function will aggregate the total sales (sum of all orders) for a given date. The function should compute the total sales for all orders placed on that day. The function needs to perform the following steps:
+
+  - Accept a specific date as input (format: YYYY-MM-DD).
+  - Retrieve all orders placed on that date.
+  - Sum the total amounts of all orders for that day.
+
 - **Parameters**:
   - `db`: Database instance.
   - `data`: An object adhering to `getOrdersForDaySchema`, which includes:
     - `date`: The date for which orders are to be retrieved (in `YYYY-MM-DD` format).
 - **Returns**: An object containing:
-  - `ordersList`: A list of orders for the specified date.
   - `totalSales`: The total sales amount for the specified date.
+
+### (BONUS) Question 3 : Order Optimizer: Menu Suggestions Based on Order History
+
+- **Function**: `suggestMenuItemsForCustomer`
+
+- **Description**:
+  The restaurant wants to provide personalized menu item recommendations to customers based on their past orders. The function will analyze a customer's order history and suggest the top 3 most frequently ordered items as the customer's all time favorite. The function needs to perform the following steps:
+
+  - Fetch the customer’s order history using their phone number.
+  - Identify the most frequently ordered menu items in their order history.
+  - Return the top 3 most frequently ordered items from the customer’s older history.
+
+<details>
+<summary>**HINT 1**: Why might JOIN make your life easier?</summary>
+
+You might find the documentation on **[join operations](https://orm.drizzle.team/docs/joins)** helpful. When you're working with multiple related tables, like `Orders`, `Order Items`, and `Menu Items`, using join operations can be crucial for simplifying your queries and improving performance. Let’s break down why:
+
+    - You need to retrieve a customer’s order history along with the specific items they ordered. If you were to query each table separately (e.g., fetching orders, then fetching orderItems, then fetching menuItems), you would make multiple queries to the database. This would be inefficient and harder to manage. With a join, you can retrieve all the related data in one query.
+    - A join operation allows you to bring together the necessary data from multiple tables (like orders, orderItems, and menuItems) in a single result. This is especially useful when you want to count how frequently a customer ordered each menu item.
+
+  </details>
+
+<details>
+<summary> **HINT 2**: How specifically can we implement JOIN?</summary>
+
+You can get all the menu items a customer has ordered in the past. By joining the `Order Items` table with the `Order` table (on `orderId`) and then with the `Menu Items` table (on `menuItemId`), you can directly retrieve the items without multiple queries.
+
+</details>
+- **Parameters**:
+
+- `db`: Database instance.
+- `phone`: The customer’s phone number (used to retrieve their order history).
+
+- **Returns**: An object containing:
+  An array of up to 3 menu item objects (menuItemSchema) representing the recommended items.
