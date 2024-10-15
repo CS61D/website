@@ -109,9 +109,9 @@ With the specific requirements for each table below, let's first define the sche
 
 Now, don't forget to define the relationships between the tables. You might find the Drizzle documentation on **[Drizzle Queries](https://orm.drizzle.team/docs/rqb#declaring-relations)** helpful. The diagram below might help you better understand the relationship we are working with. Specifically:
 
-- One Customer can place multiple Orders but each Order can only be placed by one Customer.
+- One Customer can place multiple Orders, but each Order can only be placed by one Customer.
 - One Order can have multiple OrderItems, but each OrderItem is linked to one Order.
-- One OrderItem can only be matched to one MenuItem but each MenuItem can be referenced by multiple OrderItems.
+- One OrderItem can only be matched to one MenuItem, but each MenuItem can be referenced by multiple OrderItems.
 
 ![database-diagram](../../static/img/Database_Assignment_Schema.png)
 
@@ -184,7 +184,7 @@ The online ordering system should be able to register new customers and update e
 
 ### Menu Items
 
-Your online ordering system should be able to keep track of all items in a menu! You need to be able to add to and update the menu, and the customers need to be able to scan all of the items in the menu. To keep things simple, we will assume all names in the menu are unique so we can search by names (i.e. you cannot have two menu items called "fries", but if you really want "FRIES" and "fries"... sure).
+Your online ordering system should be able to keep track of all items in a menu! You need to be able to add to and update the menu, and the customers need to be able to scan all of the items in the menu.
 
 1. **Create a Menu Item**
 
@@ -196,26 +196,26 @@ Your online ordering system should be able to keep track of all items in a menu!
 
 2. **Get a Menu Item by Name**
 
-   - **Function**: `getMenuItemByName`
+   - **Function**: `getMenuItemById`
    - **Parameters**:
      - `db`: Database instance.
-     - `name`: Name of the menu item.
-   - **Description**: Retrieves a menu item by its name from the `menuItems` table.
+     - `id`: id of the menu item.
+   - **Description**: Retrieves a menu item by its id from the `menuItems` table.
 
 3. **Update a Menu Item by Name**
 
-   - **Function**: `updateMenuItemByName`
+   - **Function**: `updateMenuItemById`
    - **Parameters**:
      - `db`: Database instance.
-     - `name`: Current name of the menu item.
+     - `id`: the id of the menu item.
      - `data`: An object with fields to update, adhering to `menuItemSchema`.
-   - **Description**: Updates menu item details based on its name.
+   - **Description**: Updates menu item details based on its id.
 
 4. **Delete a Menu Item by Name**
-   - **Function**: `deleteMenuItemByName`
+   - **Function**: `deleteMenuItemById`
    - **Parameters**:
      - `db`: Database instance.
-     - `name`: Name of the menu item.
+     - `id`: id of the menu item.
    - **Description**: Deletes a menu item from the `menuItems` table.
 
 ### Orders
@@ -317,6 +317,16 @@ Now that you've familiarized yourself with the basic operations we can do on a s
   - Insert relevant order items (call `createOrderItem` from part 2).
 
   We will pack all of the operations in a **[database transaction](https://orm.drizzle.team/docs/transactions)** to ensure consistency. By packing operations into a transaction, we make an attempt to work through a series of actions in an "all or nothing" manner. This means that the transaction will succeed only if all sub-operations succeed. If we fail at any point in a transaction, all actions will be revoked so we don't leave the database in an inconsistent state.
+
+:::tip
+
+You might need to get the index of the last object you created and use it in the next operation. Here's how you can do it. Since our primary keys are generated on auto-increment, we can use `lastInsertRowid`. And since this row id has type number | bigint, we need to convert it to a number with `Number()`.
+
+```typescript
+customerId = Number(newCustomer.lastInsertRowid); // Get the ID of the newly created customer
+```
+
+:::
 
 - **Parameters**:
   - `db`: Database instance.
