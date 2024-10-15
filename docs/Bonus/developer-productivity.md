@@ -5,7 +5,7 @@ sidebar_position: 1
 # Thing to do, and never do to be a productive typescript developer
 
 Never,
-- manually find a replace a variable
+- manually find and replace a variable
 - use multiple package managers for the same project
 
 Always
