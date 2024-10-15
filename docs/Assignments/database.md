@@ -45,8 +45,12 @@ bun install
 When you are ready, run tests:
 
 ```bash
-bun vitest
+bun vitest tests/test_file_name.test.ts
 ```
+
+:::note
+You might see yourself failing a lot of tests when you run bun vitest for all test files. Don't worry, this might be due to the test files operating on the test database in parallel, leading to errors. We recommend you run bun vitest on specific test files to see if you've passed the tests. For example, if you've finished writing the CRUD functions for the customers table, you can run `bun vitest tests/customerCRUD.test.ts`.
+:::
 
 Feel free to test your code by adding functions in the src/index.ts file. To run:
 
