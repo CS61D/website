@@ -238,6 +238,20 @@ Implement `advanceStage` in `roomRouter.ts`. This procedure should advance the r
   Any checks like these should occur on the server, as code executed on the client can be manipulated by the user. However, also performing these checks on the client in addition to the server allows for a smoother user experience. For example, if you were to prevent the room from advancing to the "voting" stage without any voting items being created, you could disable the "Advance to Voting" button on the client if there are no voting items in the room. If you only performed the check on the server, the user would have to submit the form, wait for a response from the server, and then be told that they need to add voting items to the room before advancing to the "voting" stage. By performing the check on the client, you can provide immediate feedback to the user and reduce the number of unnecessary requests to the server. 
 </details>
 
+It is also good to provide visual feedback to the user when a form submission is being processed. In this case, we do not want the user to click the "Advance to Voting" button multiple times while the room is being advanced. Destructure the `isPending` property from the mutation hook, and use it to conditionally disable the "Advance Stage" button while the mutation is pending. We are already disabling the button if the room is in the "complete" stage.
+
+```tsx
+<Button
+  onClick={() => handleAdvanceStage()}
+  // Also disable the button if the mutation is pending
+  disabled={room.status === "complete"}
+  variant="outline"
+>
+  Advance stage
+</Button>
+```
+
+
 ### 2.7: Get My Votes
 
 After the room advances to the voting stage, users will be presented with a drag and drop interface to rank the voting items. At some point, we need to create an initial vote for each user voting item pair in a room. We can either do this when the the room advances to the voting stage, or when the user first fetches their votes for a given room. Because not all allowed users are guaranteed to have created an account by the time the room advances (or ever), we will create with a default ordering when the user first fetches their votes. Therefore, even though server state is technically modified when the user first fetches their votes, we will consider this a query procedure not a mutation procedure.
