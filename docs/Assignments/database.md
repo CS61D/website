@@ -4,10 +4,6 @@ sidebar_position: 6
 
 # 6. Databases
 
-:::danger
-This assignment is still under construction. Please check back later for updates.
-:::
-
 ## Project Description - The Online Ordering System
 
 Imagine you are developing the backend for a simpler version of an online ordering system like Snackpass for one specific restaurant. The system needs to handle different entities such as customers, orders, menu items, and some order details. This system will allow customers to register customer information, browse the menu, and place orders. It will also allow the restaurant owner to track each day's total sales. How should we go about implementing the backend database system from scratch? We broke it down to 3 parts in this assignment. The first two parts can be completed after the first lecture. The last part can be completed after the second lecture.
@@ -36,20 +32,26 @@ In this assignment, we'd also like for you to practice reading through documenta
 
 To get started, accept the assignment on Github Classroom and clone the repository to your folder locally.
 
-To install dependencies:
+Install the dependencies and create the database files:
 
 ```bash
 bun install
+touch db/database.sqlite db/testdb.sqlite
+bun db:push
 ```
+
+:::note
+If you are working on a project with a sqlite database, it is not good practice to commit the database file to GitHub. 
+:::
 
 When you are ready, run tests:
 
 ```bash
-bun vitest tests/test_file_name.test.ts
+bunx vitest src/tests/test_file_name.test.ts
 ```
 
 :::note
-You might see yourself failing a lot of tests when you run bun vitest for all test files. Don't worry, this might be due to concurrency issues with the test files operating on the test database "at the same time", leading to errors. We recommend you run bun vitest on specific test files to see if you've passed the tests. For example, if you've finished writing the CRUD functions for the customers table, you can run `bun vitest tests/customerCRUD.test.ts`.
+You might see yourself failing a lot of tests when you run bun vitest for all test files. Don't worry, this might be due to concurrency issues with the test files operating on the test database "at the same time", leading to errors. We recommend you run bun vitest on specific test files to see if you've passed the tests. For example, if you've finished writing the CRUD functions for the customers table, you can run `bunx vitest src/tests/customerCRUD.test.ts`.
 :::
 
 Feel free to test your code by adding functions in the src/index.ts file. To run:
