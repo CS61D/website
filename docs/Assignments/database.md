@@ -36,6 +36,7 @@ Install the dependencies and create the database files:
 
 ```bash
 bun install
+mkdir db
 touch db/database.sqlite db/testdb.sqlite
 bun db:push
 ```
@@ -83,6 +84,13 @@ There are 3 folders you need to focus on:
 ### Defining Tables
 
 With the specific requirements for each table below, let's first define the schema for our database in the `schemas/schema.ts` file. You might find the Drizzle documentation on **[data types](https://orm.drizzle.team/docs/column-types/sqlite)** and **[constraints](https://orm.drizzle.team/docs/indexes-constraints)** in SQLite helpful for your reference. Make sure to look at the documentation for SQLite, not MySQL or PostgreSQL!
+
+:::note
+When you define your sqlite tables, you will need to pass in a string as the sqlite name for each table and each field. To see what convention you should use to label your table's field names, make sure to check out the **beforeAll()** call at the very top of any of the test files. This should give you some clues as to how to define your tables as well!
+For example, in the `orders` table, the sqlite name of the field total amount should be labeled as `'total_amount'` and not `'totalAmount'` or any other form.
+Locally, you can name the variable referring to this field whatever you like as long as you keep it consistent. For example, `totalAmount: real("total_amount").notNull()` is totally fine.
+This is usually not necessary but, because we don't have a test that checks for the correctness of your schema, we manually create a table in the tests and assume that your schema follows the same naming scheme and has the same fields and constraints.
+:::
 
 #### Customers `customerSchema`
 
