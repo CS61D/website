@@ -36,6 +36,7 @@ Install the dependencies and create the database files:
 
 ```bash
 bun install
+mkdir db
 touch db/database.sqlite db/testdb.sqlite
 bun db:push
 ```
