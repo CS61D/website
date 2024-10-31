@@ -41,7 +41,7 @@ bun db:push
 ```
 
 :::note
-If you are working on a project with a sqlite database, it is not good practice to commit the database file to GitHub. 
+If you are working on a project with a sqlite database, it is not good practice to commit the database file to GitHub.
 :::
 
 When you are ready, run tests:
@@ -200,7 +200,7 @@ Your online ordering system should be able to keep track of all items in a menu!
      - `data`: An object adhering to `menuItemSchema`.
    - **Description**: Inserts a new menu item into the `menuItems` table.
 
-2. **Get a Menu Item by Name**
+2. **Get a Menu Item by ID**
 
    - **Function**: `getMenuItemById`
    - **Parameters**:
@@ -208,7 +208,7 @@ Your online ordering system should be able to keep track of all items in a menu!
      - `id`: id of the menu item.
    - **Description**: Retrieves a menu item by its id from the `menuItems` table.
 
-3. **Update a Menu Item by Name**
+3. **Update a Menu Item by ID**
 
    - **Function**: `updateMenuItemById`
    - **Parameters**:
@@ -217,7 +217,7 @@ Your online ordering system should be able to keep track of all items in a menu!
      - `data`: An object with fields to update, adhering to `menuItemSchema`.
    - **Description**: Updates menu item details based on its id.
 
-4. **Delete a Menu Item by Name**
+4. **Delete a Menu Item by ID**
    - **Function**: `deleteMenuItemById`
    - **Parameters**:
      - `db`: Database instance.
