@@ -91,8 +91,8 @@ Copy and paste these commands into your terminal to create environment variables
 ```bash
 cp .env.example .env # Copy the example environment variables
 touch ./src/server/db/db.sqlite # Create a sqlite database
-bun db:push # Apply the schema to the database
 bun install # Install dependencies
+bun db:push # Apply the schema to the database
 ```
 
 ## Part 1: Authentication
@@ -480,3 +480,8 @@ Congratulations! You now have a fully functioning ranked choice voting applicati
 ## Optional Extensions
 
 ### Add Additional Users to Room in "Open" Stage
+
+For simplicity, we only added the ability to add voters to a room when it is created. However, there is no reason we shouldn't be able to add voter to the room before voting starts.
+
+1. Add a procedure `addVoters` which accepts an array of new emails to add to the room. Make sure that duplicates are removed.
+2. Create a dialog component `AddVoters.tsx` in the frontend that uses your `addVoters` mutation. You can copy the dialog code from `CreateRoom.tsx`. Make sure that the option to add voters is only visible or only enabled in the "open" stage. After submitting the mutation, you should invalidate the room to display the newly created. You can also display a [toast notification](https://ui.shadcn.com/docs/components/toast) when users are added successfully. 
