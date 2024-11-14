@@ -42,8 +42,8 @@ For convenience and performance reasons, we will load the compiled WASM code int
 For your purposes, all you need to do is call this code snippet somewhere at the top of you application to load the FFmpeg code:
 
 ```typescript
-// Will be null when not ready
 import { useEffect, useRef } from "react";
+import type { FFmpeg } from "@ffmpeg/ffmpeg";
 
 // This ref will be passed into the convertFile function
 const ffmpegRef = useRef<FFmpeg | null>(null);
