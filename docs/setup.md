@@ -232,7 +232,7 @@ docker -v  #Docker version 25.0.3, build 4debf41
 
 ## Useful VS Code Extensions
 
-[Install the recommended vscode extensions for the course](https://marketplace.visualstudio.com/items?itemName=CodifyBerkeley.codify-extensions). You can disable them later if you like, but give them a try! For more information, check out our [reasoning for including each one](./Bonus/extensions.md).
+[Install the recommended vscode extensions for the course](https://marketplace.visualstudio.com/items?itemName=CodifyBerkeley.codify-extensions). You can disable them later if you like, but give them a try! For more information, check out our [reasoning for including each one](./Bonus/extensions.mdx).
 
 ## That's it!
 
