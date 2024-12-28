@@ -98,8 +98,4 @@ The course will have two projects, one smaller front end project, and one final 
 
 2. Create a [splitwise](https://www.splitwise.com/) clone to track and organize shared expenses and repayments.
 
-## What's Next?
-
-If you are a current Berkeley student and want to take the guided version of the course, [apply to Codify](https://codifyberkeley.org/join). If you just want to audit the course, all materials are available under the content tab. For questions or other inquiries, email codify.berkeley@gmail.com.
-
 The name of the course is inspired by the naming of UC Berkeley lower division computer science courses. CS 61A, 61B, and 61C are official courses, and we think that the content our course, 61D, is almost as important!
