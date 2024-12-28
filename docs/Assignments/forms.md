@@ -286,6 +286,7 @@ Once you have some children added, you can render them by mapping over the field
   <div key={child.id} className="flex flex-col space-y-2">
     <FormField
       control={form.control}
+      // highlight-next-line
       name={`children.${index}.name`} // Take a close look at this line
       render={({ field }) => (
         <FormItem>

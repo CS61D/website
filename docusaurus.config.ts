@@ -6,7 +6,7 @@ import "dotenv/config";
 const config: Config = {
 	title: "61D: Applied Software Development",
 	tagline: "Learn by building",
-	favicon: "img/brackets.svg",
+	favicon: "img/favicon.ico",
 
 	// Set the production url of your site here
 	url: "https://61d.org",
@@ -56,12 +56,12 @@ const config: Config = {
 
 	themeConfig: {
 		// Replace with your project's social card
-		image: "img/brackets.svg",
+		image: "img/Codify-C-Logo-Transparent.png",
 		navbar: {
 			title: "61D",
 			logo: {
-				alt: "brackets",
-				src: "img/brackets.svg",
+				alt: "Codify Logo",
+				src: "img/Codify-C-Logo-Transparent.png",
 			},
 			items: [
 				{
@@ -102,12 +102,34 @@ const config: Config = {
 						},
 					],
 				},
+				{
+					title: "Community",
+					items: [
+						{
+							label: "Codify Instagram",
+							href: "https://www.instagram.com/codifyberkeley",
+						},
+					],
+				},
+				{
+					title: "More",
+					items: [
+						{
+							label: "Main Codify Website",
+							href: "https://codifyberkeley.org/",
+						},
+						{
+							label: "Codify GitHub",
+							href: "https://github.com/Codify-Club-Berkeley",
+						},
+					],
+				},
 			],
-			copyright: "Build with Docusaurus",
+			copyright: "Maintained by Codify Berkeley, Build with Docusaurus",
 		},
 		prism: {
-			theme: prismThemes.github,
-			darkTheme: prismThemes.dracula,
+			theme: prismThemes.vsLight,
+			darkTheme: prismThemes.vsDark,
 		},
 		docs: {
 			sidebar: {

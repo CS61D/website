@@ -595,14 +595,17 @@ curl -X POST \
   -d '{
     "action": "opened",
     "pull_request": {
+      # highlight-next-line
       "number": 1,
       "title": "Fake Pull Request",
       "user": {
+      # highlight-next-line
         "login": "aidansunbury"
       },
       "requested_reviewers": [],
       "base": {
         "repo": {
+          # highlight-next-line
           "name": "Assignment-Solution-APIs-and-Webhooks",
           "owner": {
             "login": "CS61D"
