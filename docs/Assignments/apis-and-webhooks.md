@@ -9,8 +9,8 @@ import TabItem from "@theme/TabItem";
 
 ## Assignment Links
 
-* [Starter Code](https://github.com/CS61D/Assignment-Starter-APIs-and-Webhooks)
-* [Finished Solution](https://github.com/CS61D/Webhooks-Assignment-Sample-Repo): leave a PR on this repo and see what happens
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-APIs-and-Webhooks)
+- [Finished Solution](https://github.com/CS61D/Webhooks-Assignment-Sample-Repo): leave a PR on this repo and see what happens
 
 ## Assignment Overview
 
@@ -23,12 +23,13 @@ In almost all real world software applications, you need to be able to work with
 ### Setup
 
 Install the dependencies:
-  
+
 ```bash
 bun install
 ```
 
 And create a local .env file from the template
+
 ```bash
 cp .env.example .env
 ```
@@ -43,7 +44,6 @@ In order to programmatically interact with GitHub, you will need to create a per
 4. For Repository Access, select "Only select repositories", and then select the repository you generated for the assignment.
 5. Under Repository permissions, select "Read and Write" for Pull requests, and "Read-only" for Metadata. It is always good practice to give the least amount of permissions necessary to accomplish your goals, minimizing the potential damage if your token is compromised.
 6. Click "Generate token" and copy the token that is generated. **This token will not be shown again, so make sure to save it in your local .env file.**
-
 
 ## Part 2: GitHub API Scripts
 
@@ -100,7 +100,8 @@ Fill in `getPR.ts` to return pull requests for a given repository. First, identi
   Hint: Correct Endpoint
   </summary>
 
-  The endpoint you need is `GET /repos/{owner}/{repo}/pulls/{pull_number}`. You can find it in the [here](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request).
+The endpoint you need is `GET /repos/{owner}/{repo}/pulls/{pull_number}`. You can find it in the [here](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request).
+
 </details>
 
 Then, use the octokit client to make a request to that endpoint and return the response.
@@ -465,7 +466,8 @@ Take advantage of the fact that the octokit SDK is fully type safe. If you are n
   Hint: Request Reviewer Endpoint
   </summary>
 
-  The endpoint you need is `POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers`. You can find it in the [here](https://docs.github.com/en/rest/pulls/review-requests?apiVersion=2022-11-28#request-reviewers-for-a-pull-request).
+The endpoint you need is `POST /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers`. You can find it in the [here](https://docs.github.com/en/rest/pulls/review-requests?apiVersion=2022-11-28#request-reviewers-for-a-pull-request).
+
 </details>
 
 <details>
@@ -473,7 +475,8 @@ Take advantage of the fact that the octokit SDK is fully type safe. If you are n
   Hint: Create Comment Tip
   </summary>
 
-  Pull requests are technically issues. Find the endpoint to create a comment on an issue.
+Pull requests are technically issues. Find the endpoint to create a comment on an issue.
+
 </details>
 
 <details>
@@ -481,7 +484,8 @@ Take advantage of the fact that the octokit SDK is fully type safe. If you are n
   Hint: Create Comment Endpoint
   </summary>
 
- The endpoint you need is `POST /repos/{owner}/{repo}/issues/{issue_number}/comments`. You can find it in the [here](https://docs.github.com/en/rest/issues/comments?apiVersion=2022-11-28#create-an-issue-comment).
+The endpoint you need is `POST /repos/{owner}/{repo}/issues/{issue_number}/comments`. You can find it in the [here](https://docs.github.com/en/rest/issues/comments?apiVersion=2022-11-28#create-an-issue-comment).
+
  </details>
 
 ### Part 2.3: Combining the Scripts
@@ -497,7 +501,7 @@ If the script worked, you should see the comments and review requests on the PRs
 Also try running your script multiple times on the same PR. If we have handled edge cases correctly, the script should be [idempotent](https://developer.mozilla.org/en-US/docs/Glossary/Idempotent), meaning that running the script multiple times should not have any additional effects after the first run. This is important because requests often fail and are retried multiple times. We want to make sure that we don't accidentally request a review multiple times.
 
 :::note
-If we wanted to be more thorough, there are many additional edge cases we could check. For instance, our script could successfully request review, but not leave a comment, leaving the script in an inconsistent state. 
+If we wanted to be more thorough, there are many additional edge cases we could check. For instance, our script could successfully request review, but not leave a comment, leaving the script in an inconsistent state.
 :::
 
 Also make sure that our script does not request the review of the PR author. To test this, change the `GITHUB_USERNAME` in the `.env` file to your GitHub username, and run the script. The script should not request a review from you, since you created the pull request.
@@ -507,7 +511,7 @@ Also make sure that our script does not request the review of the PR author. To 
   Fun GitHub Glitch
   </summary>
 
-Now that you are comfortable working interfacing with applications through APIs, you may rarely encounter situations it gives you superpowers. Developers are lazy, and sometimes limit your permissions only through the GUI, without enforcing restrictions on the server. If you don't have GitHub enterprise, you normally are not allowed to request more than one reviewer on a PR in a private repository. However, as of September 9th 2024 (when I last checked), you **can** request as multiple reviewers in private repositories through the API. Try request both `aidansunbury` and `Codify-Berkeley` as reviewers on the your PR, first through the website ui, and then using your script. 
+Now that you are comfortable working interfacing with applications through APIs, you may rarely encounter situations it gives you superpowers. Developers are lazy, and sometimes limit your permissions only through the GUI, without enforcing restrictions on the server. If you don't have GitHub enterprise, you normally are not allowed to request more than one reviewer on a PR in a private repository. However, as of September 9th 2024 (when I last checked), you **can** request as multiple reviewers in private repositories through the API. Try request both `aidansunbury` and `Codify-Berkeley` as reviewers on the your PR, first through the website ui, and then using your script.
 
 ![glitch](../../static/img/assignment-images/apis-and-webhooks/glitch.png)
 
@@ -517,7 +521,7 @@ Request up to one reviewer, unless you took 61D 😎
 
 ## Part 3: Setting up the Webhook
 
-Our script gets the job done, but having to run it manually doesn't actually save us any effort. Instead, we can set up a webhook that will automatically run our script every time a pull request is opened. 
+Our script gets the job done, but having to run it manually doesn't actually save us any effort. Instead, we can set up a webhook that will automatically run our script every time a pull request is opened.
 
 GitHub can not send information directly to our localhost. We need to give it a live URL that it can send information to, which we can then forward to our localhost. We will use a tool called [ngrok](https://ngrok.com/) to create a tunnel to our localhost.
 
@@ -566,13 +570,13 @@ Now, every time a pull request related event happens in your repository, GitHub 
 
 The **index.ts** file is an [express server](https://expressjs.com/), which listens on port 80 for incoming POST requests. When a POST request is received, the server will log the request body to the console.
 
-Look over the code that is in the **index.ts** file. You can see that we respond with a `202` code immediately upon receiving the request and before processing. This ensures that GitHub knows that we received the request and will not time out while waiting for a response. 
+Look over the code that is in the **index.ts** file. You can see that we respond with a `202` code immediately upon receiving the request and before processing. This ensures that GitHub knows that we received the request and will not time out while waiting for a response.
 
-Next we check what type of event the webhook is sending us. We specified that we only want to receive pull request events, but in case our webhook was misconfigured, we want to be sure that we are only processing pull request events. 
+Next we check what type of event the webhook is sending us. We specified that we only want to receive pull request events, but in case our webhook was misconfigured, we want to be sure that we are only processing pull request events.
 
 Then we narrow further, to only process pull requests when they are opened or reopened. This again makes sure we don't run our script when we don't want to.
 
-Finally, fill in a call to your `requestReview` function. The payload of the webhook will be a PR, and have the same structure as what was returned from our `getPR` function. 
+Finally, fill in a call to your `requestReview` function. The payload of the webhook will be a PR, and have the same structure as what was returned from our `getPR` function.
 
 Start the server by running:
 
@@ -610,19 +614,19 @@ curl -X POST \
           "owner": {
             "login": "CS61D"
           }
-        }  
+        }
       }
     }
   }'
 ```
 
-This sends a `POST` request to our server that looks the similar to a to the request that GitHub would send us. 
+This sends a `POST` request to our server that looks the similar to a to the request that GitHub would send us.
 
 Try updating the pull request number, user login (to your GitHub username), or and repo name. Remove all reviewers on the pull request, and then run the command. You should be able to get your server to leave the comment and request review on the PR, even though GitHub never sent us a webhook event.
 
 In this scenario, getting our server to erroneously leave a comment and request a reviewer is not the end of the world, but you can imagine a scenario where this vulnerability could be a major issue. Payment processors like Stripe can webhooks to notify your server of a successful payments. You wouldn't want someone to be able to trick your server into thinking that a payment was made when it wasn't.
 
-Fortunately, there is a relative simple fix. We just need to give GitHub a secret key, that only we and GitHub know. GitHub will use this key to ***sign*** the payload of the webhook, and we can use this key to verify that the payload was not tampered with. It is cryptographically impossible to generate a valid signature without knowing the secret key.
+Fortunately, there is a relative simple fix. We just need to give GitHub a secret key, that only we and GitHub know. GitHub will use this key to **_sign_** the payload of the webhook, and we can use this key to verify that the payload was not tampered with. It is cryptographically impossible to generate a valid signature without knowing the secret key.
 
 ### Part 5.1: Generate a Key
 
@@ -643,12 +647,11 @@ Use this code snippet to pass your secret key to SDK's webhook object:
 ```typescript
 const WEBHOOK_SECRET: string = Bun.env.GITHUB_WEBHOOK_SECRET as string;
 const webhooks = new Webhooks({
-	secret: WEBHOOK_SECRET,
+  secret: WEBHOOK_SECRET,
 });
 ```
 
 This only has to run once, so you can put it above the `app.post` call in the `index.ts` file.
-
 
 Then paste the following code into the `index.ts` file under `TODO Part 5: Verify Signature`:
 

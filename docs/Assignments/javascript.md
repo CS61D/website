@@ -6,8 +6,8 @@ sidebar_position: 2
 
 ## Assignment Links
 
-* [Starter Code](https://github.com/CS61D/Assignment-Starter-Javascript)
-* [Lecture 1: JavaScript](https://www.youtube.com/watch?v=TrAyq1hSUpI)
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-Javascript)
+- [Lecture 1: JavaScript](https://www.youtube.com/watch?v=TrAyq1hSUpI)
 
 ## Assignment Overview
 
@@ -16,7 +16,7 @@ The goal of this assignment is to get you familiar with JavaScript syntax, focus
 ### Setup
 
 Install the dependencies to be able to run tests:
-  
+
 ```bash
 bun install
 ```
@@ -60,6 +60,7 @@ Each problem has its own test suite, which is in its own file.
 ```bash
 bun vitest
 ```
+
 The tests will rerun any time you make changes to a file. However, running all of the tests will bombard you with tons of failures for questions you have not even started working on yet.
 
 ### Run all tests for a single file/problem
@@ -84,7 +85,7 @@ Vitest provides an [interactive ui](https://vitest.dev/guide/ui) which can be us
 bun test:ui # To trigger the test UI in the browser
 ```
 
-And then the ui will open in the browser at [http://localhost:51204/__vitest__/](http://localhost:51204/__vitest__/).
+And then the ui will open in the browser at [http://localhost:51204/**vitest**/](http://localhost:51204/__vitest__/).
 
 ## Problem 1: printIndex
 

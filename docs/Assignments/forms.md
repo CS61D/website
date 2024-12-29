@@ -9,8 +9,8 @@ import TabItem from "@theme/TabItem";
 
 ## Assignment Links
 
-* [Starter Code](https://github.com/CS61D/Assignment-Starter-Forms)
-* [Finished Solution](https://forms.61d.org/) (what you will build)
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-Forms)
+- [Finished Solution](https://forms.61d.org/) (what you will build)
 
 ## Assignment Overview
 
@@ -20,17 +20,18 @@ First, take a look at the [finished solution](https://forms.61d.org/) to see wha
 
 You will start by defining a [zod](https://zod.dev/) validation schema to define the shape of the form data and the validation rules for each field. Then we will integrate it with [React Hook Form](https://react-hook-form.com/) to handle the form state, and associate inputs with fields in our schema. Finally, we will show how to use pre build [shadcn](https://ui.shadcn.com/) components with React Hook Form to create a more polished and professional look.
 
-You will only have to edit `validator.ts`, `Form.tsx`, and `ControlledForm.tsx` in parts 1-3 respectively. 
+You will only have to edit `validator.ts`, `Form.tsx`, and `ControlledForm.tsx` in parts 1-3 respectively.
 
 ### Setup
 
 Install the dependencies:
-  
+
 ```bash
 bun install
 ```
 
 Start the development server:
+
 ```bash
 bun dev
 ```
@@ -48,15 +49,14 @@ We want our form to have the following fields and rules. Open up `validator.ts` 
 5. **subscribe**: An required boolean field
 6. **birthDate**: An optional field that must be a valid date in the past. You can use the `.date()` method from zod to validate this.
 7. **password**: A required field that must pass the following rules
-    * Between 8-20 characters
-    * At least one uppercase letter
-    * At least one lowercase letter
-    * At least one digit
-These properties can be enforced through [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions), also known as regex, which zod supports with the `.regex()` operator. The following regex patterns will be useful.
-    * At least one uppercase letter: `/[A-Z]/`
-    * At least one lowercase letter: `/[a-z]/`
-    * At least one digit: `/[\d]/`
-Minimum and maximum length can be enforced with the `.min()` and `.max()` methods respectively.
+   _ Between 8-20 characters
+   _ At least one uppercase letter
+   _ At least one lowercase letter
+   _ At least one digit
+   These properties can be enforced through [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions), also known as regex, which zod supports with the `.regex()` operator. The following regex patterns will be useful.
+   _ At least one uppercase letter: `/[A-Z]/`
+   _ At least one lowercase letter: `/[a-z]/` \* At least one digit: `/[\d]/`
+   Minimum and maximum length can be enforced with the `.min()` and `.max()` methods respectively.
 
 8. **confirmPassword**: A required field that must match the password field. We don't know if this field passes validation without also looking at another field, we need to use the `.refine()` method to validate this field in context of the other fields in the form. When refining this field, make sure that you specify the error exists on the `confirmPassword` path and is not just a general form error. [This example](https://zod.dev/?id=customize-error-path) from the docs may be helpful.
 
@@ -70,7 +70,6 @@ Make sure that required string fields do not pass validation if they are empty. 
 
 When you think your validation schema is correct, try testing it out in the [zod playground](https://zod-playground.vercel.app/) to see if it behaves as expected. Or you can wait until building your own form and test it there.
 
-
 ### Error messages
 
 You may do this part now, or come back to it later. It is recommended that you finish part 2 first, as you will have a better idea of what error messages you need to display.
@@ -82,10 +81,9 @@ You can pass in a custom error message as a second argument to the zod method th
 ```tsx
 const requiredMsg = "Required";
 
-export const formSchema = z
-  .object({
-    firstName: z.string().min(1, requiredMsg),
-  })
+export const formSchema = z.object({
+  firstName: z.string().min(1, requiredMsg),
+});
 ```
 
 ## Part 2: HTML Form
@@ -119,7 +117,7 @@ A form is declared for you using the `useForm` hook from React Hook Form. This h
 
 We have also used the `zodResolver` to ensure that our form uses our zod schema for validation. Depending on if the validation passes, a custom `onSubmit` function or `onError` is called.
 
-However, we also need to properly type the `Inputs` type to define what fields the form should expect. Fortunately, once you have a zod schema, you can use the `z.infer` method to automatically generate the type for you based on the schema. 
+However, we also need to properly type the `Inputs` type to define what fields the form should expect. Fortunately, once you have a zod schema, you can use the `z.infer` method to automatically generate the type for you based on the schema.
 
 ```tsx
 const mySchema = z.object({
@@ -134,23 +132,19 @@ Define the `Inputs` type based on the zod schema you created in part 1 so that o
 
 ### Part 2.2: Registering Form Fields
 
-We already have an input created for the first name field. In order to associate it with the `firstName` field in our schema, we need to use the `register` function provided by React Hook Form. 
+We already have an input created for the first name field. In order to associate it with the `firstName` field in our schema, we need to use the `register` function provided by React Hook Form.
 
 ```tsx
-<input
-  {...register("firstName")}
-  id="firstName"
-  type="text"
-
-/>
+<input {...register("firstName")} id="firstName" type="text" />
 ```
 
-Create form inputs for the rest of the fields in the schema and register them. 
+Create form inputs for the rest of the fields in the schema and register them.
 
 <details>
   <summary>Hint: password and checkbox inputs</summary>
 
-Password and Checkbox inputs can be created by passing `type="password"` and `type="checkbox"` respectively to the input element. 
+Password and Checkbox inputs can be created by passing `type="password"` and `type="checkbox"` respectively to the input element.
+
 </details>
 
 <details>
@@ -165,6 +159,7 @@ Dropdowns can't be created with an input element. Instead, use a `select` elemen
   <option value="parent/guardian">Parent/Guardian</option>
 </select>
 ```
+
 </details>
 
 After you have created all the form fields, you can test your form by filling it out and submitting it. The button with `type="submit"` will trigger the form `onSubmit` handler. Then, the `handleSubmit` function will validate the form and call the `onSubmit` function if the form is valid.
@@ -174,12 +169,14 @@ After you have created all the form fields, you can test your form by filling it
 Currently, we are not displaying any error messages when the form is invalid. If a field has a validation error, our `error` object will have an error object on the field's path. You can use this object to display an error message below the field.
 
 ```tsx
-{errors.firstName && (
-  <p className="text-red-500">{errors.firstName.message}</p>
-)}
+{
+  errors.firstName && (
+    <p className="text-red-500">{errors.firstName.message}</p>
+  );
+}
 ```
 
-If there is no error, the `errors.firstName` object will be `undefined`, and the error message will not be displayed. 
+If there is no error, the `errors.firstName` object will be `undefined`, and the error message will not be displayed.
 
 The error messages are automatically generated by zod, but they are not the most user friendly. If you have not already, return to [Error Messages](#error-messages) to create custom error messages for each field.
 
@@ -187,7 +184,7 @@ Congrats! You now have a fully functional sign up form! If you want, you can als
 
 ## Part 3: Controlled Form with Shadcn Components
 
-After deploying the form, your boss tells you that sign ups are not converting because it looks too plain. They want you to spend the next two weeks redesigning it to look more professional, but you have a trip to Hawaii planned tomorrow. 
+After deploying the form, your boss tells you that sign ups are not converting because it looks too plain. They want you to spend the next two weeks redesigning it to look more professional, but you have a trip to Hawaii planned tomorrow.
 
 In 99% of cases, creating beautiful frontend components from scratch is a waste of time. There are a million pre-built libraries of components that are more than adequate to get the job done. However, pre-built component libraries like [Material UI](https://mui.com/material-ui/) have limits to how much they can be customized. For that reason, 61D uses [shadcn](https://ui.shadcn.com/) components. They are not a dependency that is installed and has to be updated, but instead a set of components that are designed to be copied and pasted into your project. Since the source code of the components literally lives in your project, you can customize them to your heart's content. Further, seeing the actual source code of professional grade components is a great way to learn best practices in React.
 
@@ -213,20 +210,17 @@ Use this example input to create the rest of the form fields (except the date of
   name="email"
   render={({ field }) => (
     <FormItem>
-        <FormLabel>Email Address *</FormLabel>
-        <FormControl>
-        <Input
-            placeholder="example@email.com"
-            {...field}
-        />
-        </FormControl>
-        <FormMessage />
+      <FormLabel>Email Address *</FormLabel>
+      <FormControl>
+        <Input placeholder="example@email.com" {...field} />
+      </FormControl>
+      <FormMessage />
     </FormItem>
   )}
 />
 ```
 
-This example along with examples for controlling form inputs are on the [shadcn docs](https://ui.shadcn.com/docs/components/input). Copy and paste the [controlled date picker example](https://ui.shadcn.com/docs/components/date-picker#form) for the date of birth field. 
+This example along with examples for controlling form inputs are on the [shadcn docs](https://ui.shadcn.com/docs/components/input). Copy and paste the [controlled date picker example](https://ui.shadcn.com/docs/components/date-picker#form) for the date of birth field.
 
 As important as your form now looking better, it is also more accessible. Shadcn components are compliant with [Aria accessibility standards](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA) out of the box, meaning that users with disabilities can use your form with screen readers. Compliance with these standards is tricky, but shadcn has done the work for you.
 
@@ -244,15 +238,16 @@ Fortunately, React Hook Form provides another hook we can use to handle this: [u
 You can preview what we are going to do in this part by selecting "Parent/Guardian" in the role dropdown of the shadcn form on the [finished solution](https://forms.61d.org/).
 
 ### Updating the schema
-Add an array of children objects to the zod schema. You can add any properties you like, but we will use a `name` and `age` property for this example. 
+
+Add an array of children objects to the zod schema. You can add any properties you like, but we will use a `name` and `age` property for this example.
 
 <details>
-    <summary>Solution</summary>
-    
+
+  <summary>Solution</summary>
+
 ```tsx
 export const formSchema = z.object({
   // Existing fields
-
   children: z
     .object({
       name: z.string().min(1, "Required"),
@@ -260,13 +255,14 @@ export const formSchema = z.object({
     })
     .array()
     .optional(),
-})
+});
 ```
+
 </details>
 
 ### useFieldArray()
 
-Next, declare the `useFieldArray()` hook for our specific property. 
+Next, declare the `useFieldArray()` hook for our specific property.
 
 ```tsx
 const { fields, append, remove } = useFieldArray({
@@ -279,41 +275,43 @@ const { fields, append, remove } = useFieldArray({
 
 Add a button to the form that calls the `append` function when clicked. This button will add a new child to the form.
 
-Once you have some children added, you can render them by mapping over the fields array, and registering an input for each property or each child added. 
+Once you have some children added, you can render them by mapping over the fields array, and registering an input for each property or each child added.
 
 ```tsx
-{fields.map((child, index) => (
-  <div key={child.id} className="flex flex-col space-y-2">
-    <FormField
-      control={form.control}
-      // highlight-next-line
-      name={`children.${index}.name`} // Take a close look at this line
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Child {index + 1} Name</FormLabel>
-          <FormControl>
-            <Input {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+{
+  fields.map((child, index) => (
+    <div key={child.id} className="flex flex-col space-y-2">
+      <FormField
+        control={form.control}
+        // highlight-next-line
+        name={`children.${index}.name`} // Take a close look at this line
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Child {index + 1} Name</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
-    {/* Age field omitted */}
-    
-    <Button 
-     variant={"ghost"}
-     onClick={() => remove(index)} // Use the remove function to remove the child
-     className="self-end"
-   >
-     <TrashIcon />
-   </Button>
+      {/* Age field omitted */}
 
-  </div>
-))}
+      <Button
+        variant={"ghost"}
+        onClick={() => remove(index)} // Use the remove function to remove the child
+        className="self-end"
+      >
+        <TrashIcon />
+      </Button>
+    </div>
+  ));
+}
 ```
 
 There are a few important rules to follow when using `useFieldArray()`:
+
 1. Properties are accessed using their index in the array. To get the name of the fourth child, you would use `children.3.name`.
 2. The key of the mapped component should be the `id` property of the object in the fields array. This is how React knows which components to update when the array changes. Even though our child does not have an `id` property, the `useFieldArray()` hook will generate one for us.
 
@@ -327,6 +325,6 @@ We can get the value of a field in the form by using the `watch` function from R
 )}
 ```
 
-Now the children form fields will only be displayed if the role is "parent/guardian". 
+Now the children form fields will only be displayed if the role is "parent/guardian".
 
-Congrats! You now have a fully functional sign up form that allows parents to add multiple children to their account! 
+Congrats! You now have a fully functional sign up form that allows parents to add multiple children to their account!
