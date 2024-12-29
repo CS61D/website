@@ -7,7 +7,7 @@ import TabItem from "@theme/TabItem";
 
 # Rapid Full Stack Form Prototyping with T3
 
-* [View example](https://fullstackforms.aidansunbury.dev/)
+- [View example](https://fullstackforms.aidansunbury.dev/)
 
 The beauty of the T3 stack is that the frontend and backend of an application can be so tightly integrated. A database schema defined with Drizzle can automatically be used to generate zod validators, which can be allows for use of the same validation on the frontend and the backend. Moreover, zod integrates flawlessly with react-hook-form, which in turn integrates beautifully with shadcn.
 
@@ -47,7 +47,8 @@ export function safeInsertSchema<TTable extends Table>(table: TTable) {
 You may optionally modify your shadcn `FormLabel` component to be able to display a nice asterisk for required fields.
 
 ```tsx src/components/form.tsx
-interface FormLabelProps extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
+interface FormLabelProps
+  extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
   optional?: boolean;
 }
 
@@ -55,7 +56,7 @@ const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   FormLabelProps
 >(({ className, optional = true, children, ...props }, ref) => {
-  const { error, formItemId } = useFormField()
+  const { error, formItemId } = useFormField();
 
   return (
     <Label
@@ -67,9 +68,9 @@ const FormLabel = React.forwardRef<
       {children}
       {!optional && <span className="text-destructive ml-1">*</span>}
     </Label>
-  )
-})
-FormLabel.displayName = "FormLabel"
+  );
+});
+FormLabel.displayName = "FormLabel";
 ```
 
 Now you are ready to copy and paste forms from [fullstackforms.aidansunbury.dev](https://fullstackforms.aidansunbury.dev/).

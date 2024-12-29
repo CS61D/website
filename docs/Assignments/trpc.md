@@ -6,8 +6,8 @@ sidebar_position: 7
 
 ## Assignment Links
 
-* [Starter Code](https://github.com/CS61D/Assignment-Starter-tRPC)
-* [Finished Solution](https://voting.61d.org/): 
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-tRPC)
+- [Finished Solution](https://voting.61d.org/):
 
 ## Assignment Overview
 
@@ -60,7 +60,7 @@ You can use the [finished solution](https://voting.61d.org/) to simulate this el
 
 ### Ranked Choice Algorithm
 
-The actual ranked choice voting algorithm is implemented for you in the `calculateResults` function, and can be found in `src/server/api/routers/room/roomHelpers.ts`. The algorithm eliminates one voting item per round, until a voting item has greater than 50% of the votes. Tie, either for what voting item gets eliminated, or for the winner in the case of an exact 50-50 split, are simply broken by the timestamp in which the voting item was created. 
+The actual ranked choice voting algorithm is implemented for you in the `calculateResults` function, and can be found in `src/server/api/routers/room/roomHelpers.ts`. The algorithm eliminates one voting item per round, until a voting item has greater than 50% of the votes. Tie, either for what voting item gets eliminated, or for the winner in the case of an exact 50-50 split, are simply broken by the timestamp in which the voting item was created.
 
 ### Assignment Pieces
 
@@ -68,10 +68,11 @@ As this is a backend "business logic" focused assignment, the entire frontend an
 
 1. Authentication setup using Next Auth: In any voting system, it is important that people can only vote once. Therefore, we will require users to sign in with their google account so that we can verify their identity. Most of the heavy lifting is done for you, but you will need to set up the google OAuth client ID and secret.
 
-2. tRPC API: You will use tRPC to build out the API for the voting system. 
-    1. Rooms: Creating a voting room and adding emails of the users allowed to access the room.
-    2. Voting items: Create "candidates" or other items which can be voted on
-    3. Votes and scoring: Keep track of each user's ranking of each candidate. Once all votes are cast, calculate the winner using ranked choice voting.
+2. tRPC API: You will use tRPC to build out the API for the voting system.
+
+   1. Rooms: Creating a voting room and adding emails of the users allowed to access the room.
+   2. Voting items: Create "candidates" or other items which can be voted on
+   3. Votes and scoring: Keep track of each user's ranking of each candidate. Once all votes are cast, calculate the winner using ranked choice voting.
 
 3. React Query: Once the API is built, you will use React Query to fetch the data from the API and display it on the frontend, and to submit data from the frontend.
 
@@ -86,6 +87,7 @@ We are not going to perfectly design a system that can handle all edge cases (we
 5. The winner will be calculated in the "complete" stage. Nothing can change about the room after this stage.
 
 ### Setup
+
 Copy and paste these commands into your terminal to create environment variables, install dependencies, create a sqlite database, and apply the schema. **Make sure to run this in the root of the project to ensure the database is created in the correct location.**
 
 ```bash
@@ -100,7 +102,7 @@ bun db:push # Apply the schema to the database
 Setup a google OAuth client ID and secret for your application. This will allow users to sign in with their google account. Follow the steps below, also shown in this quick [video](https://youtu.be/8wKJPeey5WA).
 
 1. Go to the [google cloud console](https://console.cloud.google.com/apis/credentials).
-2. In the upper left hand corner, select the dropdown to create a new project. 
+2. In the upper left hand corner, select the dropdown to create a new project.
 3. Name the project, and select a destination.
 4. Once the project is created, click "Create Credentials" and select "OAuth client ID".
 5. Click "Configure Consent Screen." Select User Type External if you want to be able to sign in with any google account. Name the application, and provide your email address as the support email and developer contact email.
@@ -129,6 +131,7 @@ You may use either [drizzle queries](https://orm.drizzle.team/docs/rqb) or [driz
 :::
 
 ### Running your procedures
+
 In order to run your procedures before building out the frontend, you can visit [localhost:3000/api/panel](http://localhost:3000/api/panel) to view all implemented procedures, and run them. You should see a ui similar to the one below:
 
 ![trpc-panel](../../static/img/assignment-images/tRPC/trpc-panel.png)
@@ -144,16 +147,17 @@ bun db:studio
 Your first procedure is scaffolded for you. We define a protected procedure which requires the user to be signed in to create a room, pass a zod validator to the input method to validate the input, and finally indicate that the procedure will change some data on the server by using the mutation method as opposed to the query method.
 
 <!-- Todo Fix Spacing by setting up prettier -->
+
 ```typescript
 import { createRoom } from "./roomValidator";
 import { protectedProcedure } from "@/server/api/trpc";
 
-  export const roomRouter = createTRPCRouter({
-	create: protectedProcedure
-		.input(createRoom)
-		.mutation(async ({ ctx, input }) => {
-			// TODO: 2.1: Create Room
-		}),
+export const roomRouter = createTRPCRouter({
+  create: protectedProcedure
+    .input(createRoom)
+    .mutation(async ({ ctx, input }) => {
+      // TODO: 2.1: Create Room
+    }),
 });
 ```
 
@@ -170,9 +174,9 @@ Make a `get` protectedProcedure using the `withRoom` zod validator to create a p
 <details>
   <summary>Error Codes</summary>
 
-	If the room does not exist, throw a trpc error with code `NOT_FOUND`. This is equivalent to a 404 error in a REST API. If the user is not allowed to access the room, throw a trpc error with code `FORBIDDEN`. This is equivalent to a 403 error in a REST API.
-</details>
+    If the room does not exist, throw a trpc error with code `NOT_FOUND`. This is equivalent to a 404 error in a REST API. If the user is not allowed to access the room, throw a trpc error with code `FORBIDDEN`. This is equivalent to a 403 error in a REST API.
 
+</details>
 
 At this point, you should be able to create a room, and then get it. Start the server with `bun dev` and use the tRPC panel to create a room, and then get it.
 
@@ -183,20 +187,21 @@ If you think about the remaining procedures we need to implement, every single o
 Use the code you wrote in 2.2 to fill in the `roomProcedure` middleware in `trpc.ts`. Notice that the roomProcedure middleware starts off by calling the `protectedProcedure` middleware.
 
 ```typescript
-export const roomProcedure = protectedProcedure.use(
-	// Middleware body
-);
+export const roomProcedure = protectedProcedure
+  .use
+  // Middleware body
+  ();
 ```
 
-This means that all roomProcedures will also be protected procedures. Also note that we return the fetched room in the request context. 
+This means that all roomProcedures will also be protected procedures. Also note that we return the fetched room in the request context.
 
 ```typescript
-// The next function passes the request onto the "next" item in the middleware 
+// The next function passes the request onto the "next" item in the middleware
 // chain, in this case the procedure itself.
 return next({
-	ctx: {
-		room: requestedRoom,
-	},
+  ctx: {
+    room: requestedRoom,
+  },
 });
 ```
 
@@ -208,9 +213,10 @@ For all future procedures, use the roomProcedure middleware to check that the us
 
 ### 2.4: Add Voting Item
 
-After creating a room, the next thing we need to support is adding voting items to the room. Implement `addVotingItem` in `voteRouter.ts`, which will create a voting item with the provided input. The voting item roomId should be taken from the request context.  
+After creating a room, the next thing we need to support is adding voting items to the room. Implement `addVotingItem` in `voteRouter.ts`, which will create a voting item with the provided input. The voting item roomId should be taken from the request context.
 
-The input to the procedure should be all of the fields of a votingItem. We could define this zod validator manually, but it is easier and more maintainable to use [drizzle zod](https://orm.drizzle.team/docs/zod) to generate the validator programmatically from our database schema. 
+The input to the procedure should be all of the fields of a votingItem. We could define this zod validator manually, but it is easier and more maintainable to use [drizzle zod](https://orm.drizzle.team/docs/zod) to generate the validator programmatically from our database schema.
+
 <!-- Todo add explanation of drizzle zod -->
 
 Additionally, we only want to allow voting items to be added when the room is in the "open" stage. If the room in the request context is not in the "open" stage, throw a trpc error with code `BAD_REQUEST`. If the voting item is not created successfully, throw a trpc error with code `INTERNAL_SERVER_ERROR`. Otherwise return the created voting item.
@@ -228,23 +234,24 @@ Implement `advanceStage` in `roomRouter.ts`. This procedure should advance the r
 <details>
   <summary>Bonus: Handle Edge Cases For Better UX</summary>
 
-	The simple implementation of the `advanceStage` procedure which just moves the room to the next stage does get the job done, but it could lead to some unexpected behaviors.
-  1. The room could be advanced to the "voting" stage without any voting items being created
-  2. The room could be advanced to the "complete" stage without any votes being cast
-  3. Two users sending simultaneous requests to advance the room to the next stage could cause the room to be advanced twice
+    The simple implementation of the `advanceStage` procedure which just moves the room to the next stage does get the job done, but it could lead to some unexpected behaviors.
 
-  For the first two edge cases, you could add some additional checks to the procedure based on what stage the room is currently in. For the third edge case, you could require requests to specify which stage they are trying to advance the room to, and only allow the room to be advanced if the current stage is one less than the requested stage.
+1. The room could be advanced to the "voting" stage without any voting items being created
+2. The room could be advanced to the "complete" stage without any votes being cast
+3. Two users sending simultaneous requests to advance the room to the next stage could cause the room to be advanced twice
 
-  Any checks like these should occur on the server, as code executed on the client can be manipulated by the user. However, also performing these checks on the client in addition to the server allows for a smoother user experience. For example, if you were to prevent the room from advancing to the "voting" stage without any voting items being created, you could disable the "Advance to Voting" button on the client if there are no voting items in the room. If you only performed the check on the server, the user would have to submit the form, wait for a response from the server, and then be told that they need to add voting items to the room before advancing to the "voting" stage. By performing the check on the client, you can provide immediate feedback to the user and reduce the number of unnecessary requests to the server. 
+For the first two edge cases, you could add some additional checks to the procedure based on what stage the room is currently in. For the third edge case, you could require requests to specify which stage they are trying to advance the room to, and only allow the room to be advanced if the current stage is one less than the requested stage.
+
+Any checks like these should occur on the server, as code executed on the client can be manipulated by the user. However, also performing these checks on the client in addition to the server allows for a smoother user experience. For example, if you were to prevent the room from advancing to the "voting" stage without any voting items being created, you could disable the "Advance to Voting" button on the client if there are no voting items in the room. If you only performed the check on the server, the user would have to submit the form, wait for a response from the server, and then be told that they need to add voting items to the room before advancing to the "voting" stage. By performing the check on the client, you can provide immediate feedback to the user and reduce the number of unnecessary requests to the server.
+
 </details>
-
 
 ### 2.7: Get My Votes
 
 After the room advances to the voting stage, users will be presented with a drag and drop interface to rank the voting items. At some point, we need to create an initial vote for each user voting item pair in a room. We can either do this when the the room advances to the voting stage, or when the user first fetches their votes for a given room. Because not all allowed users are guaranteed to have created an account by the time the room advances (or ever), we will create with a default ordering when the user first fetches their votes. Therefore, even though server state is technically modified when the user first fetches their votes, we will consider this a query procedure not a mutation procedure.
 
 1. If the room is not in the voting stage, throw a trpc error with code `BAD_REQUEST`.
-2. Get all voting items for the room in the request context. Also get all of the votes cast by the user in the room in the request context. If there is one vote for each voting item, return the fetched voting items and votes. Otherwise, create a vote for each voting item, and return the voting items and votes. When creating the votes, they can have any position order, as long as there is only one vote in each position. 
+2. Get all voting items for the room in the request context. Also get all of the votes cast by the user in the room in the request context. If there is one vote for each voting item, return the fetched voting items and votes. Otherwise, create a vote for each voting item, and return the voting items and votes. When creating the votes, they can have any position order, as long as there is only one vote in each position.
 
 After the votes are created or fetched, ensure that they are returned to the client sorted in ascending order by position.
 
@@ -253,24 +260,24 @@ There are many ways to query data, with no right or wrong answer. Unfortunately,
 
 ```typescript
 const votesWithVotingItems: {
-    vote: {
-        id: string;
-        userId: string;
-        roomId: string;
-        votingItemId: string;
-        position: number;
-    };
-    voting_item: {
-        id: string;
-        name: string;
-        description: string;
-        roomId: string;
-        createdAt: number;
-    };
-}[]
+  vote: {
+    id: string;
+    userId: string;
+    roomId: string;
+    votingItemId: string;
+    position: number;
+  };
+  voting_item: {
+    id: string;
+    name: string;
+    description: string;
+    roomId: string;
+    createdAt: number;
+  };
+}[];
 ```
-:::
 
+:::
 
 <details>
   <summary>Hint 1: Planning Out the Function</summary>
@@ -280,13 +287,14 @@ First, determine how you can create the votes for the user and voting items. Try
 Next, assume that the votes have already been created, and write your database query to fetch the votes and voting items. Try selecting from the votingItem table, and left joining the vote table on the votingItemId and userId.
 
 Putting these pieces together, your final function should have the following parts:
+
 1. Query the votes and voting items
 2. If there is not a vote for each voting item, create a vote for each voting item and query the newly created votes and voting items
 3. Return the votes and voting items. Either the initially fetched votes and voting items, or the newly created votes and voting items.
 
 Also remember that you can insert [more than one vote at a time](https://orm.drizzle.team/docs/insert#insert-multiple-rows).
-</details>
 
+</details>
 
 <details>
   <summary>Hint 2: Correct db query if you are completely stuck</summary>
@@ -295,27 +303,29 @@ If you are completely blocked on the initial database query, this query will giv
 
 ```typescript
 const userVotesAndVotingItemsForRoom = await db
-	.select()
-	.from(votingItem)
-	.where(eq(votingItem.roomId ?? "", ctx.room.id))
-	.leftJoin(
-		vote,
-		and(
-			eq(vote.votingItemId, votingItem.id),
-			eq(vote.userId, ctx.session.user.id),
-		),
-	)
-	.orderBy(asc(vote.position));
+  .select()
+  .from(votingItem)
+  .where(eq(votingItem.roomId ?? "", ctx.room.id))
+  .leftJoin(
+    vote,
+    and(
+      eq(vote.votingItemId, votingItem.id),
+      eq(vote.userId, ctx.session.user.id),
+    ),
+  )
+  .orderBy(asc(vote.position));
 ```
+
 </details>
 
 ### 2.8: Update My Votes
 
-A user's ranking of the voting items within a room will be passed to the server as a ordered list of vote ids. Implement `updateMyVotes` in `voteRouter.ts`, which will set the position value of each vote to be the index it appears in the inputted array. 
+A user's ranking of the voting items within a room will be passed to the server as a ordered list of vote ids. Implement `updateMyVotes` in `voteRouter.ts`, which will set the position value of each vote to be the index it appears in the inputted array.
 
 <!-- Todo add example input -->
 
-We expect our votes to hold certain invariants, and we need to enforce these invariants in our procedure for the application to work correctly. 
+We expect our votes to hold certain invariants, and we need to enforce these invariants in our procedure for the application to work correctly.
+
 1. In each call to `updateMyVotes`, the user must pass an array containing every vote id for the user in the room. For example, if there are four voting items, we expect exactly four ids to be passed.
 2. Each vote must have a unique position. If there are four votes, one vote must have position 1, one vote must have position 2, one vote must have position 3, and one vote must have position 4.
 
@@ -331,7 +341,6 @@ Make sure to one index (as opposed to zero index) the position, as the frontend 
 :::
 
 The votes will be sorted by position in the client, so you do not need to worry about returning the votes in any particular order.
-
 
 ### 2.9: Get Results
 
@@ -368,6 +377,7 @@ Now that we have written our backend, we need to actually call our queries and m
 Although there are many places in which we need to fetch or submit data, often only a few lines of code are required. At this point you are through the vast majority of the assignment.
 
 ### 3.1: Create Room Mutation
+
 Define a mutation to call `api.room.create` in `CreateRoom.tsx`. After defining the mutation hook, update the onSubmit function to call the mutation with the data from the form.
 
 If the mutation is successful, we then want to redirect the user to the room they just created. Add an `onSuccess` handler to the mutation which will redirect the user to the route of the created room.
@@ -383,12 +393,13 @@ There are three `// TODO: 3.1` comments in `CreateRoom.tsx`. You need to fill so
 :::
 
 ### 3.2: Get Room Query
+
 After redirecting to to the room page, we need to fetch the basic information about the room to display the name, description, and allowed emails. Replace the placeholder room object with a [suspense query](https://trpc.io/docs/client/react/suspense#usesuspensequery) to `api.room.get` in `src/app/[roomId]/page.tsx`. Pass in the roomId from the route parameters to the query. Route parameters will be covered in more detail in the NextJs part of the course.
 
 ```typescript
 // On a route like http://localhost:3000/2295d230-1c38-4ad5-bbde-7aac0cf994be, the roomId will be "2295d230-1c38-4ad5-bbde-7aac0cf994be"
 const RoomPage = ({ params }: { params: { roomId: string } }) => {
-	// use roomId in the query
+  // use roomId in the query
   // component body
 };
 ```
@@ -396,20 +407,22 @@ const RoomPage = ({ params }: { params: { roomId: string } }) => {
 You should now be able to create a room in the UI, and view the basic room information.
 
 ### 3.3: Get Voting Items Query
+
 Replace the placeholder empty array with a query to `api.room.getVotingItems` in `src/app/[roomId]/_components/VotingItems.tsx`. Pass in the roomId from the route parameters to the query the same way you did with 3.2.
 
 ### 3.4: Add Voting Item Mutation
+
 Create a mutation to add a voting item. Like in [3.1](#31-create-room-mutation), you will need to define the mutation hook, and call the mutation function in the onSubmit handler. Once you have created the mutation, try using to add voting items to the room.
 
 You will notice that even if our mutation is successful, the new voting item does not appear on the page. In order to get our desired behavior, we need to use one of core behaviors of React Query: Query Invalidations.
 
-
 <details>
   <summary>Invalidation Explained</summary>
 
-The core building blocks of React Query are queries and mutations. Queries are retrieve data from the server, and **do not** modify any server side state. Mutations **do** modify server side state. After a mutation is successful, the data on the server and the client will be temporarily out of sync. 
+The core building blocks of React Query are queries and mutations. Queries are retrieve data from the server, and **do not** modify any server side state. Mutations **do** modify server side state. After a mutation is successful, the data on the server and the client will be temporarily out of sync.
 
 To remedy this, all we need to do is specify which queries are out of sync with the server after the successful mutation; we **invalidate** one or more queries. When a query is invalidated, React Query will refetch the data for that query, resyncing the data on the client with the updated server state.
+
 </details>
 
 Add an `onSuccess` handler to the mutation which invalidates the query to get voting items. This will cause the query to refetch the data, and the new voting item will appear on the page. Below is a modified example from the [trpc docs](https://trpc.io/docs/client/react/useUtils#query-invalidation), showcasing how a successful post edit can trigger and invalidate the query to get all posts.
@@ -428,9 +441,11 @@ const mutation = api.post.edit.useMutation({
 After adding the query invalidation, ensure that newly added voting items appear on the page a short delay after they are created.
 
 ### 3.5: Refresh Voting Items
-When another user in the room adds a voting item, we want to be able to refresh the voting items on the page without refreshing the entire page. Invalidate the query to get the voting items (the same invalidation you used in [3.4](#34-add-voting-item-mutation)) in the `refreshVotingItems` event handler. 
+
+When another user in the room adds a voting item, we want to be able to refresh the voting items on the page without refreshing the entire page. Invalidate the query to get the voting items (the same invalidation you used in [3.4](#34-add-voting-item-mutation)) in the `refreshVotingItems` event handler.
 
 ### 3.6: Advance Stage Mutation
+
 Add a mutation to advance the stage of the room in `src/app/[roomId]/page.tsx`, and call the mutation in the `handleAdvanceStage` event handler. If the mutation is successful, invalidate the room query to refetch the room data with the updated stage.
 
 It is also good to provide visual feedback to the user when a form submission is being processed. In this case, we do not want the user to click the "Advance to Voting" button multiple times while the room is being advanced. Destructure the `isPending` property from the mutation hook, and use it to conditionally disable the "Advance Stage" button while the mutation is pending. We are already disabling the button if the room is in the "complete" stage.
@@ -447,18 +462,22 @@ It is also good to provide visual feedback to the user when a form submission is
 ```
 
 ### 3.7: Get Votes Query
+
 Replace the temporary empty `myVotes` array with a suspense query to fetch the logged in user's votes from the backend.
 
 ### 3.8: Update Voting Items Mutation
+
 Add a mutation to update the user's votes. Call the mutation after the client has reordered the voting items (where the second 3.8 TODO flag is). The `newVotes` array is an array of votes with their associated voting items in the order they should be saved. Remember that `updateMyVotes` procedure only takes an array of vote ids, so you will need to map the `newVotes` array to an array of vote ids.
 
 ### 3.9: Get Results Query
-Replace the temporary empty `results` array with a call to `api.room.getResults` in `src/app/[roomId]/_components/Results.tsx`. 
+
+Replace the temporary empty `results` array with a call to `api.room.getResults` in `src/app/[roomId]/_components/Results.tsx`.
 
 ### 3.10: Join Room
+
 When a user enters a roomId to join, we first want to make sure that the user is allowed to join before attempting to redirect them. We could pass the entered room id into a typical `useQuery` call, but this would trigger a new call to the server every time the user enters a new character. We need to fetch the data using our procedure, but only when the user submits the form and not right when the page loads.
 
-Fortunately, trpc provides a fetch utility which allows us to trigger a single call to the server without using a `useQuery`. Remove the "Not Implemented" toast notification and replace it with a one time fetch to `api.room.get` in `src/app/_components/JoinRoom.tsx`. 
+Fortunately, trpc provides a fetch utility which allows us to trigger a single call to the server without using a `useQuery`. Remove the "Not Implemented" toast notification and replace it with a one time fetch to `api.room.get` in `src/app/_components/JoinRoom.tsx`.
 
 ```typescript
 const utils = api.useUtils();
@@ -469,9 +488,10 @@ router.push(`/${room.id}`); // Redirect to the room page
 If the procedure returns a trpc error, we will catch the error and display a toast notification with the error message. If the procedure is successful, add we will redirect the user to the room page.
 
 ### 3.11: Invalidate Room On Failed Requests
+
 In addition to triggering actions on successful mutations, we can [also trigger actions on failed mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations#mutation-side-effects). If a user tries to add a voting item after another user has already advanced the room to the "voting" stage, their request will fail. Similarly, if a user tries to update their votes after the room has advanced to the "complete" stage, their request will fail. In both of these cases, we need to invalidate the room query to refetch the room data with the updated stage.
 
-Add an `onError` handler to the both the [update my votes](#38-update-voting-items-mutation) and [add voting item](#34-add-voting-item-mutation) mutations to invalidate the room query on a failed request. To test this, you will need to sign in with two different google accounts in two different browser windows. 
+Add an `onError` handler to the both the [update my votes](#38-update-voting-items-mutation) and [add voting item](#34-add-voting-item-mutation) mutations to invalidate the room query on a failed request. To test this, you will need to sign in with two different google accounts in two different browser windows.
 
 Congratulations! You now have a fully functioning ranked choice voting application.
 
@@ -484,4 +504,4 @@ Congratulations! You now have a fully functioning ranked choice voting applicati
 For simplicity, we only added the ability to add voters to a room when it is created. However, there is no reason we shouldn't be able to add voter to the room before voting starts.
 
 1. Add a procedure `addVoters` which accepts an array of new emails to add to the room. Make sure that duplicates are removed.
-2. Create a dialog component `AddVoters.tsx` in the frontend that uses your `addVoters` mutation. You can copy the dialog code from `CreateRoom.tsx`. Make sure that the option to add voters is only visible or only enabled in the "open" stage. After submitting the mutation, you should invalidate the room to display the newly created. You can also display a [toast notification](https://ui.shadcn.com/docs/components/toast) when users are added successfully. 
+2. Create a dialog component `AddVoters.tsx` in the frontend that uses your `addVoters` mutation. You can copy the dialog code from `CreateRoom.tsx`. Make sure that the option to add voters is only visible or only enabled in the "open" stage. After submitting the mutation, you should invalidate the room to display the newly created. You can also display a [toast notification](https://ui.shadcn.com/docs/components/toast) when users are added successfully.

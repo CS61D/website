@@ -71,22 +71,24 @@ Verify your installation by typing the following command in terminal or powershe
 </Tabs>
 
 ### A Note on Shells
+
 The shell you use (zsh, bash, powershell, fish) is separate from the application that you use to access your shell. The shell is a command line interface (cli) which allows you to interact with your underlying operating system and do things like create files, run scripts, or manage running processes. The terminal is the application that allows you to type in shell commands for your computer to run. For instance, on MacOS, [iTerm2](https://iterm2.com/) is a popular alternative to the built in Mac terminal application, but either application can be used with any shell. VSCode also has a built in terminal, but it has a menu for toggling which shell you want the terminal to use.
 
 Besides general productivity benefits, the reason it is important to be familiar with a shell commands is that servers can normally only be interacted with though the a command line shell. Since almost all servers run some version of linux, it makes sense to get familiar with a shell environment that you can use with linux. Bash is the default shell on most linux distributions, and although MacOS uses zsh by default, zsh is a direct descendent from bash and almost all commands behave the same between on both shells. PowerShell on the other hand, was developed specifically for use on Windows, and has completely different ancestry from bash.
 
 Renaming a file using bash or zsh
-```bash 
+
+```bash
 mv oldname.txt newname.txt
 ```
 
 Renaming a file using PowerShell
+
 ```powershell
 Move-Item oldname.txt newname.txt
 ```
 
-For that reason, after finishing this setup assignment, use the **Git Bash** application to use the **bash** shell for the rest of the course if you are running on windows. Or alternatively, you can explore emulating linux directly on your windows machine through [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about). 
-
+For that reason, after finishing this setup assignment, use the **Git Bash** application to use the **bash** shell for the rest of the course if you are running on windows. Or alternatively, you can explore emulating linux directly on your windows machine through [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about).
 
 ### Git
 
@@ -221,11 +223,13 @@ bun -v #output: 1.1.8
 ```
 
 ### Docker and Docker Desktop
+
 [Docker](https://www.docker.com/) allows you to reliably reproduce the environment an application runs in on any hardware that can run the [docker engine](https://docs.docker.com/engine/). Docker Desktop provides a GUI for interacting with docker containers running locally on your machine.
 
 Follow the install instructions for [MacOS](https://docs.docker.com/desktop/install/mac-install/) or [Windows](https://docs.docker.com/desktop/install/windows-install/) to install Docker Desktop. Installing the desktop application will also install the underlying docker engine.
 
 Verify your installation with this command.
+
 ```bash
 docker -v  #Docker version 25.0.3, build 4debf41
 ```

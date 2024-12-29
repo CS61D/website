@@ -15,6 +15,7 @@ You can view it in the [vscode marketplace](https://marketplace.visualstudio.com
 [Biome](https://biomejs.dev/) is a code formatter an linter that is an alternative to prettier and eslint. Built using Rust, it runs faster than prettier and eslint while maintaining 97% feature compatibility.
 
 To add biome, first install the dependency and initialize a project.
+
 ```bash
 bun add --dev --exact @biomejs/biome
 bunx biome init
@@ -28,10 +29,10 @@ This will create a `biome.json` config file in your project. The default configu
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": true
+    "useIgnoreFile": true,
   },
   "organizeImports": {
-    "enabled": true
+    "enabled": true,
   },
   "linter": {
     "enabled": true,
@@ -40,37 +41,39 @@ This will create a `biome.json` config file in your project. The default configu
         "useSortedClasses": {
           "level": "error",
           "options": {
-            "functions": ["clsx", "cva", "cn"]
-          }
-        }
+            "functions": ["clsx", "cva", "cn"],
+          },
+        },
       },
-      "recommended": true
-    }
+      "recommended": true,
+    },
   },
   "formatter": {
     "enabled": true,
     "indentWidth": 2,
-    "indentStyle": "space"
+    "indentStyle": "space",
   },
   "files": {
-    "ignore": ["src/components/ui/*.tsx"]
-  }
+    "ignore": ["src/components/ui/*.tsx"],
+  },
 }
 ```
+
 <details>
-    <summary>What this configuration does differently from the default</summary>
-    1. Uses spaces instead of the default tabs for indentation.
-    2. Enforces the use of sorted tailwind classes, including in functions that take tailwind classes as arguments.
-    3. Ignores files in the `src/components/ui` directory, which is where shadCN components are stored by default.
+  <summary>What this configuration does differently from the default</summary>
+  1. Uses spaces instead of the default tabs for indentation. 2. Enforces the
+  use of sorted tailwind classes, including in functions that take tailwind
+  classes as arguments. 3. Ignores files in the `src/components/ui` directory,
+  which is where shadCN components are stored by default.
 </details>
 
 Finally, to both lint and format your files in a single line, add the following to your `package.json` scripts. This will check all files in the `src` directory and write the changes to the files.
 
 ```json title="package.json"
 {
-    "scripts": {
-        "biome": "bunx biome check --write --unsafe src/*",
-    }
+  "scripts": {
+    "biome": "bunx biome check --write --unsafe src/*"
+  }
 }
 ```
 
@@ -91,27 +94,35 @@ Then, install the vscode extension.
 [GitLens](https://www.gitkraken.com/gitlens) lets you view your commit history inline within vscode.
 
 ### Live Share
+
 [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) lets you turn vscode into a real time collaborative editor like google docs. Send an invite link and allow anyone to collaborate on your project in real time.
 
 ## Quality of life extensions
 
 ### Pretty TypeScript Errors
+
 Pretty TypeScript Errors makes typescript errors more readable.
 
 ### Code Spell Checker
+
 Code spell checker helps avoid bugs due to accidental typos.
 
 ### Auto Rename Tag
+
 When editing a html tag, automatically edit the corresponding closing tag.
 
 ### IntelliCode and IntelliCode API Usage
-IntelliCode provides enhanced auto completion, including for commonly used APIs. 
+
+IntelliCode provides enhanced auto completion, including for commonly used APIs.
 
 ### Tailwind CSS IntelliSense
+
 Tailwind CSS IntelliSense provides auto completion for tailwind classes.
 
 ### Better Comments
+
 Better Comments allows you to categorize your comments by color.
 
 ### Material Icon Theme
+
 Material Icon Theme provides icons for your files and folders, making it easier to visually distinguish them within your editor.

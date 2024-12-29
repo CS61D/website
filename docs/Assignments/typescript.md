@@ -6,8 +6,8 @@ sidebar_position: 3
 
 ## Assignment Links
 
-* [Starter Code](https://github.com/CS61D/Assignment-Starter-Typescript)
-* [Lecture 2: TypeScript](https://www.youtube.com/watch?v=C3CzIBC5YwI)
+- [Starter Code](https://github.com/CS61D/Assignment-Starter-Typescript)
+- [Lecture 2: TypeScript](https://www.youtube.com/watch?v=C3CzIBC5YwI)
 
 ## Assignment Overview
 
@@ -18,7 +18,7 @@ Most problems use predefined types in the types.ts file. While you do not need t
 ### Setup
 
 Install the dependencies to be able to run tests:
-  
+
 ```bash
 bun install
 ```
