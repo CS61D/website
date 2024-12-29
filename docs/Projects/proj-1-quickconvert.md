@@ -19,14 +19,13 @@ For Project 1, you will be creating an online image converter like [cloud conver
   <summary>
   Image Format Differences and Use Cases
   </summary>
-
-1. **JPEG**: The OG and most commonly used image format on the web. JPEGs have great compression, but the compression is lossy, meaning that some image quality is lost when the image is compressed. .jpg and .jpeg refers to the same format, but on older windows operating systems there was a cap of three characters for file extensions, so .jpeg was shortened to .jpg.
-2. **PNG**: Unlike JPEGs, PNGs use lossless compression, meaning that no detail is lost when converting from a different format to PNG. PNG images also support transparency, which JPEGs do not. The tradeoff is that PNGs are typically larger than JPEGs.
-3. **GIF**: GIFs allows for animations, but are limited to a 256 color palette, making them unsuitable for high detail photographs.
-4. **SVG**: SVGs are vector images, meaning that they are not made up of pixels, but of mathematically defined shapes and paths. This means that SVGs can be scaled to any size without losing quality. They are ideal for use as icons or logos, as they ensure consistent quality and sharpness no matter where they are displayed. It almost never makes sense to convert an non-SVG image to an SVG, but there are use cases where you might want to convert an SVG to a PNG or JPEG.
-5. **WebP**: WebP images are a newer format specifically optimized for the web. They are smaller than JPEGs and PNGs, and support both lossy and lossless compression, transparency, and are typically even smaller and more performant than JPEGs.
-     <!-- 6. **Raw Formats (HEIC, RAW, etc.)**:  -->
-   </details>
+  1. **JPEG**: The OG and most commonly used image format on the web. JPEGs have great compression, but the compression is lossy, meaning that some image quality is lost when the image is compressed. .jpg and .jpeg refers to the same format, but on older windows operating systems there was a cap of three characters for file extensions, so .jpeg was shortened to .jpg.
+  2. **PNG**: Unlike JPEGs, PNGs use lossless compression, meaning that no detail is lost when converting from a different format to PNG. PNG images also support transparency, which JPEGs do not. The tradeoff is that PNGs are typically larger than JPEGs.
+  3. **GIF**: GIFs allows for animations, but are limited to a 256 color palette, making them unsuitable for high detail photographs.
+  4. **SVG**: SVGs are vector images, meaning that they are not made up of pixels, but of mathematically defined shapes and paths. This means that SVGs can be scaled to any size without losing quality. They are ideal for use as icons or logos, as they ensure consistent quality and sharpness no matter where they are displayed. It almost never makes sense to convert an non-SVG image to an SVG, but there are use cases where you might want to convert an SVG to a PNG or JPEG.
+  5. **WebP**: WebP images are a newer format specifically optimized for the web. They are smaller than JPEGs and PNGs, and support both lossy and lossless compression, transparency, and are typically even smaller and more performant than JPEGs.
+      <!-- 6. **Raw Formats (HEIC, RAW, etc.)**:  -->
+</details>
 
 One other difference between most online file converters and QuickConvert is that QuickConvert will do all image processing locally in the browser, and does not need to upload files to a server. This means that millions of people could use QuickConvert at the same time without any additional cost to you, since all of the processing will take place on their local machine. More practically, it allows you to build the application before we cover any backend concepts in the course.
 
