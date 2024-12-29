@@ -242,22 +242,22 @@ You can preview what we are going to do in this part by selecting "Parent/Guardi
 Add an array of children objects to the zod schema. You can add any properties you like, but we will use a `name` and `age` property for this example.
 
 <details>
-    <summary>Solution</summary>
-    
+
+  <summary>Solution</summary>
+
 ```tsx
 export const formSchema = z.object({
   // Existing fields
+  children: z
+    .object({
+      name: z.string().min(1, "Required"),
+      grade: z.number().min(1).max(12),
+    })
+    .array()
+    .optional(),
+});
+```
 
-children: z
-.object({
-name: z.string().min(1, "Required"),
-grade: z.number().min(1).max(12),
-})
-.array()
-.optional(),
-})
-
-````
 </details>
 
 ### useFieldArray()
@@ -269,7 +269,7 @@ const { fields, append, remove } = useFieldArray({
   control: form.control, // Form control from useForm()
   name: "children",
 });
-````
+```
 
 `fields` is an array of objects that represent each child in the array. `append` is a function that adds a new child to the array, and `remove` is a function that removes a child from the array. There are many other functions that can handle more complex operations.
 
