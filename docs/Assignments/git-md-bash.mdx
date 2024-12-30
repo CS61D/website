@@ -4,6 +4,10 @@ sidebar_position: 0
 
 # 0. Git, Markdown, and Bash
 
+:::danger
+This assignment is still under construction. Please check back later for the full assignment.
+:::
+
 ## Assignment Overview
 
 Before diving into the rest of the course material, it is important to be familiar with a few fundamental tools of the trade that developers use every day. This assignment will cover the basics of Git, Markdown, and Bash. While can complete this assignment using graphical tools (such as finder on mac of file explorer on windows), please use the command line, as it is a fundamental skill needed for software development. Additionally, the tests will ensure that you have run a certain commands by looking at your command history.
@@ -21,9 +25,10 @@ MacOS uses zsh (Z-shell) by default. Zsh is extremely similar to bash, and all o
 2. **Print the current working directory** to see where you are in your file system (most likely the root).
 3. **Change directories** into the folder you would like to store your assignments for 61D (like desktop or documents).
 4. **Make a folder** called to store all of your assignments then **change directories** into the folder. **Make another folder** for this assignment titled `bash-assignment`and **change directories** into that folder.
-5. **Make a file** called `README.md` and **make another file** `history.txt`.
+5. **Make a file** called `README.md` and **make another file** `meaning-of-life.txt`
 6. **List the files** in the current directory to verify that you have created the files.
-7. Open the current directory in vscode. You can do this by running `code .` in the terminal.
+7. We lied. We don't know the meaning of life. **Rename** the `meaning-of-life.txt` file to `history.txt`.
+8. Open the current directory in vscode. You can do this by running `code .` in the terminal.
 
 Congrats! You know now a few basic bash commands. We will use a few more in later parts of the assignment, but now let's move on to Markdown.
 
@@ -51,7 +56,9 @@ There are a few other pieces of markdown syntax you may use at some point, but y
 
 ## Git
 
-Like the bash section, each bolded text will correspond to a git command you should run in your terminal. If you are forgetting which command to use, you can refer back to the [git quick reference](../Readings/git.mdx#git-quick-reference). We will also have you use a few additional back commands.
+Like the bash section, each bolded text will correspond to a git command you should run in your terminal. If you are forgetting which command to use, you can refer back to the [git quick reference](../Readings/git.mdx#git-quick-reference). We will also have you use a few additional bash commands.
+
+### Basic Git Usage
 
 1. **Initialize a git repository** within your current directory
 2. **Check the status** of your repository. You should see that you have untracked files.
@@ -59,12 +66,79 @@ Like the bash section, each bolded text will correspond to a git command you sho
 4. **Check the status** of your repository again. You should see that you have files ready to be committed.
 5. We haven't made any changes to `history.txt` yes, so let's **unstage** it so that we are only committing the `README.md` file.
 6. **Commit** the staged changes with the message "Initial commit"
-
-(Some inspiring text)
-
 7. **Create a new branch** titled `new-feature` and **switch to** it. It is possible to do this in a single command or in two separate commands.
 8. **View your branches** and verify that you are on the `new-feature` branch.
 9. Create a new file called `feature.txt` and some text to it. **Add** and **commit** the file to the `new-feature` branch.
 10. **Switch back to the main branch** and you should see that the `feature.txt` file is no longer in the directory.
+11. **Merge** the changes from the `new-feature` branch into the main branch and **delete** the `new-feature` branch.
 
-## Bonus
+:::important
+Make sure to use the `--noedit` flag when merging, or do not change the default commit message. This will help the autograder identify the commit message.
+:::
+
+You now know the basics of git! It can be difficult to remember all of the commands initially, but soon they will become second nature. Our final step is to push the changes to GitHub and investigate what happens when git can't automatically merge two branches.
+
+### GitHub
+
+1. **Create a new repository** on [GitHub](https://github.com/new) with whatever title you would like. Make sure that it is public, or the autograder will not be able to access it. Do not add a `README.md` file, as we already have one locally and do not add a `.gitignore` file, as we will create one later.
+2. Follow the instructions to push an existing repository from the command line. **Add the remote** and **push the changes** to GitHub You should now be able to refresh the page and view your code!
+
+Next we will show what happens when git is unable to automatically merge two branches. This typically does not happen when working on your own, is very common when collaborating with large groups of people on a repository.
+
+3. Create and check out to a new branch called `conflict1`. Add some text to the first line of `feature.txt` and some text _above_ your `h1` header in your `README.md` before adding, committing, and pushing the changes. When pushing, be sure to specify the branch name.
+
+```bash
+git push origin conflict1
+```
+
+4. **Switch back to the main branch** and create a new branch called `conflict2`. You should not see the text you added to `feature.txt` in your `conflict2` branch, since those changes were not merged into the main branch. Add some different text to the first line of `feature.txt` and some text _below_ your `h1` header in your `README.md` before adding, committing, and pushing the changes. When pushing, be sure to specify the branch name.
+
+{/* Todo: Diagram the difference between branching off of main and branching off of another branch */}
+
+5. Open the repository in GitHub and create a pull request to merge `conflict1` into the main branch. You should be able to preview the changes before merging. **Merge** the pull request and **delete** the branch.
+
+6. Checkout to main on your local repository and **pull** the changes from GitHub. You should see the changes you made in `conflict1` in your local repository.
+
+7. Create a pull request to merge `conflict2` into the main branch. You should see a merge conflict.
+
+Merge conflicts arise when two diverging branches have made changes to the same lines of code and Git does not know which changes to keep. Git can detect when and automatically merge changes to different parts of files, which is why there is no conflict in the `README.md` file.
+
+```
+<<<<<<< HEAD
+conflicting changes 1
+=======
+conflict changes 2
+>>>>>>> conflict2
+```
+
+Git displays the changes made on each branch, and leaves it up to the user to decide which to keep.
+
+8. Decide if you want to keep your changes from `conflict1` or from `conflict2`. Delete the conflict markers (the `<<<<<<<`, `=======`, and `>>>>>>>` lines) and complete there merge. Merge the pull request and pull the changes back into your local main branch.
+
+### .gitignore
+
+Very often you will want to have files in your repository that you don't want to track with git. We can specify these files in a `.gitignore` file.
+
+1. Create a file called `.gitignore` in your repository. Add the following lines to the file:
+
+```txt
+secrets/
+no-commit.txt
+```
+
+and commit the contents.
+
+2. Now, any file called no-commit.txt or any file in a folder called secrets will not be tracked by git. Try creating a `no-commit.txt`. You should see that it is greyed out in the vscode sidebar, and running `git status` will not show it as an untracked file. Push your changes to GitHub and verify that the `no-commit.txt` file is not in the repository.
+
+You can specify more complex [.gitignore patterns](https://www.atlassian.com/git/tutorials/saving-changes/gitignore#git-ignore-patterns) but most of the time specifying individual files or folders is sufficient.
+
+## Submission
+
+The auto grader will check the contents of your `README.md` file, your git history, and your bash history. To "upload" your bash history, run the following command to write out your most recent commands to your `history.txt` file:
+
+```bash
+# Write 200 most recent bash commands to history.txt
+history | tail -n 200 >> history.txt
+```
+
+Then make sure that your initial `echo >> "Hello Bash!"` command is in this file. If not, try deleting the contents of the file and running the command again but with more lines.

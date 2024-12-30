@@ -2,15 +2,45 @@
 sidebar_position: 0
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # Bash
 
 A **Shell**, such as Bash (Bourne-Again SHell), or zsh (Z-shell) allows you to interact with your operating system through a command-line. Command line interfaces (CLI) generally allow for enhanced productivity compared to graphical user interfaces (GUI) for many tasks, as interacting via a keyboard is generally quicker and with a mouse. Shell commands are also scriptable, meaning you can more easily automate tasks.
 
-## Setting up aliases
+## Setting Up Aliases
 
 Long commands can be cumbersome to remember type out every single time, especially if you run them dozens of times a day. Fortunately, you can `alias` a command to a shorter name. For example, you can alias `git status` to `gs` by updating either your `.bashrc` or `.zshrc` file on windows or MacOS respectively.
 
-(TODO give instructions)
+<Tabs>
+  <TabItem value="windows" label="Windows/bash" default>
+
+    ```bash
+    cd ~ # Go to home directory
+    touch .bashrc # Create .bashrc file if it doesn't exist
+    code .bashrc # Open .bashrc in vscode
+    ```
+
+  </TabItem>
+  <TabItem value="mac" label="Mac/zsh">
+
+    ```bash
+    cd ~ # Go to home directory
+    touch .zshrc # Create .zshrc file if it doesn't exist
+    code .zshrc # Open .zshrc in vscode
+    ```
+
+  </TabItem>
+</Tabs>
+
+Then add an alias like so:
+
+```bash
+alias gs='git status'
+```
+
+After adding an alias to the file, you will need to restart your terminal or run `source ~/.bashrc` or `source ~/.zshrc` to apply the changes. You should nwo be able to use your alias in the terminal.
 
 ## Bash Quick Reference
 
@@ -34,6 +64,7 @@ cd path/to/directory
 cd .. # Move up one directory
 cd ../../ # Move up two directories
 cd - # Move to the previous directory
+cd ~ # Move to the home directory
 ```
 
 ### touch - Create an empty file
@@ -97,4 +128,25 @@ tree
 tree -L 2 # Show the directory structure to a depth of 2
 tree -L 2 -I "node_modules" "build" # Show the directory structure to a depth of 2, ignoring node_modules and build directories
 tree --gitignore # Automatically ignore all files ignored by git based on a .gitignore file
+```
+
+### alias - Create a shortcut for a command
+
+Running the alias command will only create the alias for the current terminal session. To make it accessible in every session, add the alias to your `.bashrc` or `.zshrc` file as explained in [Setting up aliases](#setting-up-aliases).
+
+```bash
+alias gs='git status'
+```
+
+You can also use the `which` command to see what a command is aliased to or run `alias` without any arguments to print all of your aliases.
+
+```bash
+which gs # gs: aliased to git status
+alias # print all aliases in current terminal session
+```
+
+### clear - Clear the terminal screen
+
+```bash
+clear
 ```
