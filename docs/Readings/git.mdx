@@ -1,0 +1,82 @@
+---
+sidebar_position: 3
+---
+
+# Git
+
+> "git" can mean anything, depending on your mood.
+>
+> - random three-letter combination that is pronounceable, and not
+>   actually used by any common UNIX command. The fact that it is a
+>   mispronunciation of "get" may or may not be relevant.
+> - stupid. contemptible and despicable. simple. Take your pick from the
+>   dictionary of slang.
+> - "global information tracker": you're in a good mood, and it actually
+>   works for you. Angels sing, and a light suddenly fills the room.
+> - "goddamn idiotic truckload of sh\*t": when it breaks
+
+\- [Original Git README file](https://github.com/git/git/blob/fe5e7f332c8a95680a869eaca8033213676cbc7b/README)
+
+> "I'm an egotistical bastard, so I name all my projects after myself. First Linux, now git."
+
+\- Linus Torvalds, original author of git
+
+## Git Overview
+
+If you write code, using git is non-negotiable. In short, git allows you to keep track of different versions of your codebase, and helps your rectify differences between these versions. You can easily restore your codebase to a previous version, or work on multiple independent features at the same time on their own branches.
+
+Also checkout [Git in 100 seconds](https://www.youtube.com/watch?v=hwP7WQkmECE)
+
+## A basic Git workflow
+
+![diagram](../../static/img/reading-images/git/git.svg)
+
+[View Diagram in
+Excalidraw](https://excalidraw.com/#json=Va2FBPXIm34vDMfpI3Rfm,zgFdHBywozgTMfExv2mulw)
+
+## Git versus GitHub
+
+Git is the open source version control software which you just learned how to use. GitHub a hosting provider that allows you to store your git repositories in the cloud. GitLab and Bitbucket are other popular alternatives to GitHub, although they generally have a much smaller market share.
+
+Since git repositories are almost always hosted on GitHub, it can be easy to confuse the two.
+
+## Git Quick Reference
+
+**Check out the [GitHub](https://education.github.com/git-cheat-sheet-education.pdf) and [GitLab](https://about.gitlab.com/images/press/git-cheat-sheet.pdf) official cheat sheets for a more comprehensive reference.**
+
+### git init - Initialize a git repository
+
+```bash
+git init
+```
+
+### git status - Check the status of your repository
+
+```bash
+git status
+```
+
+### git add - Add files to the staging area
+
+Files must be added before they can be committed.
+
+```bash
+git add . # Add all files in the current directory
+git add file1.txt file2.txt # Add specific files
+```
+
+### git commit - Commit changes to the repository
+
+Think of making a commit like "saving" your changes. At any point, you can revert back to a previous commit.
+
+```bash
+git commit -m "All commits must have a message"
+```
+
+### git push - Push changes to a remote repository
+
+If your local repository is also hosted on GitHub, this will push your local changes to GitHub.
+
+```bash
+git push origin main #
+```

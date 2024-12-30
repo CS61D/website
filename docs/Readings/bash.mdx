@@ -1,0 +1,100 @@
+---
+sidebar_position: 0
+---
+
+# Bash
+
+A **Shell**, such as Bash (Bourne-Again SHell), or zsh (Z-shell) allows you to interact with your operating system through a command-line. Command line interfaces (CLI) generally allow for enhanced productivity compared to graphical user interfaces (GUI) for many tasks, as interacting via a keyboard is generally quicker and with a mouse. Shell commands are also scriptable, meaning you can more easily automate tasks.
+
+## Setting up aliases
+
+Long commands can be cumbersome to remember type out every single time, especially if you run them dozens of times a day. Fortunately, you can `alias` a command to a shorter name. For example, you can alias `git status` to `gs` by updating either your `.bashrc` or `.zshrc` file on windows or MacOS respectively.
+
+(TODO give instructions)
+
+## Bash Quick Reference
+
+### pwd - Print working directory
+
+```bash
+pwd
+```
+
+### ls - List current directory contents
+
+```bash
+ls
+ls -a # List all files including hidden files and dot files like .gitignore
+```
+
+### cd - Change directory
+
+```bash
+cd path/to/directory
+cd .. # Move up one directory
+cd ../../ # Move up two directories
+cd - # Move to the previous directory
+```
+
+### touch - Create an empty file
+
+```bash
+touch newfile.txt # Create a new file
+touch file1.txt file2.txt # Create multiple files
+```
+
+### mkdir - Create a new directory
+
+```bash
+mkdir newdir # Create a new directory
+mkdir -p path/to/newdir # Create a new directory and any necessary parent directories
+```
+
+### mv - Move or rename a file
+
+```bash
+mv oldname.txt newname.txt # Rename a file
+mv myfile.txt newdir/mytextfile.txt # Move a file
+```
+
+### cp - Copy a file
+
+```bash
+cp myfile.txt newdir/ # Copy a file to a new directory
+cp -r mydir newdir/ # Copy a directory to a new directory
+```
+
+### rm - Remove a file or directory
+
+```bash
+rm myfile.txt # Remove a file
+rm -rf mydir # Remove a directory and all its contents
+```
+
+### echo - Print text to console
+
+```bash
+echo "Hello, World!"
+```
+
+### cat - Print files to standard output
+
+```bash
+cat myfile.txt # Print the contents
+```
+
+### history - Show command history
+
+```bash
+history
+history | tail -n 10 # Show the last 10 commands
+```
+
+### tree - Show directory structure
+
+```bash
+tree
+tree -L 2 # Show the directory structure to a depth of 2
+tree -L 2 -I "node_modules" "build" # Show the directory structure to a depth of 2, ignoring node_modules and build directories
+tree --gitignore # Automatically ignore all files ignored by git based on a .gitignore file
+```

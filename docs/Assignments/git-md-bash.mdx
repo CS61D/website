@@ -1,0 +1,70 @@
+---
+sidebar_position: 0
+---
+
+# 0. Git, Markdown, and Bash
+
+## Assignment Overview
+
+Before diving into the rest of the course material, it is important to be familiar with a few fundamental tools of the trade that developers use every day. This assignment will cover the basics of Git, Markdown, and Bash. While can complete this assignment using graphical tools (such as finder on mac of file explorer on windows), please use the command line, as it is a fundamental skill needed for software development. Additionally, the tests will ensure that you have run a certain commands by looking at your command history.
+
+## Bash
+
+In this section of the assignment, all bolded text will be correspond to a command that you should run in your terminal. If you are forgetting which command to use, you can refer back to the [bash quick reference](../Readings/bash.md/#quick-reference).
+
+:::note
+MacOS uses zsh (Z-shell) by default. Zsh is extremely similar to bash, and all of the commands in this assignment will work in zsh.
+:::
+
+0. Open up a terminal window. On Mac, you can use the built-in Terminal app. On Windows, use Git-Bash.
+1. **Print** "Hello Bash!" to the console. This will ensure that we know when you started the assignment.
+2. **Print the current working directory** to see where you are in your file system (most likely the root).
+3. **Change directories** into the folder you would like to store your assignments for 61D (like desktop or documents).
+4. **Make a folder** called to store all of your assignments then **change directories** into the folder. **Make another folder** for this assignment titled `bash-assignment`and **change directories** into that folder.
+5. **Make a file** called `README.md` and **make another file** `history.txt`.
+6. **List the files** in the current directory to verify that you have created the files.
+7. Open the current directory in vscode. You can do this by running `code .` in the terminal.
+
+Congrats! You know now a few basic bash commands. We will use a few more in later parts of the assignment, but now let's move on to Markdown.
+
+## Markdown
+
+Open up your `README.md` file in vscode. Include the following markdown features in any order you like. If you forget any of the syntax, reference the [markdown cheat sheet](https://commonmark.org/help/).
+
+As you are editing the file, you can preview the markdown by clicking the "Open Preview" button in the top right corner of the vscode window.
+
+1. Include an `h1` header with the title "Assignment 0"
+2. Add a fun fact about anything you would like in **bold**
+3. Include a question you have about coding or 61d in **italics**
+4. Include a [link](https://currypizzahouse.com/) to the website of your favorite restaurant
+5. Include a image of a cute animal like this one:
+
+![pig](https://media.istockphoto.com/id/586714878/photo/cute-baby-piglet.jpg?s=612x612&w=0&k=20&c=eR79RWnj_hKVY7XAfPcwnlx4eO1k8LXb5JVnmA3BD3w=)
+
+6. Include a code including a bash command you used in the previous section. Be sure to specify the language of the code block as `bash` after the three backtick to get appropriate syntax highlighting.
+
+```bash
+echo "Hello Bash!"
+```
+
+There are a few other pieces of markdown syntax you may use at some point, but you have now covered the most common ones. Now let's move on to Git.
+
+## Git
+
+Like the bash section, each bolded text will correspond to a git command you should run in your terminal. If you are forgetting which command to use, you can refer back to the [git quick reference](../Readings/git.mdx#git-quick-reference). We will also have you use a few additional back commands.
+
+1. **Initialize a git repository** within your current directory
+2. **Check the status** of your repository. You should see that you have untracked files.
+3. **Add all files to the staging area** so that git will begin to track them.
+4. **Check the status** of your repository again. You should see that you have files ready to be committed.
+5. We haven't made any changes to `history.txt` yes, so let's **unstage** it so that we are only committing the `README.md` file.
+6. **Commit** the staged changes with the message "Initial commit"
+
+(Some inspiring text)
+
+7. **Create a new branch** titled `new-feature` and **switch to** it. It is possible to do this in a single command or in two separate commands.
+8. **View your branches** and verify that you are on the `new-feature` branch.
+9. Create a new file called `feature.txt` and some text to it. **Add** and **commit** the file to the `new-feature` branch.
+10. **Switch back to the main branch** and you should see that the `feature.txt` file is no longer in the directory.
+
+## Bonus
