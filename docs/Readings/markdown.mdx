@@ -1,0 +1,26 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Markdown
+
+Markdown is a simple plain text format most commonly used for by developers for writing documentation. It has a common syntax for formatting text, creating lists, and embedding images and links.
+
+Imagine you wrote some documentation in a google doc, and wanted to export it to a pdf so that you could add it to a project you are working on. It is unlikely that all of your text formatting would be preserved and render correctly. Similarly, if you were to copy and paste from your google doc into some other file, you would loose all of your text formatting.
+
+Markdown fixes this problem by including the formatting in the text itself. For example, to include a hyperlink, you would write `[text](url)`. Which would render as a link like [this](https://github.com/CS61D/website).
+
+```markdown
+[61d website source code](https://github.com/CS61D/website)
+```
+
+If you copied and pasted the above text from one markdown file to another, the formatting would be preserved.
+
+Because it is a common format, markdown files can be rendered in many different ways. The rendering can be customized, and formatted to display well in many different circumstances without altering the underlying markdown file. All of the docs on the 61d website are written in markdown, using a tool called [docusaurus](https://docusaurus.io/). Try resizing this page in your browser window. Once you shrink it past a certain point, the `Markdown` page header will shrink in size to make the page more mobile responsive. I never had to specify any sort of font size or responsive behavior for the header itself, all I had to do was specify that it was an `h1` header in markdown.
+
+## Quick Reference
+
+**Check out the [official markdown cheat sheet](https://commonmark.org/help/)**

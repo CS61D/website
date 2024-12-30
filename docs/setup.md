@@ -27,9 +27,21 @@ Additionally, apply for the [GitHub Student Developer Pack](https://education.gi
 
 [Visual Studio Code (Same IDE used in CS61A)](https://code.visualstudio.com/download) for writing code.
 
+Once you have VSCode installed, configure it so that you can open VSCode from the command line. **This is setup by default on windows**
+
+1. Open VSCode
+2. Open the Command Palette by pressing `Cmd + Shift + P` on Mac or `Ctrl + Shift + P` on Windows. Or you can View > Command Palette from the top menu.
+3. Type `shell command` and select `Shell Command: Install 'code' command in PATH` from the dropdown.
+
+Verify your installation by running the following command in terminal or powershell:
+
+```bash
+code --v #output: 1.96.2
+```
+
 ### Package Manager
 
-Package managers are tools that make it generally easier to install other pieces of software. For macOS or linux, install homebrew from the **built in terminal** which runs zsh (z-shell). For windows, install chocolatey from the built in **powershell** application, **while running the shell as an administrator**. Then paste the following command into the terminal or powershell.
+Package managers are tools that make it generally easier to install other pieces of software. For macOS or linux, install homebrew from the **built in terminal** which runs zsh (Z-shell). For windows, install chocolatey from the built in **powershell** application, **while running the shell as an administrator**. Then paste the following command into the terminal or powershell.
 
 <Tabs>
   <TabItem value="Windows" label="Windows" default>
@@ -106,18 +118,22 @@ We will use the GitHub command line interface to interact with GitHub from the t
 
 **Install**
 <Tabs>
-<TabItem value="Windows" label="Windows" default>
+
+  <TabItem value="Windows" label="Windows" default>
 
 ```bash
 choco install gh
 ```
 
-</TabItem>
-<TabItem value="Mac/Linux" label="Mac/Linux">
+  </TabItem>
+
+  <TabItem value="Mac/Linux" label="Mac/Linux">
+
 ```bash
 brew install gh
 ```
-</TabItem>
+
+  </TabItem>
 </Tabs>
 
 **Verify Installation**
