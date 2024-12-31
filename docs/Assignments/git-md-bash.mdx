@@ -64,17 +64,12 @@ Like the bash section, each bolded text will correspond to a git command you sho
 2. **Check the status** of your repository. You should see that you have untracked files.
 3. **Add all files to the staging area** so that git will begin to track them.
 4. **Check the status** of your repository again. You should see that you have files ready to be committed.
-5. We haven't made any changes to `history.txt` yes, so let's **unstage** it so that we are only committing the `README.md` file.
-6. **Commit** the staged changes with the message "Initial commit"
-7. **Create a new branch** titled `new-feature` and **switch to** it. It is possible to do this in a single command or in two separate commands.
-8. **View your branches** and verify that you are on the `new-feature` branch.
-9. Create a new file called `feature.txt` and some text to it. **Add** and **commit** the file to the `new-feature` branch.
-10. **Switch back to the main branch** and you should see that the `feature.txt` file is no longer in the directory.
-11. **Merge** the changes from the `new-feature` branch into the main branch and **delete** the `new-feature` branch.
-
-:::important
-Make sure to use the `--noedit` flag when merging, or do not change the default commit message. This will help the autograder identify the commit message.
-:::
+5. **Commit** the staged changes with the message "Initial commit"
+6. **Create a new branch** titled `new-feature` and **switch to** it. It is possible to do this in a single command or in two separate commands.
+7. **View your branches** and verify that you are on the `new-feature` branch.
+8. Create a new file called `feature.txt` and some text to it. **Add** and **commit** the file to the `new-feature` branch. Remember that all commits require a message.
+9. **Switch back to the main branch** and you should see that the `feature.txt` file is no longer visible in your working tree.
+10. **Merge** the changes from the `new-feature` branch into the main branch and **delete** the `new-feature` branch.
 
 You now know the basics of git! It can be difficult to remember all of the commands initially, but soon they will become second nature. Our final step is to push the changes to GitHub and investigate what happens when git can't automatically merge two branches.
 
@@ -97,7 +92,7 @@ git push origin conflict1
 
 5. Open the repository in GitHub and create a pull request to merge `conflict1` into the main branch. You should be able to preview the changes before merging. **Merge** the pull request and **delete** the branch.
 
-6. Checkout to main on your local repository and **pull** the changes from GitHub. You should see the changes you made in `conflict1` in your local repository.
+6. Checkout to the main branch on your local repository and **pull** the changes from GitHub. You should see the changes you made in `conflict1` in your local repository.
 
 7. Create a pull request to merge `conflict2` into the main branch. You should see a merge conflict.
 
@@ -113,7 +108,7 @@ conflict changes 2
 
 Git displays the changes made on each branch, and leaves it up to the user to decide which to keep.
 
-8. Decide if you want to keep your changes from `conflict1` or from `conflict2`. Delete the conflict markers (the `<<<<<<<`, `=======`, and `>>>>>>>` lines) and complete there merge. Merge the pull request and pull the changes back into your local main branch.
+8. Click `Resolve Conflicts` to open up the web editor. Decide if you want to keep your changes from `conflict1` or from `conflict2` or keep both of the changes. Delete the conflict markers (the `<<<<<<<`, `=======`, and `>>>>>>>` lines), select `mark as read`, and complete there merge. Merge the pull request and pull the changes back into your local main branch.
 
 ### .gitignore
 
@@ -141,4 +136,4 @@ The auto grader will check the contents of your `README.md` file, your git histo
 history | tail -n 200 >> history.txt
 ```
 
-Then make sure that your initial `echo >> "Hello Bash!"` command is in this file. If not, try deleting the contents of the file and running the command again but with more lines.
+Then make sure that your initial `echo >> "Hello Bash!"` command is in this file. If not, try deleting the contents of the file and running the command again but with more lines. Commit and push the updated `history.txt` file to GitHub.
