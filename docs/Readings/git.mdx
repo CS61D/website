@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Git
+# Git & GitHub
 
 > "git" can mean anything, depending on your mood.
 >
@@ -23,7 +23,9 @@ sidebar_position: 3
 
 ## Git Overview
 
-If you write code, using git is non-negotiable. In short, git allows you to keep track of different versions of your codebase, and helps your rectify differences between these versions. You can easily restore your codebase to a previous version, or work on multiple independent features at the same time on their own branches.
+If you write code, using git is non-negotiable. In short, git allows you to keep track of different versions of your codebase, and helps your rectify differences between these versions. You can easily restore your codebase to a previous version (known as a commit), or work on multiple independent features at the same time on their own branches.
+
+Additionally, git makes it feasible collaborate on projects with thousands of other developers. Each developer has a copy of the source code on their own local machine, and can make changes without needing to always be connected to a centralized server. When multiple developers have made changes to different pieces of the codebase, git can automatically merge these changes together.
 
 Also checkout [Git in 100 seconds](https://www.youtube.com/watch?v=hwP7WQkmECE)
 
@@ -34,7 +36,15 @@ Also checkout [Git in 100 seconds](https://www.youtube.com/watch?v=hwP7WQkmECE)
 [View Diagram in
 Excalidraw](https://excalidraw.com/#json=Va2FBPXIm34vDMfpI3Rfm,zgFdHBywozgTMfExv2mulw)
 
-{/* (Todo, explain the basic git workflow) */}
+Once you have [created a git repository](#git-init---initialize-a-git-repository), git does not automatically start saving changes.The edits to files you have made which are just stored locally on your device and are not yet saved to git are called your **working tree**. To save these changes to git, we create what is called a commit.
+
+Before creating a commit, we first must prepare it by specifying which changes from the working tree we want to save. We do this by adding the changes to the **staging area**. Once we have added all the changes we want to save to the staging area, we can create a commit with a message describing the changes made.
+
+Finally, if our local repository is also hosted on GitHub (known as having a remote repository), we can push our changes to GitHub. This will make our changes available to other developers working on the project, who can pull in our changes to their local repository.
+
+## Branches
+
+![branches](../../static/img/reading-images/git/git-branches.png)
 
 ### Merge conflicts
 
@@ -64,7 +74,9 @@ Since git repositories are almost always hosted on GitHub, it can be easy to con
 
 **Check out the [GitHub](https://education.github.com/git-cheat-sheet-education.pdf) and [GitLab](https://about.gitlab.com/images/press/git-cheat-sheet.pdf) official cheat sheets for a more comprehensive reference.**
 
-### git init - Initialize a git repository
+### git init - Initialize (init) a git repository
+
+If you are starting a new project, this is likely the first command you will run, unless you are [cloning](#git-clone---clone-a-remote-repository) an existing repository onto your local machine.
 
 ```bash
 git init
@@ -72,13 +84,15 @@ git init
 
 ### git status - Check the status of your repository
 
+Shows you which files have been modified, which files are staged for commit, and which files are not tracked by git.
+
 ```bash
 git status
 ```
 
 ### git add - Add files to the staging area
 
-Files must be added before they can be committed.
+Files must be staged before they can be committed. Most often you will use `git add .` to add all files in the current directory.
 
 ```bash
 git add . # Add all files in the current directory
@@ -87,11 +101,13 @@ git add file1.txt file2.txt # Add specific files
 
 ### git commit - Commit changes to the repository
 
-Think of making a commit like "saving" your changes. At any point, you can revert back to a previous commit.
+Think of making a commit like **saving** your changes. At any point, you can revert back to a previous commit (or save) or jump between commits.
 
 ```bash
 git commit -m "All commits must have a message"
 ```
+
+Be sure to use descriptive commit messages so that it will be easy to understand what changes were made when looking back at the commit history.
 
 ### git remote add origin - Add a remote repository to existing local repository
 
@@ -104,7 +120,7 @@ git remote add origin https://github.com/CS61D/my-repo.git
 
 ### git push - Push changes to a remote repository
 
-If your local repository is also hosted on GitHub, this will push your local changes to GitHub.
+If your local repository is also hosted on GitHub, this will push your local changes to GitHub. You may sometimes need to [pull](#git-pull---pull-changes-from-a-remote-repository) the latest changes from GitHub before you can push your changes.
 
 ```bash
 git push origin main # Replace main with the branch you want to push to
