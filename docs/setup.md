@@ -84,9 +84,24 @@ Verify your installation by typing the following command in terminal or powershe
 
 ### A Note on Shells
 
-The shell you use (zsh, bash, powershell, fish) is separate from the application that you use to access your shell. The shell is a command line interface (cli) which allows you to interact with your underlying operating system and do things like create files, run scripts, or manage running processes. The terminal is the application that allows you to type in shell commands for your computer to run. For instance, on MacOS, [iTerm2](https://iterm2.com/) is a popular alternative to the built in Mac terminal application, but either application can be used with any shell. VSCode also has a built in terminal, but it has a menu for toggling which shell you want the terminal to use.
+The shell you use (such as bash or zsh) is different from the terminal application you use to run shell commands. This is analogous to how there are many different programming languages you can mix and match with many different text editors.
 
-Besides general productivity benefits, the reason it is important to be familiar with a shell commands is that servers can normally only be interacted with though the a command line shell. Since almost all servers run some version of linux, it makes sense to get familiar with a shell environment that you can use with linux. Bash is the default shell on most linux distributions, and although MacOS uses zsh by default, zsh is a direct descendent from bash and almost all commands behave the same between on both shells. PowerShell on the other hand, was developed specifically for use on Windows, and has completely different ancestry from bash.
+You can use any terminal application you would like, but make sure you are using bash or zsh (which is the default on mac and is almost identical to bash) as your shell for this course.
+
+```bash
+echo $0 #output: -bash or -zsh
+```
+
+If you have never used a terminal before, a safe bet is to just use the default terminal application on MacOS or Git Bash (which uses bash by default) on Windows. VSCode also has a built in terminal, which has a menu for toggling which shell you want the terminal to use.
+
+With that being said, there are a plethora of other options available which you may want to explore later on.
+
+<details>
+  <summary>
+  Why you shouldn't use PowerShell or Windows Command Shell
+  </summary>
+
+Bash is the default shell on most linux distributions, and although MacOS uses zsh by default, zsh is a direct descendent from bash and almost all commands behave the same between on both shells. PowerShell on the other hand, was developed specifically for use on Windows, and has completely different ancestry from bash. It is also not nearly as portable, widely used, or well documented as bash or zsh.
 
 Renaming a file using bash or zsh
 
@@ -100,7 +115,9 @@ Renaming a file using PowerShell
 Move-Item oldname.txt newname.txt
 ```
 
-For that reason, after finishing this setup assignment, use the **Git Bash** application to use the **bash** shell for the rest of the course if you are running on windows. Or alternatively, you can explore emulating linux directly on your windows machine through [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about).
+Since [~96%](https://www.enterpriseappstoday.com/stats/linux-statistics.html) of the largest web servers in the world run some version of linux, it makes most sense to get familiar with scripting and a shell environment that you can use with linux.
+
+</details>
 
 ### Git
 

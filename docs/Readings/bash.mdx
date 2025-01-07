@@ -7,7 +7,27 @@ import TabItem from "@theme/TabItem";
 
 # Bash
 
-A **Shell**, such as Bash (Bourne-Again SHell), or zsh (Z-shell) allows you to interact with your operating system through a command-line. Command line interfaces (CLI) generally allow for enhanced productivity compared to graphical user interfaces (GUI) for many tasks, as interacting via a keyboard is generally quicker and with a mouse. Shell commands are also scriptable, meaning you can more easily automate tasks.
+A **Shell**, such as Bash (Bourne-Again SHell), or zsh (Z-shell) allows you to interact with your operating system through a command line. Command line interfaces (CLIs) generally allow for enhanced productivity compared to graphical user interfaces (GUIs) for many tasks, as interacting via a keyboard is generally quicker and with a mouse. Shell commands are also scriptable, meaning you can more easily automate tasks and encode repeatable operation.
+
+Shell commands are inputted via a terminal application. In the same way there are many different programming languages which can be mixed and matched with many different text editors, there are many different shells and terminal applications. We teach the very basics of bash in 61d because it is the most widely used shell and is the default shell on most linux distributions.
+
+:::note
+Bash and zsh are different, but their difference largely lie in how they are configured, not their actual command syntax. For clarity, we will just use the work `bash`, but know that everything we cover and discuss about bash applied to zsh as well.
+:::
+
+## Why use a command line interface?
+
+## CLI Command structure
+
+```bash
+mv -i file1.txt docs/file1.txt
+```
+
+A typical command has three parts
+
+1. The command itself (e.g. `git`, `docker`, `ls`, `mv`). This says what program or utility you want to run.
+2. Arguments (`file1.txt1` and `docs/file1.txt` in our example). These are the inputs to the command, and their order is important for the command execution. In this case, the first argument is the source file location, and the second argument is the destination file.
+3. Options/Flags (`-i` in our example). These modify the behavior of the command and typically do not have to be passed in any particular order. They are usually preceded by a `-` or `--`. In this case, the `-i` flag tells `mv` to prompt the user before overwriting a file.
 
 ## Setting Up Aliases
 
@@ -42,9 +62,20 @@ alias gs='git status'
 
 After adding an alias to the file, you will need to restart your terminal or run `source ~/.bashrc` or `source ~/.zshrc` to apply the changes. You should nwo be able to use your alias in the terminal.
 
+{/* prettier-ignore */}
+{/* TODO add below sections
+
+## Basic Scripting Example
+
+## Standard input, standard output, and the pipe operator `|`
+
+\*/}
+
 ## Bash Quick Reference
 
 ### pwd - Print working directory
+
+Shows you where you are in the file system.
 
 ```bash
 pwd
@@ -68,6 +99,8 @@ cd ~ # Move to the home directory
 ```
 
 ### touch - Create an empty file
+
+If the file already exists, `touch` will not modify the file's contents.
 
 ```bash
 touch newfile.txt # Create a new file
@@ -116,8 +149,10 @@ cat myfile.txt # Print the contents
 
 ### history - Show command history
 
+Most of the time, you want to search through your command history to find a command you ran earlier. A more useful way to do this is often to use `Ctrl + R` to search through your history, rather than just printing the entire history.
+
 ```bash
-history
+history # print full history to standard output
 history | tail -n 10 # Show the last 10 commands
 ```
 
@@ -149,4 +184,13 @@ alias # print all aliases in current terminal session
 
 ```bash
 clear
+```
+
+### curl - Make a network request from the command line
+
+Curl supports all major options one would need to make network requests. The basic usage is to provide a URL to make a GET request.
+
+```bash
+# Gets the contents of the page you are viewing right now and prints it to the console
+curl https://raw.githubusercontent.com/CS61D/website/main/docs/Readings/bash.mdx
 ```
