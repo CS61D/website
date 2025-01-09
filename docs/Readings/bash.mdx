@@ -7,15 +7,30 @@ import TabItem from "@theme/TabItem";
 
 # Bash
 
-A **Shell**, such as Bash (Bourne-Again SHell), or zsh (Z-shell) allows you to interact with your operating system through a command line. Command line interfaces (CLIs) generally allow for enhanced productivity compared to graphical user interfaces (GUIs) for many tasks, as interacting via a keyboard is generally quicker and with a mouse. Shell commands are also scriptable, meaning you can more easily automate tasks and encode repeatable operation.
+A **Shell**, such as Bash (Bourne-Again SHell), or zsh (Z-shell) allows you to interact with your operating system through a command line. Command line interfaces (CLIs) often allow for enhanced productivity compared to graphical user interfaces (GUIs) for many tasks, as interacting via a keyboard is quicker than with a mouse. Shell commands are also scriptable, meaning you can more easily automate tasks and encode repeatable operation.
 
 Shell commands are inputted via a terminal application. In the same way there are many different programming languages which can be mixed and matched with many different text editors, there are many different shells and terminal applications. We teach the very basics of bash in 61d because it is the most widely used shell and is the default shell on most linux distributions.
 
 :::note
-Bash and zsh are different, but their difference largely lie in how they are configured, not their actual command syntax. For clarity, we will just use the work `bash`, but know that everything we cover and discuss about bash applied to zsh as well.
+Bash and zsh are different, but their difference largely lie in how they are configured, not their actual command syntax. For clarity, we will just use the work `bash`, but know that everything we cover and discuss about bash applies to zsh as well.
 :::
 
-## Why use a command line interface?
+## Why use a command line interface? (CLI)
+
+Most people have been using GUIs (websites, mobile apps, desktop apps) for their entire life and are generally familiar with how to navigate them. The initial learning curve of getting familiar with CLIs often discourages junior developers from relying on them, but even if you don't become a CLI power user, basic familiarity and competency with CLI tools is a necessity for the following core reasons.
+
+1. **Efficiency**: A website like Amazon Web Services has thousands if not tens of thousands of menus and pages to display all of the possible actions you can take. It could take 5-7 clicks and page reloads to get where you need to go (assuming you get there first try), or you could just run a command through your terminal using the AWS CLI.
+
+As an example, this one command uses the GitHub CLI to create a private github repository titled "my-repo" with a .gitignore file and a README.md file, and clones it locally. Doing the equivalent from the github.com home page would take a minimum of 5 click and two page reloads not including filling in the repository information.
+
+```bash
+gh repo create my-repo --add-readme --clone --description "test repo from command line" --gitignore Node --private
+```
+
+2. **Scripting and Repeatability**: If you need to document how to perform some action on your AWS instance, it is much simpler to just write down a CLI command than write down which sequence of menus you need to navigate through (which may change over time of course). Further, if you need to run a series of commands to properly configure or set up something within AWS, writing them down in a script ensures that the exact same configuration is generated each time. Running a script is more deterministic and repeatable than a human manually clicking through menus.
+3. **Remote Access**: A web server running your code in a data center somewhere does not have a monitor attached to it. The only practical way to interact with remote servers is through command line tools.
+
+All of the general reasons why one would want to use a CLI are the same reasons that it makes sense to learn bash, which is essentially just a CLI for you operating system. It is generally quicker to make, move, and manage files through a command line than a file explorer.
 
 ## CLI Command structure
 
@@ -29,9 +44,21 @@ A typical command has three parts
 2. Arguments (`file1.txt1` and `docs/file1.txt` in our example). These are the inputs to the command, and their order is important for the command execution. In this case, the first argument is the source file location, and the second argument is the destination file.
 3. Options/Flags (`-i` in our example). These modify the behavior of the command and typically do not have to be passed in any particular order. They are usually preceded by a `-` or `--`. In this case, the `-i` flag tells `mv` to prompt the user before overwriting a file.
 
+:::important
+
+Most of the time, CLI interfaces have tools for explaining what options are available, either by pressing **tab ↹** to list autocomplete options, or through a flag like --help.
+
+If you forget what git command options are available to you, run:
+
+```bash
+git --help
+```
+
+:::
+
 ## Setting Up Aliases
 
-Long commands can be cumbersome to remember type out every single time, especially if you run them dozens of times a day. Fortunately, you can `alias` a command to a shorter name. For example, you can alias `git status` to `gs` by updating either your `.bashrc` or `.zshrc` file on windows or MacOS respectively.
+Long commands can be cumbersome to remember and type out every single time, especially if you run them dozens of times a day. Fortunately, you can `alias` a command to a shorter name. For example, you can alias `git status` to `gs` by updating either your `.bashrc` or `.zshrc` file on windows or MacOS respectively.
 
 <Tabs>
   <TabItem value="windows" label="Windows/bash" default>
