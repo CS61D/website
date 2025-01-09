@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Git
+# Git & GitHub
 
 > "git" can mean anything, depending on your mood.
 >
@@ -23,9 +23,12 @@ sidebar_position: 3
 
 ## Git Overview
 
-If you write code, using git is non-negotiable. In short, git allows you to keep track of different versions of your codebase, and helps your rectify differences between these versions. You can easily restore your codebase to a previous version, or work on multiple independent features at the same time on their own branches.
+If you write code, using git is non-negotiable. In short, git allows you to keep track of different versions of your codebase, and helps your rectify differences between these versions. You can easily restore your codebase to a previous version (known as a commit), or work on multiple independent features at the same time on their own [branches](#branches).
+
+Additionally, git makes it feasible to collaborate on projects with thousands of other developers. Each developer has a copy of the source code on their own local machine, and can make changes without needing to always be connected to a centralized server. When multiple developers have made changes to different pieces of the codebase, git can automatically merge these changes together.
 
 Also checkout [Git in 100 seconds](https://www.youtube.com/watch?v=hwP7WQkmECE)
+Or for a super overkill deep dive, the official [Pro Git book](https://git-scm.com/book/en/v2)
 
 ## A basic Git workflow
 
@@ -34,7 +37,21 @@ Also checkout [Git in 100 seconds](https://www.youtube.com/watch?v=hwP7WQkmECE)
 [View Diagram in
 Excalidraw](https://excalidraw.com/#json=Va2FBPXIm34vDMfpI3Rfm,zgFdHBywozgTMfExv2mulw)
 
-{/* (Todo, explain the basic git workflow) */}
+Once you have [created a git repository](#git-init---initialize-a-git-repository) (repo), git does not automatically start saving (tracking) changes. The edits which are saved to your local device but not to git are called your **working tree**. To save these changes to git, we create what is called a commit.
+
+Before creating a commit, we first must prepare it by specifying which changes from the working tree we want to save. We do this by **adding** the changes to the **staging area**. Once we have added all the changes we want to save to the staging area, we can create a commit with a message describing the changes made.
+
+Finally, if our local repository is also hosted on GitHub (known as having a remote repository), we can push our changes to GitHub. This will make our changes available to other developers working on the project, who can pull in our changes to their local repository.
+
+## Branches
+
+![branches](../../static/img/reading-images/git/git-branches.png)
+
+Our basic workflow of creating commits to our repository allows us to revert back to previous versions of our codebase, but it still does not help us handle the complexity of having many developers working on the same codebase. This is where branches come in.
+
+Every repository has a default branch, typically called `main` or `master`. This default branch contains code which has been reviewed and is ready to be used in a production setting. Before directly making changes to this default branch, a developer creates their own branch to develop an individual feature or fix a bug. This branch then has its own commit history, and can be worked on without interfering with the main branch.
+
+Once the feature branch is ready, it can then be [merged](#git-merge) back into the main branch, often through a [pull request](#pull-requests). The commits from the feature branch are then added to the commit history of the main branch or can be squashed into a single merge commit. [^1]
 
 ### Merge conflicts
 
@@ -46,25 +63,33 @@ conflict changes 2
 >>>>>>> conflict2
 ```
 
-## Git versus GitHub
+Merge conflicts occur when two branches are merged with inconsistent changes. Git does not know which changes should be kept, so it shows _both_ changes and the developer must manually pick which changes to keep. GitHub provides an interactive UI for resolving merge conflicts, but they can also be resolved locally by deleting the conflict markers (the `<<<<<<<`, `=======`, and `>>>>>>>` lines) and any unwanted code in the merge.
 
-Git is the open source version control software which you just learned how to use. GitHub a hosting provider that allows you to store your git repositories in the cloud. GitLab and Bitbucket are other popular alternatives to GitHub, although they generally have a much smaller market share.
+## GitHub
 
-Since git repositories are almost always hosted on GitHub, it can be easy to confuse the two. GitHub layers features on top of git, which have become essential to the modern development workflow.
+Git is the open source version control software which you just learned how to use. GitHub is a hosting provider that allows you to store your git repositories in the cloud. GitLab and Bitbucket are other popular alternatives to GitHub, although they have a much smaller market share.
+
+Since git repositories are almost always hosted on GitHub, it can be easy to confuse the two. GitHub layers features on top of git, which have become essential to the modern development workflow. Understanding usage of core features of GitHub is almost as important as understanding how to use git itself.
 
 ### Pull Requests
 
+Pull requests (PRs) are proposals to [merge](#git-merge) changes from one branch into another. They can be assigned reviewers, who can leave comments and suggestions on the proposed changes. GitHub provides a [diff](#git-diff) view in the browser for inspecting modified files.
+
 ### Issues
 
-### Code Reviews
+Issues are general purpose "posts" associated with a GitHub repo. Most often, they are used to report bugs or feature requests. Issues can be referenced in pull requests which address them, or be assigned to a specific developer to fix. When and issue is resolved, it is marked as `closed`.
 
 ### Actions
+
+GitHub actions are way of automating continuous integration and continuous development (CI/CD) tasks. For example, you can run a test suite on every pull request to make sure that it does not introduce any breaking changes. GitHub actions are defined in a `.github/workflows` directory in your repository and will be covered in more detail at the end of the course.
 
 ## Git Quick Reference
 
 **Check out the [GitHub](https://education.github.com/git-cheat-sheet-education.pdf) and [GitLab](https://about.gitlab.com/images/press/git-cheat-sheet.pdf) official cheat sheets for a more comprehensive reference.**
 
-### git init - Initialize a git repository
+### git init - Initialize (init) a git repository
+
+If you are starting a new project, this is likely the first command you will run, unless you are [cloning](#git-clone---clone-a-remote-repository) an existing repository onto your local machine.
 
 ```bash
 git init
@@ -72,13 +97,15 @@ git init
 
 ### git status - Check the status of your repository
 
+Shows you which files have been modified, which files are staged for commit, and which files are not tracked by git.
+
 ```bash
 git status
 ```
 
 ### git add - Add files to the staging area
 
-Files must be added before they can be committed.
+Files must be staged before they can be committed. Most often you will use `git add .` to add all files in the current directory.
 
 ```bash
 git add . # Add all files in the current directory
@@ -87,11 +114,13 @@ git add file1.txt file2.txt # Add specific files
 
 ### git commit - Commit changes to the repository
 
-Think of making a commit like "saving" your changes. At any point, you can revert back to a previous commit.
+Think of making a commit like **saving** your changes. At any point, you can revert back to a previous commit (or save) or jump between commits.
 
 ```bash
 git commit -m "All commits must have a message"
 ```
+
+Be sure to use descriptive commit messages so that it will be easy to understand what changes were made when looking back at the commit history.
 
 ### git remote add origin - Add a remote repository to existing local repository
 
@@ -104,7 +133,7 @@ git remote add origin https://github.com/CS61D/my-repo.git
 
 ### git push - Push changes to a remote repository
 
-If your local repository is also hosted on GitHub, this will push your local changes to GitHub.
+If your local repository is also hosted on GitHub, this will push your local changes to GitHub. You may sometimes need to [pull](#git-pull---pull-changes-from-a-remote-repository) the latest changes from GitHub before you can push your changes.
 
 ```bash
 git push origin main # Replace main with the branch you want to push to
@@ -201,3 +230,5 @@ View the difference between two commits. If you make a [pull request](#pull-requ
 git diff other-branch # View difference between current branch and other-branch
 git diff other-branch file1.txt # View difference between current branch and other-branch only for file1.txt
 ```
+
+[^1]: There is also a third popular option called _rebasing_. The differences are not particularly important for our purposes, but you can read the [Github docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/about-pull-request-merges) on all the ways to merge in a pull request.

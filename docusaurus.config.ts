@@ -78,6 +78,11 @@ const config: Config = {
           label: "Syllabus",
           to: "/syllabus",
         },
+        // TODO uncomment when resources are ready
+        // {
+        //   label: "Resources",
+        //   to: "/resource-index",
+        // },
         {
           href: "https://www.youtube.com/channel/UCn-nlwUrJYsQs1fvAdLXNnA",
           label: "YouTube",

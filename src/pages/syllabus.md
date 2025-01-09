@@ -39,7 +39,7 @@ All course content is covered in a series of 24 lectures. Each lecture will be b
 
 The lectures will be a mix of covering conceptual concepts, and working through live examples. Many lectures will have a some starter code in a GitHub repository that can be used to follow along with the lecture.
 
-### Readings and External Resources (0.5-1 hours per week)
+### Readings and External Resources (1 hour per week)
 
 No readings will be required, but are they highly recommended. Readings will provide a quick reference for the material covered in lectures, give concrete code snippets that can be used in projects, and dive into extra out of scope concepts not covered in lectures. External blog posts, YouTube videos, and documentation will be linked in the readings to provide extra context and resources for students to explore. All readings will be available on the course website. Not all lectures will have corresponding readings.
 
