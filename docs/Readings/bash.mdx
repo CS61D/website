@@ -89,10 +89,72 @@ alias gs='git status'
 
 After adding an alias to the file, you will need to restart your terminal or run `source ~/.bashrc` or `source ~/.zshrc` to apply the changes. You should nwo be able to use your alias in the terminal.
 
+## Basic Scripting Example
+
+In addition to being a CLI interface for your operating system, bash is a programming language that can be used to write scripts.
+
+The simplest way to create a script is to add if to your `.bashrc` or `.zshrc`. Let's look at an example script which adds a line to a package.json file (the use of which we will cover once we talk about React) using the [jq](https://jqlang.github.io/jq/) command line utility.
+
+{/* TODO link json reference */}
+
+<Tabs>
+  <TabItem value="windows" label="Windows/bash" default>
+
+    ```bash
+    choco install jq
+    ```
+
+  </TabItem>
+  <TabItem value="mac" label="Mac/zsh">
+
+    ```bash
+    brew install jq
+    ```
+
+  </TabItem>
+</Tabs>
+
+Verify your install
+
+```bash
+jq --help
+```
+
+Then add the following script to your `.bashrc` or `.zshrc` and run `source ~/.bashrc` or `source ~/.zshrc`.
+
+```bash
+# Add package json script
+pjs() {
+  # Check that there are two arguments passed
+  if [ "$#" -ne 2 ]; then
+    echo "Usage: add_script_to_package_json <script_name> <script_body>"
+    return 1
+  fi
+
+  SCRIPT_NAME=$1
+  SCRIPT_BODY=$2
+
+  # Check that there is a package.json file
+  if [ ! -f package.json ]; then
+    echo "Error: package.json not found in the current directory."
+    return 1
+  fi
+
+  # Copy the contents of the existing package.json and the new script to a temp file
+  jq ".scripts[\"$SCRIPT_NAME\"] = \"$SCRIPT_BODY\"" package.json > temp.json
+
+  # Replace existing package.json with the temp file
+  mv temp.json package.json
+
+  # Log a that the operation was successful
+  echo "Script '$SCRIPT_NAME' added to package.json successfully."
+}
+```
+
+Sometimes you may have a script which you will only use on a specific project. In this case, we can create a specific file just for our one script and make it executable, instead of storing it in a `.bashrc` or `.zshrc` file.
+
 {/* prettier-ignore */}
 {/* TODO add below sections
-
-## Basic Scripting Example
 
 ## Standard input, standard output, and the pipe operator `|`
 
@@ -220,4 +282,13 @@ Curl supports all major options one would need to make network requests. The bas
 ```bash
 # Gets the contents of the page you are viewing right now and prints it to the console
 curl https://raw.githubusercontent.com/CS61D/website/main/docs/Readings/bash.mdx
+```
+
+Often times api documentation will show how their api can be called directly through a curl request. In this example, we can call the GitHub api to list the [issues for a repository](https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#list-repository-issues). In this example, we include request headers which specify the API version and the response type as json.
+
+```bash
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/CS61D/website/issues # 61d website
 ```
