@@ -19,15 +19,15 @@ If we were using a statically types language, we would know for sure that our do
 
 We can't change the fundamental way that JavaScript executes in the browser or on the server (runtime), but we can mimic the guarantees of a statically typed language by adding types that are checked before our code executes (compile time). JavaScript with the addition of types is called TypeScript, which has become the industry standard way of writing JavaScript.
 
-## Primitive Types
+<!-- ## Primitive Types and Type Errors -->
 
-## Typing Arrays and Functions
+<!-- ## Typing Arrays and Functions -->
 
-## Generics
+<!-- ## Generics -->
 
-## Typing Objects
+<!-- ## Typing Objects -->
 
-## Unions and Intersection Types
+<!-- ## Unions and Intersection Types -->
 
 <!-- ## TypeScript Wizardry -->
 

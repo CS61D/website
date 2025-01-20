@@ -170,7 +170,35 @@ const sum = numbers.reduce((prev, curr) => prev + curr, 0); // Our sum starts at
 
 ## Objects and JSON
 
-One of the most commonly used data formats on the web is JavaScript Object Notation (JSON). It has a hierarchical structure that maps keys to values.
+Objects in JavaScript are hierarchical structure that maps keys to values. They are similar to dictionaries in Python. Since JavaScript objects are processed while your code is running, they can store any valid JavaScript data type.
+
+```javascript
+// Create an object
+const myObject = {
+  name: "Aidan",
+  age: 20,
+  duesPaid: true,
+  infractions: null,
+  courses: ["data structure", "roman history", "statistics"],
+  requirements: {
+    general: true,
+    lowerDivision: true,
+    upperDivision: false,
+  },
+  registrationDate: new Date(), // Date object
+};
+
+// Accessing object properties
+console.log(myObject.name); // Aidan
+console.log(myObject["name"]); // Aidan
+console.log(myObject.requirements.general); // true
+console.log(myObject.courses[0]); // data structure
+
+// Modifying object properties
+myObject.age = 21;
+```
+
+JavaScript objects are useful when we are running JavaScript code, but they don't work well for storing data in a file or sending data over the internet since they can only be understood when running JavaScript code. In such cases, we use JavaScript Object Notation (JSON) which is a file format based on JavaScript objects.
 
 ```json
 {
@@ -183,24 +211,133 @@ One of the most commonly used data formats on the web is JavaScript Object Notat
     "general": true,
     "lowerDivision": true,
     "upperDivision": false
-  }
+  },
+  "registrationDate": "2021-09-01T00:00:00.000Z"
 }
 ```
 
-JSON supports the string, numbers, booleans, null, arrays, and objects.
+JSON is a _subset_ of JavaScript objects, meaning that all JSON is valid JavaScript objects, but not all JavaScript objects are valid JSON. JSON only supports strings, numbers, booleans, null, arrays, and nested JSON objects. Additionally, all properties must be declared with double quotes and the final item in the object may not have a comma (no trailing commas).
 
-### Spread Operator (...)
+These stricter formatting rules allow JSON to be parsed by any programming language, not just JavaScript. This makes it the most common format for sending data back and forth between a frontend and backend.
 
-## Asynchronous JavaScript
+### Destructuring
+
+If an object property is frequently accessed, it can be useful to _destructure_ it into a variable. These destructured variables can also be renamed, to make them easier to understand in the context of the code.
+
+```javascript
+// Create an object
+const student1 = {
+  name: "Aidan",
+  age: 20,
+};
+
+const student2 = {
+  name: "Catherine",
+  age: 19,
+};
+
+console.log(student1.name); // Aidan
+
+// Destructuring object properties
+const { name, age } = student1;
+console.log(name); // Aidan
+console.log(age); // 20
+
+// With renaming
+const { name: studentName, age: studentAge } = student2;
+console.log(studentName); // Catherine
+```
+
+### Spread Operator
+
+A frequent operation in JavaScript is to create a new objects based on a existing objects. The _spread operator_ (...) allows you to _expand_ an object into its individual properties.
+
+```javascript
+const attackingStats = {
+  points: 5,
+  assists: 3,
+};
+const defensiveStats = {
+  rebounds: 1,
+  blocks: 3,
+};
+
+// Create a new object with all the properties of attackingStats and defensiveStats
+const fullStats = { ...attackingStats, ...defensiveStats };
+```
+
+An important property to take note of is that an object can't have duplicate keys, meaning that repeated keys will be overwritten by the last key in the object. This allows you to create a new object with the same properties as an existing object, but with some properties changed.
+
+```javascript
+const player = {
+  name: "Aidan",
+  age: 20,
+  position: "Guard",
+};
+
+// Create a new object with all the properties of player, but with a new age
+const olderPlayer = { ...player, age: 21 };
+```
+
+The same spread syntax can be used to create a new array based on an existing array. This is useful when you want to combine two arrays into one.
+
+```javascript
+const firstHalf = [1, 2, 3];
+const secondHalf = [4, 5, 6];
+
+// Create a new array with all the elements of firstHalf and secondHalf
+const fullArray = [...firstHalf, ...secondHalf];
+```
+
+<!-- TODO -->
+<!-- ## Asynchronous JavaScript -->
 
 ## JavaScript Data Structures
+
+### Date
+
+The `Date` object is used to work with dates and times. It can be instantiated from a date string or unix timestamp, or just the current date and time. Once instantiated, it can be used for comparisons, and formatting.
+
+```javascript
+const now = new Date(); // current date and time
+const epoch = new Date(1735689600); // January 1, 2025 at 12:00:00 AM at UTC
+const dateStr = new Date("2025-01-01T00:00:00Z"); // January 1, 2025 at 12:00:00 AM at UTC
+
+// Comparing dates
+const is2025 = now > epoch; // true
+
+// Getting a formatted Date string
+const formattedDate = now.toDateString(); // "Sun Sep 19 2021"
+```
+
+[More available methods](https://www.w3schools.com/jsref/jsref_obj_date.asp)
 
 ### Set
 
 A set is a collection of items that can check if a value is in the collection in constant time. If you are frequently performing `array.includes()` operations on large arrays, a set will be much faster.
 
+```javascript
+const mySet = new Set(); // create an empty set
+const setFromArray = new Set([1, 2, 3, 4, 5]); // create a set from an array
+
+mySet.add(1); // add an element to the set
+mySet.includes(1); // true
+mySet.delete(1); // remove an element from the set
+```
+
 ### Map
 
 A map data structure serves works the same way as an object, but it is better optimized and more performant.
 
-### Date
+```javascript
+const myMap = new Map(); // create an empty map
+const mapFromArray = new Map([
+  ["key1", "value1"],
+  ["key2", "value2"],
+]); // create a map from an array
+
+myMap.set("key1", "value1"); // add an element to the map
+myMap.get("key1"); // value1
+myMap.delete("key1"); // remove an element from the map
+myMap.has("key1"); // false
+```
