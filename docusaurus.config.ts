@@ -1,6 +1,7 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import rehypeExternalLinks from "rehype-external-links";
 import "dotenv/config";
 
 const config: Config = {
@@ -39,6 +40,27 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/CS61D/website/tree/main/",
+          rehypePlugins: [
+            [
+              rehypeExternalLinks,
+              {
+                // content: { type: "text", value: " 🔗" }, // Todo: improve this, but it's baller baller
+
+                // Function which only affects github links
+                // https://chatgpt.com/c/6791b4e2-cf68-800c-82d0-44a90d1c7045
+                content: (node) => {
+                  if (node.properties?.href?.includes("github.com")) {
+                    return {
+                      type: "element",
+                      tagName: "span",
+                      properties: { className: ["github-icon"] },
+                      children: [{ type: "text", value: " (GitHub)" }],
+                    };
+                  }
+                },
+              },
+            ],
+          ],
         },
         // blog: {
         // 	showReadingTime: true,
@@ -83,6 +105,10 @@ const config: Config = {
         //   label: "Resources",
         //   to: "/resource-index",
         // },
+        {
+          label: "Glossary",
+          to: "/docs/glossary",
+        },
         {
           href: "https://www.youtube.com/channel/UCn-nlwUrJYsQs1fvAdLXNnA",
           label: "YouTube",
@@ -136,6 +162,10 @@ const config: Config = {
 
       // Optional: path for search page that enabled by default (`false` to disable it)
       searchPagePath: "search",
+    },
+    colorMode: {
+      defaultMode: "dark",
+      disableSwitch: false,
     },
   } satisfies Preset.ThemeConfig,
   plugins: [
