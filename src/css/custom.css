@@ -35,3 +35,8 @@
   border: 1px solid rgba(255, 255, 255, 0.45); /* Subtle white border in dark mode */
   border-radius: 0.3em;
 }
+
+/* Makes icon white in dark mode */
+[data-theme="dark"] .github-icon {
+  filter: invert(100%);
+}

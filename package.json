@@ -33,7 +33,8 @@
     "@docusaurus/tsconfig": "3.2.1",
     "@docusaurus/types": "3.2.1",
     "prettier": "3.4.2",
-    "typescript": "~5.2.2"
+    "typescript": "~5.2.2",
+    "unist-util-visit": "^5.0.0"
   },
   "browserslist": {
     "production": [

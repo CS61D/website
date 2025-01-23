@@ -2,6 +2,11 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 import rehypeExternalLinks from "rehype-external-links";
+import { visit } from "unist-util-visit";
+import fs from "node:fs";
+
+const GitHubIcon = fs.readFileSync("static/img/link-icons/github.svg", "utf8");
+
 import "dotenv/config";
 
 const config: Config = {
@@ -44,22 +49,68 @@ const config: Config = {
             [
               rehypeExternalLinks,
               {
-                // content: { type: "text", value: " 🔗" }, // Todo: improve this, but it's baller baller
-
-                // Function which only affects github links
-                // https://chatgpt.com/c/6791b4e2-cf68-800c-82d0-44a90d1c7045
                 content: (node) => {
                   if (node.properties?.href?.includes("github.com")) {
                     return {
                       type: "element",
-                      tagName: "span",
-                      properties: { className: ["github-icon"] },
-                      children: [{ type: "text", value: " (GitHub)" }],
+                      tagName: "img",
+                      properties: {
+                        src: "/img/link-icons/github.svg",
+                        alt: "github",
+                        className: ["github-icon"],
+                        style:
+                          "width: 16px; height: 16px; margin-left: 0.25rem; vertical-align: baseline;",
+                      },
                     };
                   }
+                  if (node.properties?.href?.includes("youtube.com")) {
+                    return {
+                      type: "element",
+                      tagName: "img",
+                      properties: {
+                        src: "/img/link-icons/youtube.svg",
+                        alt: "youtube",
+                        className: ["glossary-icon"],
+                        style:
+                          "width: 16px; height: 16px; margin-left: 0.25rem; vertical-align: baseline;",
+                      },
+                    };
+                  }
+                  return {
+                    type: "element",
+                    tagName: "span",
+                    properties: {
+                      className: ["glossary-icon"],
+                    },
+                    children: [{ type: "text", value: " ↗" }],
+                  };
                 },
               },
             ],
+
+            () => {
+              return (tree) => {
+                visit(tree, "element", (node) => {
+                  // Check if the element is an anchor tag
+                  if (node.tagName === "a" && node.properties?.href) {
+                    const href = node.properties.href as string;
+
+                    // Add a book icon for glossary links
+                    if (href.startsWith("../glossary")) {
+                      if (!node.children) node.children = [];
+                      node.children.push({
+                        type: "element",
+                        tagName: "span",
+                        properties: {
+                          className: ["glossary-icon"],
+                        },
+                        children: [{ type: "text", value: " 📖" }],
+                      });
+                    }
+                  }
+                });
+              };
+            },
           ],
         },
         // blog: {

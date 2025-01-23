@@ -32,7 +32,7 @@ In this assignment, we'd also like for you to practice reading through documenta
 
 To get started, accept the assignment on Github Classroom and clone the repository to your folder locally.
 
-Install the dependencies and create the database files:
+Install the [dependencies](../glossary#dependency) and create the database files:
 
 ```bash
 bun install

@@ -15,7 +15,7 @@ The goal of this assignment is to get you familiar with JavaScript syntax, focus
 
 ### Setup
 
-Install the dependencies to be able to run tests:
+Install the [dependencies](../glossary#dependency) to be able to run tests:
 
 ```bash
 bun install
