@@ -1,6 +1,9 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import rehypeExternalLinks from "rehype-external-links";
+import { visit } from "unist-util-visit";
+
 import "dotenv/config";
 
 const config: Config = {
@@ -39,6 +42,73 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/CS61D/website/tree/main/",
+          rehypePlugins: [
+            [
+              rehypeExternalLinks,
+              {
+                content: (node) => {
+                  if (node.properties?.href?.includes("github.com")) {
+                    return {
+                      type: "element",
+                      tagName: "img",
+                      properties: {
+                        src: "/img/link-icons/github.svg",
+                        alt: "github",
+                        className: ["github-icon"],
+                        style:
+                          "width: 16px; height: 16px; margin-left: 0.25rem; vertical-align: baseline;",
+                      },
+                    };
+                  }
+                  if (node.properties?.href?.includes("youtube.com")) {
+                    return {
+                      type: "element",
+                      tagName: "img",
+                      properties: {
+                        src: "/img/link-icons/youtube.svg",
+                        alt: "youtube",
+                        className: ["glossary-icon"],
+                        style:
+                          "width: 16px; height: 16px; margin-left: 0.25rem; vertical-align: baseline;",
+                      },
+                    };
+                  }
+                  return {
+                    type: "element",
+                    tagName: "span",
+                    properties: {
+                      className: ["glossary-icon"],
+                    },
+                    children: [{ type: "text", value: " ↗" }],
+                  };
+                },
+              },
+            ],
+
+            () => {
+              return (tree) => {
+                visit(tree, "element", (node) => {
+                  // Check if the element is an anchor tag
+                  if (node.tagName === "a" && node.properties?.href) {
+                    const href = node.properties.href as string;
+
+                    // Add a book icon for glossary links
+                    if (href.startsWith("../glossary")) {
+                      if (!node.children) node.children = [];
+                      node.children.push({
+                        type: "element",
+                        tagName: "span",
+                        properties: {
+                          className: ["glossary-icon"],
+                        },
+                        children: [{ type: "text", value: " 📖" }],
+                      });
+                    }
+                  }
+                });
+              };
+            },
+          ],
         },
         // blog: {
         // 	showReadingTime: true,
@@ -83,6 +153,10 @@ const config: Config = {
         //   label: "Resources",
         //   to: "/resource-index",
         // },
+        {
+          label: "Glossary",
+          to: "/docs/glossary",
+        },
         {
           href: "https://www.youtube.com/channel/UCn-nlwUrJYsQs1fvAdLXNnA",
           label: "YouTube",
@@ -136,6 +210,10 @@ const config: Config = {
 
       // Optional: path for search page that enabled by default (`false` to disable it)
       searchPagePath: "search",
+    },
+    colorMode: {
+      defaultMode: "dark",
+      disableSwitch: false,
     },
   } satisfies Preset.ThemeConfig,
   plugins: [

@@ -24,7 +24,7 @@ You will only have to edit `validator.ts`, `Form.tsx`, and `ControlledForm.tsx` 
 
 ### Setup
 
-Install the dependencies:
+Install the [dependencies](../glossary#dependency):
 
 ```bash
 bun install

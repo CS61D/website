@@ -17,7 +17,7 @@ Most problems use predefined types in the types.ts file. While you do not need t
 
 ### Setup
 
-Install the dependencies to be able to run tests:
+Install the [dependencies](../glossary#dependency)to be able to run tests:
 
 ```bash
 bun install
@@ -25,15 +25,9 @@ bun install
 
 ## Running the Tests
 
-Just as with the JavaScript assignment, this assignment uses vitest. First install the required dependencies.
+Just as with the JavaScript assignment, this assignment uses vitest.
 
-```console
-bun install
-```
-
-And then run the tests using vitest
-
-```console
+```bash
 bun vitest
 ```
 
