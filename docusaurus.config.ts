@@ -3,9 +3,6 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 import rehypeExternalLinks from "rehype-external-links";
 import { visit } from "unist-util-visit";
-import fs from "node:fs";
-
-const GitHubIcon = fs.readFileSync("static/img/link-icons/github.svg", "utf8");
 
 import "dotenv/config";
 
