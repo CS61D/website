@@ -46,3 +46,31 @@ You can add a dev dependency by using the `--dev` flag.
 ```bash
 bun add --dev @biomejs/biome
 ```
+
+#### UUID (Universally Unique Identifier)
+
+A UUID is a 128 bit label used to uniquely identify objects. In string form, it looks something like this: `d15a3911-91db-40b0-bd79-a2bb6220d6d8`. UUIDs contain enough randomness such that you are unlikely to ever generate two of the same UUID unless you generate [literally quintillions of UUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier#Collisions).
+
+There are many variations and implementations of UUIDs. If you are generating primary keys for a database, use either [ULID](https://www.npmjs.com/package/ulidx) or [UUID v7](https://www.npmjs.com/package/uuid). They can be sorted chronologically to the nearest millisecond, and are optimal for database performance.
+
+If database insert performance is not as important as having a shorter more url friendly identifier, [Nano ID](https://www.npmjs.com/package/nanoid) is a good alternative.
+
+```ts
+// Nano Id in a url
+// app.com/V1StGXR8_Z5jdHi6B-myT
+
+// UUID in a url
+// app.com/d15a3911-91db-40b0-bd79-a2bb6220d6d8
+```
+
+#### Idempotency
+
+The property of a request to a database, server, or external API that it can be safely retried or repeated without having a different result than if the request was only made once.
+
+Some types of requests are idempotent by default. Any api `GET` request of sql `SELECT` statement is idempotent because it does not mutate data. _Most_ api `PUT` or sql `UPDATE` statements are also idempotent. Multiple update requests with the same inputs will not alter the end database state.
+
+Requests which are not idempotent by default can be made to be idempotent with a bit of extra work. Take the example of completing a checkout on an e-commerce site like Amazon. If the user's connection is slow, they may click the submit button multiple times while waiting for a response. How can we ensure that a create order `POST` request does not create multiple orders for the same checkout flow.
+
+For each checkout session, the client can generate a [uuid](#uuid-universally-unique-identifier) to serve as an _idempotency key_. When the server receives the request, it first checks if a previous request has been processed with the same idempotency key. If not, it returns a response, and stores a mapping of the idempotency key to the response. If another request arrives later with the same idempotency key, it returns the stored response to the original request.
+
+See how [stripe](https://docs.stripe.com/api/idempotent_requests) implements idempotency.

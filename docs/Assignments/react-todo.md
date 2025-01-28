@@ -110,7 +110,7 @@ Create another state object `todoList` to store an array of tasks. Make sure you
 
 Create a function `addTask` that takes the task name and deadline as arguments, and adds a new task to the todo list by updating the `todoList` state. Add an `onClick` handler to the submit button that to call `addTask`.
 
-To get a unique id for each task, you can use the uuid npm package. These uuids will be unique.
+To get a unique id for each task, you can use the uuid npm package. These [uuids](../glossary#uuid-universally-unique-identifier) will be unique.
 
 ```typescript
 import { v4 as uuidv4 } from "uuid";
