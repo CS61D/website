@@ -2,6 +2,9 @@
 sidebar_position: 4
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # JavaScript
 
 > "Any application that _can_ be written in JavaScript, will eventually be written in JavaScript."
@@ -289,8 +292,68 @@ const secondHalf = [4, 5, 6];
 const fullArray = [...firstHalf, ...secondHalf];
 ```
 
-<!-- TODO -->
-<!-- ## Asynchronous JavaScript -->
+## Asynchronous JavaScript
+
+All of the code that we have written so far has been synchronous. The code at the top of the file will execute before the code at the bottom of the file, and the only thing limiting the speed of execution is the beefiness of your processor.
+
+However, there are many instances where this is not the case. If you make a network request, it is going to take time before you get a response. Asynchronous JavaScript allows us to keep our program running while we wait for a response in the background.
+
+### Promises
+
+Any time you call an async function, you are immediately returned a `promise`. JavaScript is _promising_ that there will eventually be a result, but it's not ready quite yet. You can keep executing other code until you need the result of your promise, at which point you can `await` it.
+
+```javascript
+// Send a request to the pokemon API
+const promise = fetch("https://pokeapi.co/api/v2/pokemon/pikachu");
+
+// Perform some other calculations in the meantime
+for (let i = 0; i < 1000; i++) {
+  console.log(i);
+}
+
+// Once you need the response, await it
+const result = await promise;
+```
+
+Proper handling of promises can ensure that your program executes as efficiently as possible. In the lecture, we gave the example of a function which gets the total experience of two different pokemon. We can't do add the experience values until both of them have been returned, so we await the responses in parallel using `Promise.all`.
+
+<Tabs>
+  <TabItem value="parallel (fast)" label="Parallel (fast)" default>
+    ```javascript
+    // Request all of the needed data, then await the results
+    const [pikachuXP, charizardXP] = await Promise.all([
+	    getPikachuBaseXP(),
+	    getCharizardBaseXP(),
+    ]);
+    console.log(pikachuXP + charizardXP);
+    ```
+  </TabItem>
+  <TabItem value="sequential (slow)" label="Sequential (slow)">
+    ```javascript
+    // Don't wait for pikachu's XP to be returned before requesting charizard's XP
+    const pikachuBaseXP = await getPikachuBaseXP();
+    const charizardBaseXP = await getCharizardBaseXP();
+    console.log(pikachuXP + charizardXP);
+    ```
+  </TabItem>
+</Tabs>
+
+## Error Handling and (Try/Catch)
+
+When you writing synchronous code, you can make it fairly safe from errors and crashing. However, if you are making requests over a network (which most async code is) there can **always** be unexpected errors since networks are fundamentally unreliable. To make your code more reliable even when it makes network requests, you can wrap it in a try / catch statement. If an error occurs within the try block, the catch block will be executed instead before moving on to the rest of your program.
+
+```javascript
+// Handling errors with try catch
+try {
+  const divisor = 0;
+  const result = 10 / divisor; // Error
+  console.log(result);
+} catch (error) {
+  console.log(error);
+}
+
+console.log("I will log no matter what");
+```
 
 ## JavaScript Data Structures
 

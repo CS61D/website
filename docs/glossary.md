@@ -74,3 +74,27 @@ Requests which are not idempotent by default can be made to be idempotent with a
 For each checkout session, the client can generate a [uuid](#uuid-universally-unique-identifier) to serve as an _idempotency key_. When the server receives the request, it first checks if a previous request has been processed with the same idempotency key. If not, it returns a response, and stores a mapping of the idempotency key to the response. If another request arrives later with the same idempotency key, it returns the stored response to the original request.
 
 See how [stripe](https://docs.stripe.com/api/idempotent_requests) implements idempotency.
+
+<!-- #### Deterministic (or Indeterministic) -->
+
+#### Higher order function (or Callback Function)
+
+A higher order function is any function that takes another function as an argument. For instance, the `map` function takes a function as an argument and applies that function to each element in an array.
+
+```ts
+const numbers = [1, 2, 3, 4, 5];
+
+// We pass an arrow inline function to the map function
+const doubled = numbers.map((num) => num * 2);
+// [2, 4, 6, 8, 10]
+```
+
+#### Compile Time
+
+Compile time refers to any static code analysis which happens before your code is built and executes. The most important example discussed in 61d is TypeScript. TypeScript code is compiled down the JavaScript before it executes. All of the type checking executed by the typescript compiler happens as you are compiling your code into JavaScript, not while that JavaScript code is actually executing.
+
+[Dev Dependencies](#dev-dependency) are another example. You can use as many dev dependencies as you would like without impacting the end performance of your application, since these dependencies are stripped out at runtime.
+
+#### Runtime
+
+Runtime code is what actually executes. TypeScript type checks, lint errors, and other compile time checks are not actually executed at runtime.
