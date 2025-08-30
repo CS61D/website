@@ -45,6 +45,8 @@ bunx tsc file.ts --noEmit # Individual file
 bunx tsc --noEmit # Entire directory
 ```
 
+Using TypeScript type inference and the TypeScript compiler, we can achieve "Type Safety", and be reasonably sure that our data is the type we expect it to be.
+
 ## Typing Arrays, Objects, and Functions
 
 Objects can be typed by specifying a type for each of their properties. Optional properties can be specified with a `?`. When an object is defined with a type, it must have all the properties of that type.

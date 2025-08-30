@@ -1,0 +1,49 @@
+# Validation
+
+> "The thing about TypeScript is that it's not a guarantee"
+
+\- [Theo Browne](https://www.youtube.com/watch?v=o4h8PUVy5J8&t=86s)
+
+As we discussed when introducing TypeScript, "Type Safety" really is a must for a developer to reason about their codebase. TypeScript solves which problem *while* we are writing code. If we do something like this:
+
+```TypeScript
+let myNumber = 1;
+myNumber += 1;
+myNumber = "hello";
+```
+
+A type error will be thrown. This allows a _developer_ to catch potential errors before code ever runs. TypeScript catches errors in _developer_ defined values. The _developer_ of the above program provided an invalid string value for `myNumber`, and the _developer_ can then fix their provided value to resolve the type error. 
+
+TypeScript can't effectively provide the same guarantees about _user_ provided inputs to a program. TypeScript code only exists at compile time, not at runtime. Whenever a program accepts a _user_ inputted value, the program must validate the input at runtime.
+
+## Use Cases For Runtime Validation
+
+The content of 61d uses runtime validation in three unique situations, each involving parsing user provided or user modifiable inputs: 
+
+1. **Form Inputs**: 
+2. **Url Query Parameters**:
+3. **API Inputs**:
+
+The beauty of using TypeScript on both the frontend and the backend is that we can use a single validation library for all of these use cases. 
+
+## ArkType
+
+ArkType is a *runtime* validation library meant to match the semantics of TypeScript itself as close as possible. All of the types covered in the [TypeScript](./typescript.md) reading can be converted into *runtime* validators with minimal change in syntax.
+
+```TypeScript
+// A TypeScript Type
+type PersonType = {
+  name: string;
+  age: number;
+  grade?: number; 
+};
+
+import { type } from "arktype";
+
+const personValidator = type({
+    name: "string",
+    age: "number",
+    grade: "number?"
+});
+```
+
