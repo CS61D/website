@@ -61,18 +61,33 @@ export default function App() {
 }
 ```
 
-Tailwind's default class names are consistent between projects, making them easy to remember and use (solving the naming problem). Writing class names directly in the markup turns our components into truly self contained units which do not require looking at multiple files to understand (solving the context switching problem). Finally, Tailwind only includes class names that are actually used in the final build, meaning that unused CSS is not sent to the client (solving the unused CSS problem).
+Tailwind's default class names are consistent between projects, making them easy to remember and use (solving the naming problem). Writing class names directly in the markup turns our components into truly self contained units which do not require looking at multiple files to understand (solving the context switching problem). Finally, Tailwind only includes class names that are actually used in the final build, meaning that unused CSS is not sent to the client (solving the unused CSS problem). As a result of these benefits, Tailwind has become the default way of writing CSS on the web. 
 
-As a result of these benefits, Tailwind has become the default way of writing CSS on the web.
 
-<!-- ## Styling Individual Components
+
+## Styling Individual Components
 
 ### Text
 
+### Backgrounds
+
+###
+
 ## Layouts
+
+CSS (and Tailwind by extension), have two main ways of laying out content: flexbox, and grid. Flexbox is used for laying out content in one dimension, while grids layout content in two dimensions. 
+
+Most layouts are actually one dimensional. Even things like data tables, from a CSS perspective, are one dimensional. If you can draw a # symbol over some content on a web page and have the *same* type of content in each square, then a grid layout is likely being used.
+
+For an example of each, look at the [dribble](https://dribbble.com/) homepage. The horizontal nav bars (highlighted in green), are one dimensional, and the grid of images is two dimensional.
+
+![dribble homepage](../../static/img/reading-images/tailwind/grid.png)
 
 ### Flexbox
 
+<!-- Row vs col -->
+<!--  -->
+
 ### Grid
 
-## Responsive Design -->
+## Responsive Design

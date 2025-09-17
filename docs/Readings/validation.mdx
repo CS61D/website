@@ -16,12 +16,48 @@ A type error will be thrown. This allows a _developer_ to catch potential errors
 
 TypeScript can't effectively provide the same guarantees about _user_ provided inputs to a program. TypeScript code only exists at compile time, not at runtime. Whenever a program accepts a _user_ inputted value, the program must validate the input at runtime.
 
+In addition to checking that data is of the expected data type, we also sometimes need to enforce certain constraints about the data. Take a new user sign up form as an example:
+
+```TypeScript
+type UserSignUp = {
+  age: number;
+  email: string;
+  password: string;
+}
+```
+
+1. Our email field should only take in a valid email like *example@gmail.com*, not just any string
+2. Our password field should require passwords to be at least 8 characters
+3. Our age field should only accept positive integers
+
+The process of checking constraints on our data is called *validation*, for which we use a validation library. In this case, we will use Arktype. For the above example, we could use a validator like this:
+
+```TypeScript
+import { type } from "arktype";
+
+const userSignUp = .type({
+  age: "number.integer > 0",
+  email: "string.email",
+  password: "string >= 8",
+});
+```
+
+
 ## Use Cases For Runtime Validation
 
 The content of 61d uses runtime validation in three unique situations, each involving parsing user provided or user modifiable inputs: 
 
 1. **Form Inputs**: 
+
 2. **Url Query Parameters**:
+
+Paste the following url into a browser:
+```
+https://www.google.com/search?q=validation&start=10
+```
+
+It should store
+
 3. **API Inputs**:
 
 The beauty of using TypeScript on both the frontend and the backend is that we can use a single validation library for all of these use cases. 
@@ -46,4 +82,3 @@ const personValidator = type({
     grade: "number?"
 });
 ```
-
